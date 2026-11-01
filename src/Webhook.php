@@ -46,7 +46,8 @@ final class Webhook
     }
 
     /**
-     * Las tres cabeceras en minúsculas, venga lo que venga (un arreglo de `getallheaders()`, `$request->headers`, un PSR-7…). La primera gana.
+     * Las tres cabeceras en minúsculas, venga lo que venga (un ARREGLO: `getallheaders()`, `$request->headers->all()` en Laravel o Symfony, `$request->getHeaders()` en PSR-7; no pases el
+     * objeto `HeaderBag`, que no es un arreglo). La primera gana.
      *
      * @param array<array-key, mixed> $cabeceras
      * @return array<string, string>

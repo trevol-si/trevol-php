@@ -125,7 +125,7 @@ use Trevol\Webhook;
 
 $wh = new Webhook(getenv('TREVOL_WEBHOOK_SECRET')); // whsec_…
 try {
-    $evento = $wh->verify(file_get_contents('php://input'), getallheaders()); // el cuerpo CRUDO (Laravel: $request->getContent())
+    $evento = $wh->verify(file_get_contents('php://input'), getallheaders()); // el cuerpo CRUDO (Laravel: $request->getContent() y $request->headers->all())
 } catch (WebhookVerificationException $e) {
     http_response_code(400);
     exit;
@@ -136,7 +136,7 @@ http_response_code(200);
 ```
 
 La firma se calcula sobre los **bytes exactos**: no uses el cuerpo ya decodificado. `verify` acepta las cabeceras en cualquier caja
-(`getallheaders()`, `$request->headers->all()`); la firma esperada la calcula la biblioteca de Standard Webhooks, y el SDK tolera 5 minutos hacia
+(`getallheaders()`, `$request->headers->all()`; recibe un **arreglo**: `$request->headers` a secas es un objeto `HeaderBag` y da `TypeError`); la firma esperada la calcula la biblioteca de Standard Webhooks, y el SDK tolera 5 minutos hacia
 atrás y hacia adelante en `webhook-timestamp` y compara en tiempo constante.
 
 ### Estado y cabeceras de la respuesta
