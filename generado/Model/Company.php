@@ -61,7 +61,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
         'object' => 'string',
         'id' => 'string',
         'nit' => 'string',
-        'check_digit' => 'string',
+        'check_digit' => 'int',
         'name' => 'string',
         'trade_name' => 'string',
         'status' => 'string',
@@ -451,7 +451,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets check_digit
      *
-     * @return string|null
+     * @return int|null
      */
     public function getCheckDigit()
     {
@@ -461,7 +461,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets check_digit
      *
-     * @param string|null $check_digit check_digit
+     * @param int|null $check_digit check_digit
      *
      * @return self
      */
