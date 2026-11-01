@@ -7,7 +7,7 @@ reintentos, errores, paginación, webhooks) vive fuera de esa carpeta.
 |---|---|
 | Generador | OpenAPI Generator 7.26.0 (`php`) |
 | Especificación | `especificacion/openapi.sdk.enums-abiertos.json` (variante 3.0.3 de `docs/api/openapi.json`, versión de la API 2026-10-22) |
-| sha256 de la especificación | `a54d5aef7f784078efcaac69dfed9f2c628ad9aee0ef7f006af6416304a6ded6` |
+| sha256 de la especificación | `588d9f518f4ca250ed7caa0bf79824361f8d0e0d610baae1121911c585b93972` |
 | Configuración | `openapi-generator.yaml` |
 
 Regenerar (desde el monorepo de Trevol): `sdks/generar.sh php`. Comprobar que lo del repositorio es lo que sale de la
