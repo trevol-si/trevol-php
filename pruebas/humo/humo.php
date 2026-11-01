@@ -7,11 +7,13 @@ declare(strict_types=1);
  *
  *     TREVOL_API_KEY=tvl_test_… php pruebas/humo/humo.php
  *
- * Solo lecturas y un preview (el SDK de PHP NO emite). Se NIEGA a correr si la llave no es tvl_test_. TREVOL_BASE_URL (opcional) apunta a
+ * Lecturas, un preview y un error tipado (validation_error); con TREVOL_HUMO_EMITIR=1 además EMITE una factura en habilitación, espera a
+ * que quede final y descarga el PDF. Se NIEGA a correr si la llave no es tvl_test_. TREVOL_BASE_URL (opcional) apunta a
  * otro servidor, p. ej. un Prism local.
  */
 
 use Trevol\Exception\NotFoundException;
+use Trevol\Exception\ValidationException;
 use Trevol\Trevol;
 use Trevol\Webhook;
 
@@ -51,14 +53,27 @@ $paso('retrieveCompany', function () use ($trevol) {
 
     return $c->getName() . ' (' . $c->getNit() . ')';
 });
-$paso('previewInvoice', function () use ($trevol) {
-    $p = $trevol->invoices->previewInvoice([
-        'external_id' => 'HUMO-PREVIEW', 'customer' => ['final_consumer' => true],
-        'items' => [['description' => 'Prueba de humo del SDK de Trevol', 'quantity' => '1', 'unit_price' => '1000', 'taxes' => [['code' => '01', 'rate' => '19']]]],
-        'payment' => ['form' => 'cash', 'methods' => [['code' => '10']]],
-    ]);
+$factura = static fn (string $externo, ?array $items = null): array => [
+    'external_id' => $externo, 'customer' => ['final_consumer' => true],
+    'items' => $items ?? [['description' => 'Prueba de humo del SDK de Trevol', 'quantity' => '1', 'unit_price' => '1000', 'taxes' => [['code' => '01', 'rate' => '19']]]],
+    'payment' => ['form' => 'cash', 'methods' => [['code' => '10']]],
+];
+$paso('previewInvoice', function () use ($trevol, $factura) {
+    $p = $trevol->invoices->previewInvoice($factura('HUMO-PREVIEW'));
 
     return 'total ' . ($p->getTotals()['total'] ?? '?');
+});
+$paso('previewInvoice sin líneas → ValidationException (code validation_error)', function () use ($trevol, $factura) {
+    try {
+        $trevol->invoices->previewInvoice($factura('HUMO-INVALIDA', []));
+    } catch (ValidationException $e) {
+        if ($e->getTrevolCode() !== 'validation_error') {
+            throw new RuntimeException('code = ' . $e->getTrevolCode());
+        }
+
+        return $e->getStatus() . ' ' . $e->getTrevolCode() . ' ' . ($e->getErrors()[0]['pointer'] ?? '');
+    }
+    throw new RuntimeException('no lanzó ValidationException');
 });
 $paso('listInvoices + paginate (3)', function () use ($trevol) {
     $trevol->invoices->listInvoices(3);
@@ -94,6 +109,46 @@ $paso('Webhook::verify (firmado ahora, con un secreto local)', function () {
 
     return (string) $e->getType();
 });
+
+if (getenv('TREVOL_HUMO_EMITIR') === '1') {
+    $id = null;
+    $paso('createInvoice (EMITE en habilitación)', function () use ($trevol, $factura, &$id) {
+        $d = $trevol->invoices->createInvoice($factura('HUMO-PHP-' . time()));
+        $id = $d->getId();
+
+        return $id . ' ' . $d->getStatus();
+    });
+    if ($id !== null) {
+        $paso('espera un estado final (hasta 90 s)', function () use ($trevol, $id) {
+            $limite = time() + 90;
+            for (;;) {
+                $estado = (string) $trevol->invoices->retrieveInvoice($id)->getStatus();
+                if (!in_array($estado, ['pending', 'sending', 'processing'], true)) {
+                    if ($estado !== 'accepted') {
+                        throw new RuntimeException("status = {$estado}");
+                    }
+
+                    return $estado;
+                }
+                if (time() > $limite) {
+                    throw new RuntimeException("status = {$estado}");
+                }
+                sleep(3);
+            }
+        });
+        $paso('downloadInvoicePdf', function () use ($trevol, $id) {
+            $archivo = $trevol->invoices->downloadInvoicePdf($id);
+            $bytes = (string) file_get_contents($archivo->getPathname());
+            if (!str_starts_with($bytes, '%PDF')) {
+                throw new RuntimeException('no es un PDF');
+            }
+
+            return 'PDF ' . strlen($bytes) . ' bytes';
+        });
+    }
+} else {
+    echo "(no se emite nada: define TREVOL_HUMO_EMITIR=1 para emitir una factura en habilitación)\n";
+}
 
 echo "\n", $total - $fallas, "/{$total} pasos bien\n";
 exit($fallas > 0 ? 1 : 0);
