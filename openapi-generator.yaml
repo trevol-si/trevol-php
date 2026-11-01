@@ -1,0 +1,16 @@
+# Configuración de OpenAPI Generator para el SDK de PHP (docs/api/43-sdks-y-documentacion.md §2.5).
+# La corre sdks/generar.sh sobre sdks/especificacion/openapi.sdk.enums-abiertos.json (piloto: con enumUnknownDefaultCase el valor nuevo de un enum
+# de lo que la API devuelve se vuelve «unknown_default_open_api» y se pierde; los modelos de respuesta se generan sin enum). Lo generado va a generado/ (espacio de nombres Trevol\Generado);
+# la capa propia (Trevol\, en src/) lo importa. Del generador solo se conserva generado/: generar.sh descarta composer.json, README, docs/,
+# test/, .php-cs-fixer, phpunit.xml.dist, .travis.yml y git_push.sh.
+generatorName: php
+inputSpec: especificacion/openapi.sdk.enums-abiertos.json
+additionalProperties:
+  invokerPackage: Trevol\Generado
+  packageName: TrevolGenerado
+  srcBasePath: generado
+  composerPackageName: trevol/trevol-php-generado
+  artifactVersion: 0.1.0
+  hideGenerationTimestamp: true
+  sortParamsByRequiredFlag: true
+  disallowAdditionalPropertiesIfNotPresent: false

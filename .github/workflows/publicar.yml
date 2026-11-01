@@ -1,0 +1,26 @@
+# Publicación del SDK de PHP (docs/api/43 §2.13 y §2.14). Escrita, NO activa. Packagist no se publica con un flujo: el repositorio se registra
+# una vez en https://packagist.org/packages/submit y Packagist lee cada tag por el webhook del repositorio (Settings → Webhooks, sin secreto
+# que guardar aquí). Este flujo, con un tag `v*`, solo comprueba que lo que Packagist va a servir está sano; el environment `publicacion`
+# exige la aprobación del dueño antes de dejar el tag como versión.
+name: Publicar
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    environment: publicacion
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: curl, json, mbstring
+          tools: composer
+      - run: composer validate --strict
+      - run: composer install --no-interaction --prefer-dist
+      - run: vendor/bin/phpunit --testsuite unitarias
+      - name: El tag coincide con la versión del paquete
+        run: test "v$(php -r 'require "vendor/autoload.php"; echo Trevol\Trevol::VERSION;')" = "${GITHUB_REF_NAME}"

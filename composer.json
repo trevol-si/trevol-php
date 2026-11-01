@@ -1,0 +1,39 @@
+{
+    "name": "trevol/trevol-php",
+    "description": "SDK de PHP para la API de Trevol (facturación electrónica y demás documentos ante la DIAN, Colombia).",
+    "type": "library",
+    "keywords": ["trevol", "dian", "colombia", "facturacion-electronica", "sdk", "api"],
+    "homepage": "https://platform.trevol.si/docs",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^1.7 || ^2.0",
+        "standard-webhooks/standard-webhooks": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5 || ^11.0",
+        "friendsofphp/php-cs-fixer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Trevol\\": "src/",
+            "Trevol\\Generado\\": "generado/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Trevol\\Pruebas\\": "pruebas/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:prism": "phpunit --testsuite prism"
+    }
+}
