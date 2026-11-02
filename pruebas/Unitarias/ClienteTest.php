@@ -95,11 +95,15 @@ final class ClienteTest extends TestCase
             new Trevol($mala);
             $this->fail('debía lanzar');
         } catch (ConfigurationException $e) {
+            $this->assertNotSame('', $e->getMessage());
             if (trim($mala) !== '') {
                 $this->assertStringNotContainsString(trim($mala), $e->getMessage() . (string) $e);
             }
             // #[\SensitiveParameter]: el rastro de la pila muestra Object(SensitiveParameterValue), no la llave (el único cuadro con ella es el de esta prueba).
-            $this->assertStringContainsString('Object(SensitiveParameterValue)', $e->getTraceAsString());
+            // Con zend.exception_ignore_args=On (el php.ini de producción, y el de GitHub Actions) el rastro no lleva argumentos.
+            if (!filter_var(ini_get('zend.exception_ignore_args'), FILTER_VALIDATE_BOOLEAN)) {
+                $this->assertStringContainsString('Object(SensitiveParameterValue)', $e->getTraceAsString());
+            }
         }
     }
 
