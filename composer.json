@@ -5,6 +5,7 @@
     "keywords": ["trevol", "dian", "colombia", "facturacion-electronica", "sdk", "api"],
     "homepage": "https://platform.trevol.si/docs",
     "license": "MIT",
+    "authors": [{ "name": "Joshua Montclair (Trevol)", "homepage": "https://trevol.si" }],
     "require": {
         "php": ">=8.2",
         "ext-curl": "*",
