@@ -17,7 +17,7 @@ $resultado = $trevol->radianEvents->createRadianEvent(
             'type' => '01',
             'issuer' => [
                 'nit' => '900373427',
-                'check_digit' => 3,
+                'check_digit' => 6,
                 'document_type' => '31',
                 'name' => 'DISTRIBUIDORA LOS ANDES SAS',
             ],
