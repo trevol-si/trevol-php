@@ -1190,7 +1190,7 @@ class CreditNotesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadCreditNotePdf($id, string $contentType = self::contentTypes['downloadCreditNotePdf'][0])
     {
@@ -1208,7 +1208,7 @@ class CreditNotesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadCreditNotePdfWithHttpInfo($id, string $contentType = self::contentTypes['downloadCreditNotePdf'][0])
     {
@@ -1241,6 +1241,12 @@ class CreditNotesApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1278,6 +1284,14 @@ class CreditNotesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1480,7 +1494,7 @@ class CreditNotesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadCreditNoteXml($id, string $contentType = self::contentTypes['downloadCreditNoteXml'][0])
     {
@@ -1498,7 +1512,7 @@ class CreditNotesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadCreditNoteXmlWithHttpInfo($id, string $contentType = self::contentTypes['downloadCreditNoteXml'][0])
     {
@@ -1531,6 +1545,12 @@ class CreditNotesApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1568,6 +1588,14 @@ class CreditNotesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1770,7 +1798,7 @@ class CreditNotesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadCreditNoteZip($id, string $contentType = self::contentTypes['downloadCreditNoteZip'][0])
     {
@@ -1788,7 +1816,7 @@ class CreditNotesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadCreditNoteZipWithHttpInfo($id, string $contentType = self::contentTypes['downloadCreditNoteZip'][0])
     {
@@ -1821,6 +1849,12 @@ class CreditNotesApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1858,6 +1892,14 @@ class CreditNotesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);

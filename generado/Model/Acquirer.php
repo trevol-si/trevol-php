@@ -63,7 +63,8 @@ class Acquirer implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_number' => 'string',
         'found' => 'bool',
         'name' => 'string',
-        'email' => 'string'
+        'email' => 'string',
+        'personal_data' => 'string'
     ];
 
     /**
@@ -79,7 +80,8 @@ class Acquirer implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_number' => null,
         'found' => null,
         'name' => null,
-        'email' => null
+        'email' => null,
+        'personal_data' => null
     ];
 
     /**
@@ -93,7 +95,8 @@ class Acquirer implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_number' => false,
         'found' => false,
         'name' => true,
-        'email' => true
+        'email' => true,
+        'personal_data' => false
     ];
 
     /**
@@ -187,7 +190,8 @@ class Acquirer implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_number' => 'document_number',
         'found' => 'found',
         'name' => 'name',
-        'email' => 'email'
+        'email' => 'email',
+        'personal_data' => 'personal_data'
     ];
 
     /**
@@ -201,7 +205,8 @@ class Acquirer implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_number' => 'setDocumentNumber',
         'found' => 'setFound',
         'name' => 'setName',
-        'email' => 'setEmail'
+        'email' => 'setEmail',
+        'personal_data' => 'setPersonalData'
     ];
 
     /**
@@ -215,7 +220,8 @@ class Acquirer implements ModelInterface, ArrayAccess, \JsonSerializable
         'document_number' => 'getDocumentNumber',
         'found' => 'getFound',
         'name' => 'getName',
-        'email' => 'getEmail'
+        'email' => 'getEmail',
+        'personal_data' => 'getPersonalData'
     ];
 
     /**
@@ -281,6 +287,7 @@ class Acquirer implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('found', $data ?? [], null);
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('email', $data ?? [], null);
+        $this->setIfExists('personal_data', $data ?? [], null);
     }
 
     /**
@@ -480,7 +487,7 @@ class Acquirer implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets email
      *
-     * @param string|null $email email
+     * @param string|null $email Null si la DIAN no lo tiene o si la llave no tiene el permiso `customers:read` (es un dato personal).
      *
      * @return self
      */
@@ -497,6 +504,33 @@ class Acquirer implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['email'] = $email;
+
+        return $this;
+    }
+
+    /**
+     * Gets personal_data
+     *
+     * @return string|null
+     */
+    public function getPersonalData()
+    {
+        return $this->container['personal_data'];
+    }
+
+    /**
+     * Sets personal_data
+     *
+     * @param string|null $personal_data Solo si la llave no tiene el permiso `customers:read`: `email` viene en null. Valores conocidos: `redacted`.
+     *
+     * @return self
+     */
+    public function setPersonalData($personal_data)
+    {
+        if (is_null($personal_data)) {
+            throw new \InvalidArgumentException('non-nullable personal_data cannot be null');
+        }
+        $this->container['personal_data'] = $personal_data;
 
         return $this;
     }

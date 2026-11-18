@@ -1193,7 +1193,7 @@ class InvoicesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadInvoicePdf($id, string $contentType = self::contentTypes['downloadInvoicePdf'][0])
     {
@@ -1211,7 +1211,7 @@ class InvoicesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadInvoicePdfWithHttpInfo($id, string $contentType = self::contentTypes['downloadInvoicePdf'][0])
     {
@@ -1244,6 +1244,12 @@ class InvoicesApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1281,6 +1287,14 @@ class InvoicesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1483,7 +1497,7 @@ class InvoicesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadInvoiceXml($id, string $contentType = self::contentTypes['downloadInvoiceXml'][0])
     {
@@ -1501,7 +1515,7 @@ class InvoicesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadInvoiceXmlWithHttpInfo($id, string $contentType = self::contentTypes['downloadInvoiceXml'][0])
     {
@@ -1534,6 +1548,12 @@ class InvoicesApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1571,6 +1591,14 @@ class InvoicesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1773,7 +1801,7 @@ class InvoicesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadInvoiceZip($id, string $contentType = self::contentTypes['downloadInvoiceZip'][0])
     {
@@ -1791,7 +1819,7 @@ class InvoicesApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadInvoiceZipWithHttpInfo($id, string $contentType = self::contentTypes['downloadInvoiceZip'][0])
     {
@@ -1824,6 +1852,12 @@ class InvoicesApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1861,6 +1895,14 @@ class InvoicesApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);

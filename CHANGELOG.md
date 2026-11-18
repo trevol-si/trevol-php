@@ -17,6 +17,8 @@ Regenerado con la API de noviembre de 2026 (versión `2026-11-18`, la de los err
 - La exportación de documentos (`exportDocuments`) se descarga como archivo (CSV o Excel).
 - Las fechas de la consulta (`period_end_from`/`period_end_to` de las nóminas y `issued_from`/`issued_to` de los documentos de la DIAN y los reportes) son texto `AAAA-MM-DD`, como las documenta la API (antes, en algunos lenguajes, un tipo de fecha que podía viajar con hora y zona).
 - Los booleanos de la consulta (p. ej. `include_expired`) viajan como `true`/`false` (antes `1`/`0`, que la API rechaza).
+- `Acquirer` trae `personal_data` (`redacted` si la llave no tiene `customers:read`: `email` viene en null). El PDF, el XML y el
+  ZIP de lo emitido y el archivo de un reporte asíncrono con datos personales responden 403 `permission_denied` sin ese permiso.
 
 ## [0.1.0] — sin publicar
 

@@ -1136,7 +1136,7 @@ class ReportRunsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\ReportFile|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\ReportFile|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function retrieveReportRunFile($id, string $contentType = self::contentTypes['retrieveReportRunFile'][0])
     {
@@ -1154,7 +1154,7 @@ class ReportRunsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\ReportFile|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\ReportFile|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function retrieveReportRunFileWithHttpInfo($id, string $contentType = self::contentTypes['retrieveReportRunFile'][0])
     {
@@ -1187,6 +1187,12 @@ class ReportRunsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\ReportFile',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1236,6 +1242,14 @@ class ReportRunsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\ReportFile',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
