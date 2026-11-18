@@ -41,7 +41,7 @@ final class ErroresTest extends TestCase
 
     public function testCubreLos30Code(): void
     {
-        $this->assertCount(30, self::codes());
+        $this->assertCount(40, self::codes());
     }
 
     #[DataProvider('codes')]

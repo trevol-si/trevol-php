@@ -1,0 +1,61 @@
+<?php
+
+// Generado por sdks/herramientas/fragmentos.mjs: el fragmento de la documentación, apuntando a Prism. No editar.
+use Trevol\Trevol;
+
+require __DIR__ . '/../../../vendor/autoload.php';
+
+$trevol = new Trevol(getenv('TREVOL_API_KEY'), baseUrl: getenv('TREVOL_PRISM_URL'), maxRetries: 0); // tvl_test_… → $trevol->environment === 'test'
+
+$resultado = $trevol->invoiceBatches->createInvoiceBatch(
+    invoice_batch_input: [
+        'invoices' => [
+            [
+                'customer' => [
+                    'document_type' => '31',
+                    'document_number' => '900123456',
+                    'name' => 'COMERCIALIZADORA ANDINA SAS',
+                    'person_type' => 'legal',
+                    'email' => 'facturacion@comercializadoraandina.example',
+                    'address' => 'Calle 72 # 10-34, Oficina 501',
+                    'municipality_code' => '11001',
+                ],
+                'items' => [
+                    [
+                        'code' => 'LIC-ANUAL',
+                        'description' => 'Licencia anual de software',
+                        'quantity' => '2',
+                        'unit_price' => '150000',
+                        'taxes' => [['code' => '01', 'rate' => '19']],
+                    ],
+                    [
+                        'code' => 'SOP-MES',
+                        'description' => 'Soporte técnico mensual',
+                        'quantity' => '1',
+                        'unit_price' => '80000',
+                        'taxes' => [['code' => '01', 'rate' => '19']],
+                    ],
+                ],
+                'payment' => ['form' => 'credit', 'term_days' => 30],
+                'notes' => ['Gracias por su compra'],
+                'external_id' => 'VENTA-2026-000124',
+                'idempotency_key' => 'VENTA-2026-000124',
+            ],
+            [
+                'external_id' => 'VENTA-2026-000125',
+                'idempotency_key' => 'VENTA-2026-000125',
+                'customer' => ['final_consumer' => true],
+                'items' => [
+                    [
+                        'description' => 'Soporte técnico mensual',
+                        'quantity' => '0',
+                        'unit_price' => '80000',
+                        'taxes' => [['code' => '01', 'rate' => '19']],
+                    ],
+                ],
+            ],
+        ],
+    ],
+    // idempotency_key: 'VENTA-2026-000123', // opcional: si falta, el SDK pone una y la repite en los reintentos
+);
+echo $resultado, PHP_EOL;

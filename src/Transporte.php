@@ -123,6 +123,7 @@ final class Transporte
             'pdf' => 'application/pdf, ' . self::PROBLEMA,
             'xml' => 'application/xml, ' . self::PROBLEMA,
             'zip' => 'application/zip, ' . self::PROBLEMA,
+            'csv' => 'text/csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, ' . self::PROBLEMA, // los reportes: CSV o Excel
             default => 'application/json, ' . self::PROBLEMA,
         };
     }

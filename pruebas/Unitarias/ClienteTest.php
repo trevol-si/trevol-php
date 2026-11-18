@@ -20,8 +20,8 @@ final class ClienteTest extends TestCase
         $b->trevol->invoices->retrieveInvoice(Banco::ID_DOC);
         $c = $b->peticiones[0]['cabeceras'];
         $this->assertSame('Bearer ' . Banco::LLAVE_TEST, $c['authorization']);
-        $this->assertSame('2026-10-22', $c['trevol-version']);
-        $this->assertSame(Tablas::API_VERSION, '2026-10-22');
+        $this->assertSame('2026-11-18', $c['trevol-version']);
+        $this->assertSame(Tablas::API_VERSION, '2026-11-18');
         $this->assertMatchesRegularExpression('#^trevol-php/' . preg_quote(Trevol::VERSION, '#') . ' \(php \d+\.\d+\.\d+[^;]*; \+https://platform\.trevol\.si/docs\)$#', $c['user-agent']);
         $this->assertSame('application/json, application/problem+json', $c['accept']);
         foreach (array_keys($c) as $k) {

@@ -23,6 +23,18 @@ use Trevol\Generado\Api\RequestsApi;
 use Trevol\Generado\Api\SupportDocumentAdjustmentsApi;
 use Trevol\Generado\Api\SupportDocumentsApi;
 use Trevol\Generado\Api\WebhookEndpointsApi;
+use Trevol\Generado\Api\CustomersApi;
+use Trevol\Generado\Api\DianDocumentsApi;
+use Trevol\Generado\Api\DianSyncsApi;
+use Trevol\Generado\Api\InvoiceBatchesApi;
+use Trevol\Generado\Api\NumberingAssociationsApi;
+use Trevol\Generado\Api\NumberingRangesApi;
+use Trevol\Generado\Api\NumberingRequestsApi;
+use Trevol\Generado\Api\PaperNumberingRangesApi;
+use Trevol\Generado\Api\ProductsApi;
+use Trevol\Generado\Api\RadianStatusApi;
+use Trevol\Generado\Api\ReportRunsApi;
+use Trevol\Generado\Api\ReportsApi;
 use Trevol\Generado\Configuration;
 use Trevol\Generado\Tablas;
 
@@ -60,6 +72,18 @@ final class Trevol
     public readonly SupportDocumentAdjustmentsApi $supportDocumentAdjustments;
     public readonly SupportDocumentsApi $supportDocuments;
     public readonly WebhookEndpointsApi $webhookEndpoints;
+    public readonly CustomersApi $customers;
+    public readonly DianDocumentsApi $dianDocuments;
+    public readonly DianSyncsApi $dianSyncs;
+    public readonly InvoiceBatchesApi $invoiceBatches;
+    public readonly NumberingAssociationsApi $numberingAssociations;
+    public readonly NumberingRangesApi $numberingRanges;
+    public readonly NumberingRequestsApi $numberingRequests;
+    public readonly PaperNumberingRangesApi $paperNumberingRanges;
+    public readonly ProductsApi $products;
+    public readonly RadianStatusApi $radianStatus;
+    public readonly ReportRunsApi $reportRuns;
+    public readonly ReportsApi $reports;
 
     /**
      * @param string|null $apiKey `tvl_test_…` o `tvl_live_…`; si falta se lee `TREVOL_API_KEY`.
@@ -125,7 +149,11 @@ final class Trevol
             $config['proxy'] = $proxy;
         }
         $cliente = new Client($config);
-        $generada = (new Configuration())->setHost($baseUrl)->setUserAgent($opciones->userAgent);
+        // Los booleanos de la consulta (p. ej. `include_expired`) viajan como true/false, que es lo que acepta la API (no 1/0). El
+        // serializador generado lee la configuración POR DEFECTO, no la de cada API: se fija en las dos.
+        Configuration::getDefaultConfiguration()->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_STRING);
+        $generada = (new Configuration())->setHost($baseUrl)->setUserAgent($opciones->userAgent)
+            ->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_STRING);
 
         $this->balance = new BalanceApi($cliente, $generada);
         $this->creditNotes = new CreditNotesApi($cliente, $generada);
@@ -142,6 +170,18 @@ final class Trevol
         $this->supportDocumentAdjustments = new SupportDocumentAdjustmentsApi($cliente, $generada);
         $this->supportDocuments = new SupportDocumentsApi($cliente, $generada);
         $this->webhookEndpoints = new WebhookEndpointsApi($cliente, $generada);
+        $this->customers = new CustomersApi($cliente, $generada);
+        $this->dianDocuments = new DianDocumentsApi($cliente, $generada);
+        $this->dianSyncs = new DianSyncsApi($cliente, $generada);
+        $this->invoiceBatches = new InvoiceBatchesApi($cliente, $generada);
+        $this->numberingAssociations = new NumberingAssociationsApi($cliente, $generada);
+        $this->numberingRanges = new NumberingRangesApi($cliente, $generada);
+        $this->numberingRequests = new NumberingRequestsApi($cliente, $generada);
+        $this->paperNumberingRanges = new PaperNumberingRangesApi($cliente, $generada);
+        $this->products = new ProductsApi($cliente, $generada);
+        $this->radianStatus = new RadianStatusApi($cliente, $generada);
+        $this->reportRuns = new ReportRunsApi($cliente, $generada);
+        $this->reports = new ReportsApi($cliente, $generada);
     }
 
     /**
