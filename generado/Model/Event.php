@@ -480,7 +480,7 @@ class Event implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets api_version
      *
-     * @param string|null $api_version La versión vigente más nueva de la API; el resumen del documento no cambia con la versión de la llave.
+     * @param string|null $api_version La versión del formato de los eventos (hoy `2026-10-22`), la misma para todas las llaves: el resumen del documento no cambia con la versión de la llave.
      *
      * @return self
      */

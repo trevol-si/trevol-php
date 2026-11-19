@@ -534,7 +534,7 @@ class WebhookEndpointInput implements ModelInterface, ArrayAccess, \JsonSerializ
     /**
      * Sets events
      *
-     * @param string[] $events Eventos del catálogo (60 tipos, hasta 100 en la lista), o [\"*\"] para todos (no se mezcla). Solo existen en producción (llaves live): `balance.low`, `numbering.low`, `numbering.expiring`, `dian_sync.completed`, `dian_sync.failed`, `numbering_range.exhausted`. `webhook.test` no se suscribe.
+     * @param string[] $events Eventos del catálogo (69 tipos, hasta 100 en la lista), o [\"*\"] para todos (no se mezcla). Solo existen en producción (llaves live): `balance.low`, `numbering.low`, `numbering.expiring`, `dian_sync.completed`, `dian_sync.failed`, `numbering_range.exhausted`. `webhook.test` no se suscribe.
      *
      * @return self
      */
