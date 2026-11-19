@@ -8,7 +8,7 @@ namespace Trevol\Generado;
 
 final class Tablas
 {
-    public const VERSION = '0.1.0';
+    public const VERSION = '0.2.0';
     public const API_VERSION = '2026-11-18';
 
     /** seguro: GET, preview, PATCH y todo POST/PUT con Idempotency-Key. solo_429: el resto. */

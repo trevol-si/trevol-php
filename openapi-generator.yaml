@@ -10,7 +10,7 @@ additionalProperties:
   packageName: TrevolGenerado
   srcBasePath: generado
   composerPackageName: trevol/trevol-php-generado
-  artifactVersion: 0.1.0
+  artifactVersion: 0.2.0
   hideGenerationTimestamp: true
   sortParamsByRequiredFlag: true
   disallowAdditionalPropertiesIfNotPresent: false
