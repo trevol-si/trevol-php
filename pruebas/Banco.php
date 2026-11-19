@@ -17,6 +17,12 @@ final class Banco
 {
     public const LLAVE_TEST = 'tvl_test_a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1';
     public const LLAVE_LIVE = 'tvl_live_b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2';
+    /** Llaves de administración de una cuenta (tva_), inventadas. */
+    public const LLAVE_ADMIN_TEST = 'tva_test_c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4';
+    public const LLAVE_ADMIN_LIVE = 'tva_live_d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5';
+    /** Empresas de ejemplo de la cuenta (DISTRIBUIDORA LOS ANDES SAS y otra). */
+    public const EMPRESA = 'com_3f0c9a1e5b2d4c7f8a6e1d2c3b4a5f60';
+    public const OTRA_EMPRESA = 'com_7a1b2c3d4e5f60718293a4b5c6d7e8f9';
     public const HEX = '3f0c1a2b3f0c1a2b3f0c1a2b3f0c1a2b';
     public const ID_DOC = 'inv_' . self::HEX;
     public const DOCUMENTO = ['id' => self::ID_DOC, 'object' => 'invoice', 'environment' => 'test', 'status' => 'accepted', 'number' => 'SETP990012345', 'external_id' => 'VENTA-2026-000123'];

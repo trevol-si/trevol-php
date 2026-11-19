@@ -8,10 +8,10 @@ namespace Trevol\Generado;
 
 final class Tablas
 {
-    public const VERSION = '0.2.0';
+    public const VERSION = '0.3.0';
     public const API_VERSION = '2026-11-18';
 
-    /** seguro: GET, preview, PATCH y todo POST/PUT con Idempotency-Key. solo_429: el resto. */
+    /** seguro: GET, preview, PATCH y todo POST/PUT con Idempotency-Key que no devuelva un secreto una sola vez. solo_429: el resto. llave: api_o_administracion (tvl_, o tva_ con Trevol-Company y Trevol-Environment), administracion (solo tva_) o ninguna. */
     public const OPERACIONES = [
         [
             'operationId' => 'associateNumberingRange',
@@ -21,6 +21,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'cancelNumberingRequest',
@@ -30,6 +31,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'correctCreditNote',
@@ -39,6 +41,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'correctDebitNote',
@@ -48,6 +51,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'correctEquivalentDocument',
@@ -57,6 +61,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'correctEquivalentDocumentAdjustment',
@@ -66,6 +71,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'correctInvoice',
@@ -75,6 +81,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'correctPayroll',
@@ -84,6 +91,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'correctPayrollAdjustment',
@@ -93,6 +101,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'correctSupportDocument',
@@ -102,6 +111,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'correctSupportDocumentAdjustment',
@@ -111,6 +121,27 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
+        ],
+        [
+            'operationId' => 'createAccountCompany',
+            'metodo' => 'POST',
+            'ruta' => '/account/companies',
+            'recurso' => 'Account',
+            'idempotente' => true,
+            'reintento' => 'seguro',
+            'binario' => null,
+            'llave' => 'administracion',
+        ],
+        [
+            'operationId' => 'createAccountCompanyApiKey',
+            'metodo' => 'POST',
+            'ruta' => '/account/companies/{id}/api_keys',
+            'recurso' => 'Account',
+            'idempotente' => true,
+            'reintento' => 'solo_429',
+            'binario' => null,
+            'llave' => 'administracion',
         ],
         [
             'operationId' => 'createBalanceTopUp',
@@ -120,6 +151,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createCreditNote',
@@ -129,6 +161,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createCustomer',
@@ -138,6 +171,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createDebitNote',
@@ -147,6 +181,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createDianSync',
@@ -156,6 +191,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createEquivalentDocument',
@@ -165,6 +201,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createEquivalentDocumentAdjustment',
@@ -174,6 +211,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createInvoice',
@@ -183,6 +221,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createInvoiceBatch',
@@ -192,6 +231,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createNumberingRequest',
@@ -201,6 +241,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createPaperNumberingRange',
@@ -210,6 +251,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createPayroll',
@@ -219,6 +261,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createPayrollAdjustment',
@@ -228,6 +271,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createProduct',
@@ -237,6 +281,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createRadianEvent',
@@ -246,6 +291,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createReportRun',
@@ -255,6 +301,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createSupportDocument',
@@ -264,6 +311,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createSupportDocumentAdjustment',
@@ -273,6 +321,7 @@ final class Tablas
             'idempotente' => true,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'createWebhookEndpoint',
@@ -282,6 +331,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'deactivatePaperNumberingRange',
@@ -291,6 +341,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'deleteWebhookEndpoint',
@@ -300,6 +351,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadCreditNoteDianResponse',
@@ -309,6 +361,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadCreditNotePdf',
@@ -318,6 +371,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'pdf',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadCreditNoteXml',
@@ -327,6 +381,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadCreditNoteZip',
@@ -336,6 +391,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'zip',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadDebitNoteDianResponse',
@@ -345,6 +401,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadDebitNotePdf',
@@ -354,6 +411,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'pdf',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadDebitNoteXml',
@@ -363,6 +421,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadDebitNoteZip',
@@ -372,6 +431,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'zip',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadDianDocumentXml',
@@ -381,6 +441,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadEquivalentDocumentAdjustmentDianResponse',
@@ -390,6 +451,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadEquivalentDocumentAdjustmentPdf',
@@ -399,6 +461,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'pdf',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadEquivalentDocumentAdjustmentXml',
@@ -408,6 +471,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadEquivalentDocumentAdjustmentZip',
@@ -417,6 +481,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'zip',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadEquivalentDocumentDianResponse',
@@ -426,6 +491,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadEquivalentDocumentPdf',
@@ -435,6 +501,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'pdf',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadEquivalentDocumentXml',
@@ -444,6 +511,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadEquivalentDocumentZip',
@@ -453,6 +521,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'zip',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadInvoiceDianResponse',
@@ -462,6 +531,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadInvoicePdf',
@@ -471,6 +541,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'pdf',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadInvoiceXml',
@@ -480,6 +551,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadInvoiceZip',
@@ -489,6 +561,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'zip',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadPayrollAdjustmentDianResponse',
@@ -498,6 +571,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadPayrollAdjustmentXml',
@@ -507,6 +581,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadPayrollAdjustmentZip',
@@ -516,6 +591,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'zip',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadPayrollDianResponse',
@@ -525,6 +601,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadPayrollXml',
@@ -534,6 +611,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadPayrollZip',
@@ -543,6 +621,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'zip',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadRadianEventXml',
@@ -552,6 +631,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadSupportDocumentAdjustmentDianResponse',
@@ -561,6 +641,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadSupportDocumentAdjustmentXml',
@@ -570,6 +651,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadSupportDocumentDianResponse',
@@ -579,6 +661,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'downloadSupportDocumentXml',
@@ -588,6 +671,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'xml',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'exportDocuments',
@@ -597,6 +681,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'csv',
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'getDianDocument',
@@ -606,6 +691,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'getDianSync',
@@ -615,6 +701,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'getHealth',
@@ -624,6 +711,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'ninguna',
         ],
         [
             'operationId' => 'getRadianStatus',
@@ -633,6 +721,57 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
+        ],
+        [
+            'operationId' => 'listAccountCompanies',
+            'metodo' => 'GET',
+            'ruta' => '/account/companies',
+            'recurso' => 'Account',
+            'idempotente' => false,
+            'reintento' => 'seguro',
+            'binario' => null,
+            'llave' => 'administracion',
+        ],
+        [
+            'operationId' => 'listAccountCompanyApiKeys',
+            'metodo' => 'GET',
+            'ruta' => '/account/companies/{id}/api_keys',
+            'recurso' => 'Account',
+            'idempotente' => false,
+            'reintento' => 'seguro',
+            'binario' => null,
+            'llave' => 'administracion',
+        ],
+        [
+            'operationId' => 'listAccountDianDocuments',
+            'metodo' => 'GET',
+            'ruta' => '/account/dian_documents',
+            'recurso' => 'Account',
+            'idempotente' => false,
+            'reintento' => 'seguro',
+            'binario' => null,
+            'llave' => 'administracion',
+        ],
+        [
+            'operationId' => 'listAccountRadianEvents',
+            'metodo' => 'GET',
+            'ruta' => '/account/radian_events',
+            'recurso' => 'Account',
+            'idempotente' => false,
+            'reintento' => 'seguro',
+            'binario' => null,
+            'llave' => 'administracion',
+        ],
+        [
+            'operationId' => 'listAccountRequests',
+            'metodo' => 'GET',
+            'ruta' => '/account/requests',
+            'recurso' => 'Account',
+            'idempotente' => false,
+            'reintento' => 'seguro',
+            'binario' => null,
+            'llave' => 'administracion',
         ],
         [
             'operationId' => 'listBalanceTransactions',
@@ -642,6 +781,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listCreditNotes',
@@ -651,6 +791,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listCustomers',
@@ -660,6 +801,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listDebitNotes',
@@ -669,6 +811,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listDianDocuments',
@@ -678,6 +821,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listDianSyncs',
@@ -687,6 +831,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listEquivalentDocumentAdjustments',
@@ -696,6 +841,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listEquivalentDocuments',
@@ -705,6 +851,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listEvents',
@@ -714,6 +861,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listInvoiceBatches',
@@ -723,6 +871,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listInvoices',
@@ -732,6 +881,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listNumberingRanges',
@@ -741,6 +891,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listNumberingRequests',
@@ -750,6 +901,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listPaperNumberingRanges',
@@ -759,6 +911,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listPayrollAdjustments',
@@ -768,6 +921,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listPayrolls',
@@ -777,6 +931,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listProducts',
@@ -786,6 +941,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listRadianEvents',
@@ -795,6 +951,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listReportRuns',
@@ -804,6 +961,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listRequests',
@@ -813,6 +971,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listSupportDocumentAdjustments',
@@ -822,6 +981,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listSupportDocuments',
@@ -831,6 +991,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listWebhookEndpointDeliveries',
@@ -840,6 +1001,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'listWebhookEndpoints',
@@ -849,6 +1011,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'markNumberingRequestSubmitted',
@@ -858,6 +1021,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'previewCreditNote',
@@ -867,6 +1031,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'previewDebitNote',
@@ -876,6 +1041,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'previewEquivalentDocument',
@@ -885,6 +1051,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'previewEquivalentDocumentAdjustment',
@@ -894,6 +1061,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'previewInvoice',
@@ -903,6 +1071,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'previewPayroll',
@@ -912,6 +1081,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'previewPayrollAdjustment',
@@ -921,6 +1091,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'previewSupportDocument',
@@ -930,6 +1101,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'previewSupportDocumentAdjustment',
@@ -939,6 +1111,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'refreshNumberingRanges',
@@ -948,6 +1121,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'resendEvent',
@@ -957,6 +1131,27 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
+        ],
+        [
+            'operationId' => 'retrieveAccount',
+            'metodo' => 'GET',
+            'ruta' => '/account',
+            'recurso' => 'Account',
+            'idempotente' => false,
+            'reintento' => 'seguro',
+            'binario' => null,
+            'llave' => 'administracion',
+        ],
+        [
+            'operationId' => 'retrieveAccountCompany',
+            'metodo' => 'GET',
+            'ruta' => '/account/companies/{id}',
+            'recurso' => 'Account',
+            'idempotente' => false,
+            'reintento' => 'seguro',
+            'binario' => null,
+            'llave' => 'administracion',
         ],
         [
             'operationId' => 'retrieveBalance',
@@ -966,6 +1161,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveCompany',
@@ -975,6 +1171,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveCreditNote',
@@ -984,6 +1181,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveCustomer',
@@ -993,6 +1191,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveDebitNote',
@@ -1002,6 +1201,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveDianAcquirer',
@@ -1011,6 +1211,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveEquivalentDocument',
@@ -1020,6 +1221,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveEquivalentDocumentAdjustment',
@@ -1029,6 +1231,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveEvent',
@@ -1038,6 +1241,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveInvoice',
@@ -1047,6 +1251,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveInvoiceBatch',
@@ -1056,6 +1261,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveInvoiceTacitAcceptance',
@@ -1065,6 +1271,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveNumberingAssociation',
@@ -1074,6 +1281,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveNumberingRange',
@@ -1083,6 +1291,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveNumberingRequest',
@@ -1092,6 +1301,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrievePaperNumberingRange',
@@ -1101,6 +1311,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrievePayroll',
@@ -1110,6 +1321,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrievePayrollAdjustment',
@@ -1119,6 +1331,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveProduct',
@@ -1128,6 +1341,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveRadianEvent',
@@ -1137,6 +1351,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveReportRun',
@@ -1146,6 +1361,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveReportRunFile',
@@ -1155,6 +1371,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveSupportDocument',
@@ -1164,6 +1381,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveSupportDocumentAdjustment',
@@ -1173,6 +1391,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveTacitAcceptanceByCufe',
@@ -1182,6 +1401,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveTaxSummary',
@@ -1191,6 +1411,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retrieveWebhookEndpoint',
@@ -1200,6 +1421,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'retryNumberingRequestAutomatic',
@@ -1209,6 +1431,17 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
+        ],
+        [
+            'operationId' => 'revokeAccountCompanyApiKey',
+            'metodo' => 'DELETE',
+            'ruta' => '/account/companies/{id}/api_keys/{key_id}',
+            'recurso' => 'Account',
+            'idempotente' => false,
+            'reintento' => 'solo_429',
+            'binario' => null,
+            'llave' => 'administracion',
         ],
         [
             'operationId' => 'rotateWebhookEndpointSecret',
@@ -1218,6 +1451,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendCreditNote',
@@ -1227,6 +1461,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendDebitNote',
@@ -1236,6 +1471,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendEquivalentDocument',
@@ -1245,6 +1481,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendEquivalentDocumentAdjustment',
@@ -1254,6 +1491,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendInvoice',
@@ -1263,6 +1501,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendPayroll',
@@ -1272,6 +1511,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendPayrollAdjustment',
@@ -1281,6 +1521,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendRadianEvent',
@@ -1290,6 +1531,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendSupportDocument',
@@ -1299,6 +1541,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'sendSupportDocumentAdjustment',
@@ -1308,6 +1551,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'testWebhookEndpoint',
@@ -1317,6 +1561,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'updateCustomer',
@@ -1326,6 +1571,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'updatePaperNumberingRange',
@@ -1335,6 +1581,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'updateProduct',
@@ -1344,6 +1591,7 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
         [
             'operationId' => 'updateWebhookEndpoint',
@@ -1353,11 +1601,13 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => null,
+            'llave' => 'api_o_administracion',
         ],
     ];
 
     /** El nombre de cada etiqueta del SDK (una propiedad del cliente por etiqueta, en camelCase). */
     public const ETIQUETAS = [
+        'Account',
         'Balance',
         'CreditNotes',
         'Customers',
@@ -1414,6 +1664,8 @@ final class Tablas
         'numbering_request_in_progress' => 'ConflictError',
         'range_protected' => 'ConflictError',
         'paper_numbering_limit_reached' => 'ConflictError',
+        'company_exists' => 'ConflictError',
+        'key_limit_reached' => 'ConflictError',
         'company_not_enabled' => 'PreconditionError',
         'numbering_unavailable' => 'PreconditionError',
         'certificate_problem' => 'PreconditionError',
@@ -1427,6 +1679,7 @@ final class Tablas
         'top_up_above_maximum' => 'BalanceError',
         'top_ups_unavailable' => 'BalanceError',
         'rate_limited' => 'RateLimitError',
+        'company_limit_reached' => 'RateLimitError',
         'dian_unavailable' => 'DianUnavailableError',
         'internal_error' => 'InternalServerError',
     ];

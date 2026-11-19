@@ -6,10 +6,11 @@ RADIAN ante la DIAN (Colombia). Documentación: <https://platform.trevol.si/docs
 > **In English.** PHP SDK for the Trevol API (Colombian e-invoicing, DIAN). PHP ≥ 8.2, Guzzle 7. Typed models and API clients generated from
 > the OpenAPI spec (OpenAPI Generator, namespace `Trevol\Generado`), plus a thin hand-written layer (namespace `Trevol`): automatic
 > `Idempotency-Key` (the same one on retries), retries with exponential backoff honouring `Retry-After`, typed exceptions by problem+json `code`,
-> environment inferred from the key prefix (`tvl_test_` = DIAN test environment, `tvl_live_` = production), pinned `Trevol-Version`, Standard
+> environment inferred from the key prefix (`tvl_test_`/`tva_test_` = DIAN test environment, `tvl_live_`/`tva_live_` = production; `tva_` is
+> the account-level admin key, with `company:` or `withCompany()` for company routes), pinned `Trevol-Version`, Standard
 > Webhooks signature verification, cursor pagination with generators and PDF/XML/ZIP downloads. Docs are in Spanish like the API.
 
-**Versión 0.2.0** — API `2026-11-18`. Licencia MIT.
+**Versión 0.3.0** (sin publicar) — API `2026-11-18`. Licencia MIT.
 
 ## Instalación
 
@@ -70,6 +71,34 @@ Los nombres de los métodos son los del `operationId` de la [especificación](ht
 de los parámetros lo decide el generador y puede cambiar si la API suma un filtro opcional; los nombres no. El cuerpo es un arreglo con las
 claves **iguales a las de la API** (`external_id`) o el modelo generado (`new \Trevol\Generado\Model\InvoiceInput([...])`); los importes y las
 fechas viajan como texto (`'32000.50'`, `'2026-10-31'`). Un objeto JSON vacío se escribe `(object) []`.
+
+## Llave de administración
+
+Si llevas varias empresas en una cuenta, una llave de administración (`tva_test_…` en habilitación, `tva_live_…` en producción; se
+crea en <https://platform.trevol.si/administracion>) lee tus empresas, reserva empresas nuevas, crea y revoca sus llaves y consulta lo
+de todas en `$trevol->account`. Con el permiso `documents:write` también emite en ellas: las rutas de una empresa (`$invoices`,
+`$customers`…) piden saber en cuál, y el SDK manda por ti `Trevol-Company` y `Trevol-Environment` (el ambiente sale del prefijo).
+
+```php
+$admin = new Trevol(getenv('TREVOL_API_KEY')); // tva_live_… → $admin->keyType === 'account'
+
+foreach ($admin->paginate(fn (?string $c) => $admin->account->listAccountCompanies(limit: 100, starting_after: $c)) as $empresa) {
+    echo $empresa->getId(), ' ', $empresa->getName(), ' ', $empresa->getStatus(), PHP_EOL;
+}
+
+// Un cliente por empresa: comparte llave, opciones y conexiones con $admin (es barato; $admin no cambia)
+$andes = $admin->withCompany('com_3f0c9a1e5b2d4c7f8a6e1d2c3b4a5f60');
+$facturas = $andes->invoices->listInvoices(limit: 10);
+```
+
+También puedes fijar la empresa al crear el cliente: `new Trevol($llave, company: 'com_…')`. Con una llave de administración sin
+empresa, una ruta de empresa lanza `ConfigurationException` antes de llamar. Con una llave `tvl_`, `company`, `withCompany` y las
+operaciones de `$trevol->account` lanzan `ConfigurationException` antes de llamar (esa llave ya es de una empresa) y el SDK nunca
+manda esas cabeceras. Errores propios: `ConflictException`
+con `company_exists` (la empresa ya está en la cuenta: `$e->getProblem()['company']`) o `key_limit_reached`, `RateLimitException` con
+`company_limit_reached` (`getRetryAfter()` puede ser de una hora o un día: el SDK no espera) y `PermissionDeniedException` con
+`getProblem()['reason']` (`environment_mismatch`, `live_mode_required`, `scope_list`) o `['required_permission']`. Permisos, alcance
+y límites de la llave: <https://platform.trevol.si/docs/llaves-de-administracion>.
 
 ## Lo que conviene saber
 
@@ -158,6 +187,7 @@ new Trevol(
     environment: 'test',        // si la llave no coincide: ConfigurationException antes de llamar
     handler: null,              // un manejador de Guzzle propio (proxy, MockHandler…)
     proxy: null,                // p. ej. 'http://proxy.miempresa.co:3128'
+    company: null,              // solo con una llave de administración (tva_…): el com_… de la empresa
 );
 ```
 

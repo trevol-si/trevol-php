@@ -26,6 +26,8 @@ final class Transporte
     private const REINTENTABLES = [429, 500, 502, 503, 504];
     private const EN_CURSO = ['request_in_progress', 'previous_event_pending'];
     private const PROBLEMA = 'application/problem+json';
+    public const SOLO_ADMINISTRACION = 'Las operaciones de $trevol->account piden una llave de administración (tva_test_… o tva_live_…); '
+        . 'una llave tvl_ es de una sola empresa. La crea el titular de la cuenta en https://platform.trevol.si/administracion.';
 
     /** @var array<string, array<string, mixed>>|null */
     private static ?array $exactas = null;
@@ -117,6 +119,25 @@ final class Transporte
         return null;
     }
 
+    /**
+     * Qué llave admite la operación (la columna `llave` de las tablas). Una ruta que las tablas no conocen se clasifica por su forma:
+     * `/account…` es de administración, `/health` no lleva llave y el resto es de una empresa.
+     *
+     * @param array<string, mixed>|null $op
+     * @return 'api_o_administracion'|'administracion'|'ninguna'
+     */
+    public static function llave(?array $op, string $ruta): string
+    {
+        if (is_string($op['llave'] ?? null)) {
+            return $op['llave'];
+        }
+        if ($ruta === '/account' || str_starts_with($ruta, '/account/')) {
+            return 'administracion';
+        }
+
+        return $ruta === '/health' ? 'ninguna' : 'api_o_administracion';
+    }
+
     private static function aceptar(?string $binario): string
     {
         return match ($binario) {
@@ -140,6 +161,27 @@ final class Transporte
                 }
                 $op = self::operacion($metodo, $ruta);
                 $reintento = $op['reintento'] ?? ($metodo === 'GET' ? 'seguro' : 'solo_429');
+
+                // Qué llave admite la operación. Se comprueba ANTES de la red: una tvl_ nunca llama a una operación de
+                // administración (la API contestaría 401) y una tva_ sin empresa nunca llama a una ruta de empresa.
+                $llaveOp = self::llave($op, $ruta);
+                if ($o->tipoLlave === 'api' && $llaveOp === 'administracion') {
+                    throw new ConfigurationException(self::SOLO_ADMINISTRACION);
+                }
+
+                // La empresa y el ambiente: solo con una llave de administración (tva_) y solo en las rutas de una empresa.
+                $request = $request->withoutHeader('Trevol-Company')->withoutHeader('Trevol-Environment');
+                if ($o->tipoLlave === 'account' && $llaveOp === 'api_o_administracion') {
+                    if ($o->empresa === null) {
+                        throw new ConfigurationException(
+                            'Con una llave de administración (tva_…), cada petición a una empresa necesita la empresa: crea el cliente con '
+                            . "company: 'com_…' o usa \$trevol->withCompany('com_…'). Las de \$trevol->account no la necesitan."
+                        );
+                    }
+                    $request = $request
+                        ->withHeader('Trevol-Company', $o->empresa)
+                        ->withHeader('Trevol-Environment', $o->entorno);
+                }
 
                 // La Idempotency-Key: una por llamada, la misma en todos los reintentos.
                 $clave = null;

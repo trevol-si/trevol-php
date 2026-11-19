@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Utils;
 use Trevol\Exception\ConfigurationException;
+use Trevol\Generado\Api\AccountApi;
 use Trevol\Generado\Api\BalanceApi;
 use Trevol\Generado\Api\CreditNotesApi;
 use Trevol\Generado\Api\DebitNotesApi;
@@ -44,6 +45,9 @@ use Trevol\Generado\Tablas;
  *
  * ```php
  * $trevol = new \Trevol\Trevol(getenv('TREVOL_API_KEY')); // tvl_test_… → $trevol->environment === 'test'
+ *
+ * // Con una llave de administración (tva_…): $trevol->account, y las rutas de una empresa con la empresa elegida
+ * $admin = new \Trevol\Trevol(getenv('TREVOL_API_KEY'), company: 'com_…'); // tva_test_… o tva_live_…
  * ```
  */
 final class Trevol
@@ -52,11 +56,21 @@ final class Trevol
     public const API_VERSION = Tablas::API_VERSION;
     public const BASE_URL = 'https://api.trevol.si/v1';
 
-    /** `test` (llave tvl_test_, habilitación de la DIAN) o `live` (tvl_live_, producción). */
+    private const SOLO_ADMINISTRACION = 'company solo aplica a una llave de administración (tva_…): una llave tvl_ ya es de una empresa.';
+
+    /** `test` (llave tvl_test_ o tva_test_, habilitación de la DIAN) o `live` (tvl_live_ o tva_live_, producción). */
     public readonly string $environment;
     /** El valor de `Trevol-Version` que se manda en cada petición. */
     public readonly string $apiVersion;
+    /** @var 'api'|'account' `api` (llave tvl_ de una empresa) o `account` (llave tva_ de administración de una cuenta). */
+    public readonly string $keyType;
+    /** Con una llave de administración: el `com_…` de la empresa de este cliente (null si no tiene). Con una tvl_, siempre null. */
+    public readonly ?string $company;
+    /** @var \Closure(string): self */
+    private readonly \Closure $derivar;
 
+    /** Las operaciones de `/v1/account` (solo con una llave de administración, `tva_…`). */
+    public readonly AccountApi $account;
     public readonly BalanceApi $balance;
     public readonly CreditNotesApi $creditNotes;
     public readonly DebitNotesApi $debitNotes;
@@ -86,7 +100,8 @@ final class Trevol
     public readonly ReportsApi $reports;
 
     /**
-     * @param string|null $apiKey `tvl_test_…` o `tvl_live_…`; si falta se lee `TREVOL_API_KEY`.
+     * @param string|null $apiKey `tvl_test_…` o `tvl_live_…` (la llave de una empresa) o `tva_test_…` o `tva_live_…` (la llave de
+     *        administración de una cuenta); si falta se lee `TREVOL_API_KEY`.
      * @param string|null $apiVersion el valor de `Trevol-Version` en cada petición (por defecto `API_VERSION`).
      * @param int $maxRetries reintentos tras el primer intento (3 intentos en total por defecto). 0 los apaga.
      * @param float $timeout segundos por intento (65 por defecto, como el playground).
@@ -96,6 +111,8 @@ final class Trevol
      * @param callable|null $handler el manejador de Guzzle que hace las peticiones (proxy, `MockHandler`, otro transporte).
      * @param string|null $proxy URL de un proxy (se pasa a Guzzle como opción `proxy`).
      * @param array<string, callable>|null $internos solo para pruebas: `dormir`, `azar` y `uuid`.
+     * @param string|null $company solo con una llave de administración (`tva_…`): el `com_…` de la empresa en la que trabajan las
+     *        rutas de una empresa (`$invoices`, `$customers`…). Va en `Trevol-Company`, con `Trevol-Environment` (el de la llave).
      */
     public function __construct(
         #[\SensitiveParameter] ?string $apiKey = null,
@@ -108,30 +125,38 @@ final class Trevol
         ?callable $handler = null,
         ?string $proxy = null,
         ?array $internos = null,
+        #[\SensitiveParameter] ?string $company = null,
     ) {
         $llave = $apiKey ?? (getenv('TREVOL_API_KEY') ?: '');
         if (trim($llave) === '') {
             throw new ConfigurationException('Falta la llave de la API: pásala a new Trevol(...) o define la variable de entorno TREVOL_API_KEY.');
         }
-        $this->environment = Llave::entorno($llave);
-        if ($environment !== null && $environment !== $this->environment) {
+        ['tipo' => $tipo, 'entorno' => $entorno] = Llave::analizar($llave);
+        if ($environment !== null && $environment !== $entorno) {
+            $prefijo = $tipo === 'account' ? 'tva' : 'tvl';
             throw new ConfigurationException(sprintf(
                 'Pediste el entorno «%s» pero la llave es de «%s» (%s).',
                 $environment,
-                $this->environment,
-                $this->environment === 'test' ? 'tvl_test_ = habilitación' : 'tvl_live_ = producción'
+                $entorno,
+                $entorno === 'test' ? "{$prefijo}_test_ = habilitación" : "{$prefijo}_live_ = producción"
             ));
+        }
+        if ($company !== null) {
+            if ($tipo !== 'account') {
+                throw new ConfigurationException(self::SOLO_ADMINISTRACION);
+            }
+            $company = Llave::empresa($company);
         }
         if ($maxRetries < 0) {
             throw new ConfigurationException('maxRetries no puede ser negativo.');
         }
-        $this->apiVersion = $apiVersion ?? self::API_VERSION;
+        $apiVersion ??= self::API_VERSION;
         $baseUrl = rtrim($baseUrl, '/');
         $ruta = parse_url($baseUrl, PHP_URL_PATH);
         $internos ??= [];
         $opciones = new Opciones(
             trim($llave),
-            $this->apiVersion,
+            $apiVersion,
             'trevol-php/' . self::VERSION . ' (php ' . PHP_VERSION . '; +https://platform.trevol.si/docs)',
             $maxRetries,
             $maxRetryAfter,
@@ -139,22 +164,69 @@ final class Trevol
             \Closure::fromCallable($internos['dormir'] ?? static fn (float $s) => usleep((int) round($s * 1_000_000))),
             \Closure::fromCallable($internos['azar'] ?? static fn (): float => mt_rand() / (mt_getrandmax() + 1)),
             \Closure::fromCallable($internos['uuid'] ?? static fn (): string => self::uuid4()),
+            $tipo,
+            $entorno,
+            $company,
         );
-
-        $pila = HandlerStack::create($handler ?? Utils::chooseHandler());
-        // Antes de `http_errors`: ve la respuesta tal cual, la convierte en nuestra excepción y reintenta.
-        $pila->before('http_errors', Transporte::middleware($opciones), 'trevol');
-        $config = ['handler' => $pila, 'http_errors' => false, 'timeout' => $timeout, 'connect_timeout' => min($timeout, 30.0)];
+        $config = ['http_errors' => false, 'timeout' => $timeout, 'connect_timeout' => min($timeout, 30.0)];
         if ($proxy !== null) {
             $config['proxy'] = $proxy;
         }
-        $cliente = new Client($config);
+        // El manejador de la red (y sus conexiones) es uno solo: lo comparten los clientes que salen de withCompany.
+        $this->armar($opciones, $handler ?? Utils::chooseHandler(), $config, $baseUrl);
+    }
+
+    /**
+     * Un cliente para otra empresa de la cuenta, con la misma llave de administración, las mismas opciones y las mismas conexiones
+     * (es barato: úsalo por petición). El cliente original no cambia.
+     *
+     * ```php
+     * $andes = $trevol->withCompany('com_3f0c9a1e5b2d4c7f8a6e1d2c3b4a5f60');
+     * $andes->invoices->listInvoices(limit: 10);
+     * ```
+     *
+     * @throws ConfigurationException con una llave `tvl_` (ya es de una empresa) o un id que no es `com_…`.
+     */
+    public function withCompany(#[\SensitiveParameter] string $company): self
+    {
+        if ($this->keyType !== 'account') {
+            throw new ConfigurationException(self::SOLO_ADMINISTRACION);
+        }
+
+        return ($this->derivar)(Llave::empresa($company));
+    }
+
+    /**
+     * Arma el cliente: los recursos sobre un Guzzle propio con el middleware del SDK y el manejador de red compartido. Lo usan el
+     * constructor y withCompany (las propiedades de solo lectura se inicializan aquí, una vez por objeto).
+     *
+     * @param array<string, mixed> $config
+     */
+    private function armar(Opciones $opciones, callable $red, array $config, string $baseUrl): void
+    {
+        $this->environment = $opciones->entorno;
+        $this->apiVersion = $opciones->apiVersion;
+        $this->keyType = $opciones->tipoLlave;
+        $this->company = $opciones->empresa;
+        // La llave queda dentro de un cierre (no en una propiedad): ni var_export ni un cast a arreglo la muestran.
+        $this->derivar = static function (string $empresa) use ($opciones, $red, $config, $baseUrl): self {
+            $otro = (new \ReflectionClass(self::class))->newInstanceWithoutConstructor();
+            $otro->armar($opciones->conEmpresa($empresa), $red, $config, $baseUrl);
+
+            return $otro;
+        };
+
+        $pila = HandlerStack::create($red);
+        // Antes de `http_errors`: ve la respuesta tal cual, la convierte en nuestra excepción y reintenta.
+        $pila->before('http_errors', Transporte::middleware($opciones), 'trevol');
+        $cliente = new Client(['handler' => $pila] + $config);
         // Los booleanos de la consulta (p. ej. `include_expired`) viajan como true/false, que es lo que acepta la API (no 1/0). El
         // serializador generado lee la configuración POR DEFECTO, no la de cada API: se fija en las dos.
         Configuration::getDefaultConfiguration()->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_STRING);
         $generada = (new Configuration())->setHost($baseUrl)->setUserAgent($opciones->userAgent)
             ->setBooleanFormatForQueryString(Configuration::BOOLEAN_FORMAT_STRING);
 
+        $this->account = new AccountApi($cliente, $generada);
         $this->balance = new BalanceApi($cliente, $generada);
         $this->creditNotes = new CreditNotesApi($cliente, $generada);
         $this->debitNotes = new DebitNotesApi($cliente, $generada);
@@ -206,9 +278,9 @@ final class Trevol
         return substr($h, 0, 8) . '-' . substr($h, 8, 4) . '-' . substr($h, 12, 4) . '-' . substr($h, 16, 4) . '-' . substr($h, 20);
     }
 
-    /** Un var_dump/print_r nunca debe enseñar nada sensible (la llave tampoco se guarda en el objeto). */
+    /** Un var_dump/print_r nunca debe enseñar nada sensible (la llave no está en ninguna propiedad). */
     public function __debugInfo(): array
     {
-        return ['environment' => $this->environment, 'apiVersion' => $this->apiVersion];
+        return ['environment' => $this->environment, 'apiVersion' => $this->apiVersion, 'keyType' => $this->keyType, 'company' => $this->company];
     }
 }

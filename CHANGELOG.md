@@ -3,6 +3,24 @@
 El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el versionado, [SemVer](https://semver.org/lang/es/): antes
 de la 1.0, un cambio incompatible sube el número menor.
 
+## [0.3.0] — sin publicar
+
+Regenerado con la llave de administración pública (la misma versión `2026-11-18` de la API; 159 operaciones y 70 tipos de evento).
+
+- Recurso nuevo `account`: las diez operaciones de `/v1/account` para quien lleva varias empresas en una cuenta (la llave, sus empresas, reservar una empresa, las llaves de cada empresa y lo emitido, lo recibido y los eventos RADIAN de todas). Piden una llave de administración (`tva_test_…` o `tva_live_…`).
+- Errores tipados para los códigos nuevos: `company_exists` y `key_limit_reached` → conflicto; `company_limit_reached` → límite (con `retry_after`).
+- `Problem` trae `company` (en `company_exists`), `balance_cop` y `price_cop` (en `insufficient_balance` de una operación cobrada); `required_permission` admite los permisos de la llave de administración.
+- La tabla de operaciones dice qué llave admite cada una (`llave`: `api_o_administracion`, `administracion` o `ninguna`).
+- El cliente acepta la llave de administración (`tva_test_…` o `tva_live_…`) además de la de una empresa; el entorno sale del prefijo
+  igual que con `tvl_`. Propiedades nuevas de solo lectura: `$keyType` (`'api'` con `tvl_`, `'account'` con `tva_`) y `$company`.
+- Opción nueva `company` (`new Trevol($llave, company: 'com_…')`) y `withCompany('com_…')`, que da otro cliente para esa empresa con la
+  misma llave, las mismas opciones y las mismas conexiones. Con una `tva_`, las rutas de una empresa llevan `Trevol-Company` y
+  `Trevol-Environment`; sin empresa lanzan `ConfigurationException` antes de llamar. Con una `tvl_`, `company` y `withCompany` lanzan
+  `ConfigurationException` y esas cabeceras nunca se mandan.
+- Con una llave `tvl_`, las operaciones de `$trevol->account` lanzan `ConfigurationException` antes de llamar (piden una llave de
+  administración; la API contestaría `401 invalid_api_key`).
+- El mensaje de una llave mal formada nombra los cuatro prefijos válidos (sigue sin incluir la llave).
+
 ## [0.2.0] — 2026-11-18
 
 Regenerado con la API de noviembre de 2026 (versión `2026-11-18`, la de los errores juntos; 149 operaciones y 70 tipos de evento).

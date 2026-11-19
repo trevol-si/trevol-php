@@ -72,12 +72,15 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'previous' => 'string',
         'minimum_cop' => 'int',
         'maximum_cop' => 'int',
+        'balance_cop' => 'int',
+        'price_cop' => 'int',
         'limit' => 'string',
         'available_from' => '\DateTime',
         'rules' => 'object[]',
         'current_software' => '\Trevol\Generado\Model\ProblemCurrentSoftware',
         'existing_active' => 'bool',
         'required_permission' => 'string',
+        'company' => '\Trevol\Generado\Model\AccountCompany',
         'rows' => 'int',
         'max_rows' => 'int'
     ];
@@ -105,12 +108,15 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'previous' => null,
         'minimum_cop' => null,
         'maximum_cop' => null,
+        'balance_cop' => null,
+        'price_cop' => null,
         'limit' => null,
         'available_from' => 'date',
         'rules' => null,
         'current_software' => null,
         'existing_active' => null,
         'required_permission' => null,
+        'company' => null,
         'rows' => null,
         'max_rows' => null
     ];
@@ -136,12 +142,15 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'previous' => false,
         'minimum_cop' => true,
         'maximum_cop' => true,
+        'balance_cop' => false,
+        'price_cop' => false,
         'limit' => false,
         'available_from' => true,
         'rules' => false,
         'current_software' => false,
         'existing_active' => false,
         'required_permission' => false,
+        'company' => false,
         'rows' => false,
         'max_rows' => false
     ];
@@ -247,12 +256,15 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'previous' => 'previous',
         'minimum_cop' => 'minimum_cop',
         'maximum_cop' => 'maximum_cop',
+        'balance_cop' => 'balance_cop',
+        'price_cop' => 'price_cop',
         'limit' => 'limit',
         'available_from' => 'available_from',
         'rules' => 'rules',
         'current_software' => 'current_software',
         'existing_active' => 'existing_active',
         'required_permission' => 'required_permission',
+        'company' => 'company',
         'rows' => 'rows',
         'max_rows' => 'max_rows'
     ];
@@ -278,12 +290,15 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'previous' => 'setPrevious',
         'minimum_cop' => 'setMinimumCop',
         'maximum_cop' => 'setMaximumCop',
+        'balance_cop' => 'setBalanceCop',
+        'price_cop' => 'setPriceCop',
         'limit' => 'setLimit',
         'available_from' => 'setAvailableFrom',
         'rules' => 'setRules',
         'current_software' => 'setCurrentSoftware',
         'existing_active' => 'setExistingActive',
         'required_permission' => 'setRequiredPermission',
+        'company' => 'setCompany',
         'rows' => 'setRows',
         'max_rows' => 'setMaxRows'
     ];
@@ -309,12 +324,15 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'previous' => 'getPrevious',
         'minimum_cop' => 'getMinimumCop',
         'maximum_cop' => 'getMaximumCop',
+        'balance_cop' => 'getBalanceCop',
+        'price_cop' => 'getPriceCop',
         'limit' => 'getLimit',
         'available_from' => 'getAvailableFrom',
         'rules' => 'getRules',
         'current_software' => 'getCurrentSoftware',
         'existing_active' => 'getExistingActive',
         'required_permission' => 'getRequiredPermission',
+        'company' => 'getCompany',
         'rows' => 'getRows',
         'max_rows' => 'getMaxRows'
     ];
@@ -391,12 +409,15 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('previous', $data ?? [], null);
         $this->setIfExists('minimum_cop', $data ?? [], null);
         $this->setIfExists('maximum_cop', $data ?? [], null);
+        $this->setIfExists('balance_cop', $data ?? [], null);
+        $this->setIfExists('price_cop', $data ?? [], null);
         $this->setIfExists('limit', $data ?? [], null);
         $this->setIfExists('available_from', $data ?? [], null);
         $this->setIfExists('rules', $data ?? [], null);
         $this->setIfExists('current_software', $data ?? [], null);
         $this->setIfExists('existing_active', $data ?? [], null);
         $this->setIfExists('required_permission', $data ?? [], null);
+        $this->setIfExists('company', $data ?? [], null);
         $this->setIfExists('rows', $data ?? [], null);
         $this->setIfExists('max_rows', $data ?? [], null);
     }
@@ -537,7 +558,7 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets code
      *
-     * @param string|null $code Valores conocidos: `authentication_required`, `automatic_mode_unavailable`, `certificate_problem`, `company_busy`, `company_not_enabled`, `confirmation_required`, `dian_rejected`, `dian_unavailable`, `duplicate_customer`, `duplicate_document`, `duplicate_product`, `external_id_in_use`, `file_unavailable`, `idempotency_key_required`, `idempotency_key_reused`, `insufficient_balance`, `internal_error`, `invalid_api_key`, `invalid_json`, `invalid_request`, `invalid_state`, `method_not_allowed`, `not_found`, `numbering_request_in_progress`, `numbering_unavailable`, `paper_numbering_limit_reached`, `permission_denied`, `portal_read_required`, `previous_event_pending`, `range_protected`, `rate_limited`, `report_too_large`, `request_in_progress`, `tacit_acceptance_not_due`, `top_up_above_maximum`, `top_up_below_minimum`, `top_ups_unavailable`, `unsupported_version`, `validation_error`, `webhook_limit_reached`.
+     * @param string|null $code Valores conocidos: `authentication_required`, `automatic_mode_unavailable`, `certificate_problem`, `company_busy`, `company_exists`, `company_limit_reached`, `company_not_enabled`, `confirmation_required`, `dian_rejected`, `dian_unavailable`, `duplicate_customer`, `duplicate_document`, `duplicate_product`, `external_id_in_use`, `file_unavailable`, `idempotency_key_required`, `idempotency_key_reused`, `insufficient_balance`, `internal_error`, `invalid_api_key`, `invalid_json`, `invalid_request`, `invalid_state`, `key_limit_reached`, `method_not_allowed`, `not_found`, `numbering_request_in_progress`, `numbering_unavailable`, `paper_numbering_limit_reached`, `permission_denied`, `portal_read_required`, `previous_event_pending`, `range_protected`, `rate_limited`, `report_too_large`, `request_in_progress`, `tacit_acceptance_not_due`, `top_up_above_maximum`, `top_up_below_minimum`, `top_ups_unavailable`, `unsupported_version`, `validation_error`, `webhook_limit_reached`.
      *
      * @return self
      */
@@ -753,7 +774,7 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets reason
      *
-     * @param string|null $reason En `company_not_enabled` (`missing_legal_representative`, `missing_pin`, `missing_software`, `payroll_not_enabled`) y en `numbering_unavailable` (`missing_technical_key`, `no_contingency_numbering`, `no_resolution`, `prefix_in_use`, `resolution_exhausted`, `resolution_expired`, `resolution_not_yet_valid`): por qué. En `automatic_mode_unavailable` (`credentials_missing`, `mandate_required`: falta el mandato para integraciones que se acepta en la app, `disabled`) y en `permission_denied` de una ruta que solo existe en producción (`live_mode_required`). Valores conocidos: `credentials_missing`, `disabled`, `live_mode_required`, `mandate_required`, `missing_legal_representative`, `missing_pin`, `missing_software`, `missing_technical_key`, `no_contingency_numbering`, `no_resolution`, `payroll_not_enabled`, `prefix_in_use`, `resolution_exhausted`, `resolution_expired`, `resolution_not_yet_valid`.
+     * @param string|null $reason En `company_not_enabled` (`missing_legal_representative`, `missing_pin`, `missing_software`, `payroll_not_enabled`) y en `numbering_unavailable` (`missing_technical_key`, `no_contingency_numbering`, `no_resolution`, `prefix_in_use`, `resolution_exhausted`, `resolution_expired`, `resolution_not_yet_valid`): por qué. En `automatic_mode_unavailable` (`credentials_missing`, `mandate_required`: falta el mandato para integraciones que se acepta en la app, `disabled`) y en `permission_denied` de una ruta que solo existe en producción (`live_mode_required`). En `permission_denied` de una llave de administración: `environment_mismatch` (`Trevol-Environment` no es el ambiente de la llave), `live_mode_required` (el alta de empresas pide una llave de producción) y `scope_list` (una llave con alcance de lista no da de alta empresas; como esa llave no puede tener `companies:write`, lo que llega en la práctica es el 403 con `required_permission: companies:write`). Valores conocidos: `credentials_missing`, `disabled`, `environment_mismatch`, `live_mode_required`, `mandate_required`, `missing_legal_representative`, `missing_pin`, `missing_software`, `missing_technical_key`, `no_contingency_numbering`, `no_resolution`, `payroll_not_enabled`, `prefix_in_use`, `resolution_exhausted`, `resolution_expired`, `resolution_not_yet_valid`, `scope_list`.
      *
      * @return self
      */
@@ -863,6 +884,60 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets balance_cop
+     *
+     * @return int|null
+     */
+    public function getBalanceCop()
+    {
+        return $this->container['balance_cop'];
+    }
+
+    /**
+     * Sets balance_cop
+     *
+     * @param int|null $balance_cop En `insufficient_balance` de una operación cobrada: el saldo disponible de la cuenta, en pesos.
+     *
+     * @return self
+     */
+    public function setBalanceCop($balance_cop)
+    {
+        if (is_null($balance_cop)) {
+            throw new \InvalidArgumentException('non-nullable balance_cop cannot be null');
+        }
+        $this->container['balance_cop'] = $balance_cop;
+
+        return $this;
+    }
+
+    /**
+     * Gets price_cop
+     *
+     * @return int|null
+     */
+    public function getPriceCop()
+    {
+        return $this->container['price_cop'];
+    }
+
+    /**
+     * Sets price_cop
+     *
+     * @param int|null $price_cop En `insufficient_balance` de una operación cobrada: lo que cuesta la operación, en pesos.
+     *
+     * @return self
+     */
+    public function setPriceCop($price_cop)
+    {
+        if (is_null($price_cop)) {
+            throw new \InvalidArgumentException('non-nullable price_cop cannot be null');
+        }
+        $this->container['price_cop'] = $price_cop;
+
+        return $this;
+    }
+
+    /**
      * Gets limit
      *
      * @return string|null
@@ -875,7 +950,7 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets limit
      *
-     * @param string|null $limit En `rate_limited`: qué límite se pasó.
+     * @param string|null $limit En `rate_limited`: qué límite se pasó. Con una llave de administración: `lecturas` (600 peticiones por minuto de la llave en `/v1/account`), `account_key` (el mismo contador, visto desde una ruta de empresa), `api_keys` (60 llaves de empresa creadas o revocadas por hora) y `account_queries` (60 consultas de documentos o eventos por minuto, sumando las llaves de la cuenta). En `company_limit_reached`: `hour` (20 altas por hora) o `day` (100 por día).
      *
      * @return self
      */
@@ -1017,7 +1092,7 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets required_permission
      *
-     * @param string|null $required_permission En `permission_denied`: el permiso de la llave que hace falta (buscar clientes por su documento necesita `customers:read`). Valores conocidos: `customers:read`.
+     * @param string|null $required_permission En `permission_denied`: el permiso de la llave que hace falta (buscar clientes por su documento necesita `customers:read`). Con una llave de administración, el permiso que le falta a esa llave (`companies:read`, `companies:write`, `keys:write`, `documents:read`, `documents:write`, `customers:read`). Valores conocidos: `companies:read`, `companies:write`, `keys:write`, `documents:read`, `documents:write`, `customers:read`.
      *
      * @return self
      */
@@ -1027,6 +1102,33 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable required_permission cannot be null');
         }
         $this->container['required_permission'] = $required_permission;
+
+        return $this;
+    }
+
+    /**
+     * Gets company
+     *
+     * @return \Trevol\Generado\Model\AccountCompany|null
+     */
+    public function getCompany()
+    {
+        return $this->container['company'];
+    }
+
+    /**
+     * Sets company
+     *
+     * @param \Trevol\Generado\Model\AccountCompany|null $company En `company_exists`: la empresa que ya está en la cuenta con ese NIT.
+     *
+     * @return self
+     */
+    public function setCompany($company)
+    {
+        if (is_null($company)) {
+            throw new \InvalidArgumentException('non-nullable company cannot be null');
+        }
+        $this->container['company'] = $company;
 
         return $this;
     }

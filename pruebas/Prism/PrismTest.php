@@ -7,8 +7,10 @@ namespace Trevol\Pruebas\Prism;
 use GuzzleHttp\Utils;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Trevol\Exception\ConflictException;
 use Trevol\Exception\PreconditionException;
+use Trevol\Exception\RateLimitException;
 use Trevol\Exception\TrevolException;
 use Trevol\Trevol;
 
@@ -24,6 +26,9 @@ final class PrismTest extends TestCase
 {
     private static string $url;
     private static string $llave;
+    /** Una llave de administración inventada con el formato correcto (Prism solo exige que haya Authorization). */
+    private const LLAVE_ADMIN = 'tva_test_c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4';
+    private const EMPRESA = 'com_3f0c9a1e5b2d4c7f8a6e1d2c3b4a5f60';
 
     public static function setUpBeforeClass(): void
     {
@@ -38,7 +43,7 @@ final class PrismTest extends TestCase
         }
     }
 
-    private function cliente(?string $prefer = null, int $reintentos = 0, ?array $internos = null): Trevol
+    private function cliente(?string $prefer = null, int $reintentos = 0, ?array $internos = null, ?string $llave = null, ?string $company = null): Trevol
     {
         $handler = null;
         if ($prefer !== null) {
@@ -46,7 +51,7 @@ final class PrismTest extends TestCase
             $handler = static fn (RequestInterface $r, array $o) => $base($r->withHeader('Prefer', $prefer), $o);
         }
 
-        return new Trevol(self::$llave, maxRetries: $reintentos, baseUrl: self::$url, handler: $handler, internos: $internos);
+        return new Trevol($llave ?? self::$llave, maxRetries: $reintentos, baseUrl: self::$url, handler: $handler, internos: $internos, company: $company);
     }
 
     /** @return mixed el cuerpo de ejemplo de la especificación */
@@ -200,6 +205,94 @@ final class PrismTest extends TestCase
             $this->assertSame(503, $e->getStatus());
             $this->assertSame('PRUEBA-PRISM-1', $e->getIdempotencyKey());
             $this->assertCount(1, $esperas);
+        }
+    }
+
+    public function testLlaveDeAdministracionLeeLaCuentaSusEmpresasYLoDeTodas(): void
+    {
+        $t = $this->cliente(llave: self::LLAVE_ADMIN);
+        $this->assertSame('account', $t->keyType);
+        $info = $this->conViolaciones(fn () => $t->account->retrieveAccount());
+        $this->assertSame('account_key_info', $info->getObject());
+        $this->assertStringStartsWith('acct_', $info->getAccount()->getId());
+        $e = $this->conViolaciones(fn () => $t->account->retrieveAccountCompany(self::EMPRESA));
+        $this->assertSame('company', $e->getObject());
+        $listas = [
+            fn (?string $c) => $t->account->listAccountCompanies(limit: 2, starting_after: $c, status: 'enabled'),
+            fn (?string $c) => $t->account->listAccountCompanyApiKeys(self::EMPRESA, limit: 2, starting_after: $c, status: 'active'),
+            fn (?string $c) => $t->account->listAccountDianDocuments(limit: 2, starting_after: $c, company: self::EMPRESA, direction: 'issued', issued_from: '2026-11-01'),
+            fn (?string $c) => $t->account->listAccountRadianEvents(limit: 2, starting_after: $c, code: '030'),
+            fn (?string $c) => $t->account->listAccountRequests(limit: 2, starting_after: $c, status: 200),
+        ];
+        foreach ($listas as $pagina) {
+            $vistos = [];
+            $this->conViolaciones(function () use ($t, $pagina, &$vistos) {
+                foreach ($t->paginate($pagina) as $x) {
+                    $vistos[] = $x->getId();
+                    if (count($vistos) === 3) { // Prism repite la misma página con has_more=true: el tope es de la prueba
+                        break;
+                    }
+                }
+            });
+            $this->assertNotEmpty($vistos);
+        }
+    }
+
+    public function testLlaveDeAdministracionReservaUnaEmpresaCreaYRevocaUnaLlave(): void
+    {
+        $t = $this->cliente(llave: self::LLAVE_ADMIN);
+        $e = $this->conViolaciones(fn () => $t->account->createAccountCompany(self::ejemplo('createAccountCompany')));
+        $this->assertSame('company', $e->getObject());
+        $k = $this->conViolaciones(fn () => $t->account->createAccountCompanyApiKey(self::EMPRESA, self::ejemplo('createAccountCompanyApiKey')));
+        $this->assertSame('api_key', $k->getObject());
+        $r = $this->conViolaciones(fn () => $t->account->revokeAccountCompanyApiKey(self::EMPRESA, 'key_' . str_repeat('0', 32)));
+        $this->assertSame('revoked', $r->getStatus());
+    }
+
+    public function testLlaveDeAdministracionConEmpresaEmiteYLeeEnUnaEmpresa(): void
+    {
+        $t = $this->cliente(llave: self::LLAVE_ADMIN)->withCompany(self::EMPRESA);
+        $doc = $this->conViolaciones(fn () => $t->invoices->createInvoice(self::ejemplo('createInvoice')));
+        $this->assertSame('invoice', $doc->getObject());
+        $c = $this->conViolaciones(fn () => $t->general->retrieveCompany());
+        $this->assertSame('company', $c->getObject());
+        $directo = $this->cliente(llave: self::LLAVE_ADMIN, company: self::EMPRESA);
+        $this->assertNotNull($this->conViolaciones(fn () => $directo->customers->listCustomers(limit: 1)));
+    }
+
+    public function testPreferCode409SobreElAltaEsCompanyExistsConLaEmpresa(): void
+    {
+        $t = $this->cliente('code=409, example=existe', llave: self::LLAVE_ADMIN);
+        try {
+            $t->account->createAccountCompany(self::ejemplo('createAccountCompany'));
+            $this->fail('debía lanzar');
+        } catch (ConflictException $e) {
+            $this->assertSame('company_exists', $e->getTrevolCode());
+            $this->assertStringStartsWith('com_', $e->getProblem()['company']['id']);
+        }
+    }
+
+    public function testPreferCode429SobreElAltaEsCompanyLimitReachedConRetryAfter(): void
+    {
+        // Prism inventa la cabecera Retry-After con el esquema (`minimum: 1` → 1) sin mirar el cuerpo; la API pone en ella el mismo valor
+        // de `retry_after`. Se quita para que el SDK lea el del cuerpo (1800), como si la cabecera dijera lo mismo.
+        $base = Utils::chooseHandler();
+        $handler = static fn (RequestInterface $r, array $o) => $base($r->withHeader('Prefer', 'code=429, example=altas'), $o)
+            ->then(static fn (ResponseInterface $resp) => $resp->withoutHeader('Retry-After'));
+        $esperas = [];
+        $t = new Trevol(self::LLAVE_ADMIN, maxRetries: 2, baseUrl: self::$url, handler: $handler, internos: [
+            'dormir' => static function (float $s) use (&$esperas): void {
+                $esperas[] = $s;
+            },
+        ]);
+        try {
+            $t->account->createAccountCompany(self::ejemplo('createAccountCompany'));
+            $this->fail('debía lanzar');
+        } catch (RateLimitException $e) {
+            $this->assertSame('company_limit_reached', $e->getTrevolCode());
+            $this->assertTrue($e->isRetryable());
+            $this->assertGreaterThan(60.0, $e->getRetryAfter()); // más que maxRetryAfter: el SDK no espera
+            $this->assertSame([], $esperas);
         }
     }
 }
