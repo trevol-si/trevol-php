@@ -35,7 +35,7 @@ use \Trevol\Generado\ObjectSerializer;
  * BalanceOperationPrices Class Doc Comment
  *
  * @category Class
- * @description El precio en pesos de cada operación de la API que se cobra del saldo porque Trevol entra al portal de la DIAN (0 &#x3D; gratis). Solo en producción.
+ * @description El precio en pesos de cada operación que Trevol hace por la empresa en el portal de la DIAN y que se cobra del saldo (0 es gratis). Solo en producción.
  * @package  Trevol\Generado
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
