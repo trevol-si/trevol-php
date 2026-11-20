@@ -66,6 +66,7 @@ class WebhookEndpoint implements ModelInterface, ArrayAccess, \JsonSerializable
         'catalog_version' => 'int',
         'status' => 'string',
         'disabled_reason' => 'string',
+        'follow_latest_catalog' => 'bool',
         'secret_rotated_at' => '\DateTime',
         'created_at' => '\DateTime',
         'updated_at' => '\DateTime',
@@ -89,6 +90,7 @@ class WebhookEndpoint implements ModelInterface, ArrayAccess, \JsonSerializable
         'catalog_version' => null,
         'status' => null,
         'disabled_reason' => null,
+        'follow_latest_catalog' => null,
         'secret_rotated_at' => 'date-time',
         'created_at' => 'date-time',
         'updated_at' => 'date-time',
@@ -110,6 +112,7 @@ class WebhookEndpoint implements ModelInterface, ArrayAccess, \JsonSerializable
         'catalog_version' => false,
         'status' => false,
         'disabled_reason' => true,
+        'follow_latest_catalog' => false,
         'secret_rotated_at' => true,
         'created_at' => true,
         'updated_at' => true,
@@ -211,6 +214,7 @@ class WebhookEndpoint implements ModelInterface, ArrayAccess, \JsonSerializable
         'catalog_version' => 'catalog_version',
         'status' => 'status',
         'disabled_reason' => 'disabled_reason',
+        'follow_latest_catalog' => 'follow_latest_catalog',
         'secret_rotated_at' => 'secret_rotated_at',
         'created_at' => 'created_at',
         'updated_at' => 'updated_at',
@@ -232,6 +236,7 @@ class WebhookEndpoint implements ModelInterface, ArrayAccess, \JsonSerializable
         'catalog_version' => 'setCatalogVersion',
         'status' => 'setStatus',
         'disabled_reason' => 'setDisabledReason',
+        'follow_latest_catalog' => 'setFollowLatestCatalog',
         'secret_rotated_at' => 'setSecretRotatedAt',
         'created_at' => 'setCreatedAt',
         'updated_at' => 'setUpdatedAt',
@@ -253,6 +258,7 @@ class WebhookEndpoint implements ModelInterface, ArrayAccess, \JsonSerializable
         'catalog_version' => 'getCatalogVersion',
         'status' => 'getStatus',
         'disabled_reason' => 'getDisabledReason',
+        'follow_latest_catalog' => 'getFollowLatestCatalog',
         'secret_rotated_at' => 'getSecretRotatedAt',
         'created_at' => 'getCreatedAt',
         'updated_at' => 'getUpdatedAt',
@@ -344,6 +350,7 @@ class WebhookEndpoint implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('catalog_version', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('disabled_reason', $data ?? [], null);
+        $this->setIfExists('follow_latest_catalog', $data ?? [], null);
         $this->setIfExists('secret_rotated_at', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
         $this->setIfExists('updated_at', $data ?? [], null);
@@ -583,7 +590,7 @@ class WebhookEndpoint implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets catalog_version
      *
-     * @param int|null $catalog_version Qué catálogo recibe con `[\"*\"]`: `1` = el de la fase 2 (facturas, notas, saldo, numeración y certificado); `2` = también documento soporte, documento equivalente, nómina y eventos RADIAN; `3` = también lo recibido, la sincronización con la DIAN, la numeración automática, los lotes y la contingencia; `4` = también los clientes y productos del catálogo, el rango de numeración agotado y los reportes asíncronos. Un endpoint queda en el catálogo con que se guardó hasta que guardes de nuevo su lista de eventos (PATCH `events`); los nuevos nacen en 4. Una lista explícita siempre recibe lo que pide.
+     * @param int|null $catalog_version Qué catálogo recibe con `[\"*\"]`: `1` = el de la fase 2 (facturas, notas, saldo, numeración y certificado); `2` = también documento soporte, documento equivalente, nómina y eventos RADIAN; `3` = también lo recibido, la sincronización con la DIAN, la numeración automática, los lotes y la contingencia; `4` = también los clientes y productos del catálogo, el rango de numeración agotado y los reportes asíncronos. Un endpoint queda en el catálogo con que se guardó hasta que guardes de nuevo su lista de eventos (PATCH `events`) o actives `follow_latest_catalog`; los nuevos nacen en 4. Una lista explícita siempre recibe lo que pide.
      *
      * @return self
      */
@@ -664,6 +671,33 @@ class WebhookEndpoint implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['disabled_reason'] = $disabled_reason;
+
+        return $this;
+    }
+
+    /**
+     * Gets follow_latest_catalog
+     *
+     * @return bool|null
+     */
+    public function getFollowLatestCatalog()
+    {
+        return $this->container['follow_latest_catalog'];
+    }
+
+    /**
+     * Sets follow_latest_catalog
+     *
+     * @param bool|null $follow_latest_catalog Con `events: [\"*\"]`, recibe el catálogo más nuevo sin volver a guardar la lista (y `catalog_version` dice ese catálogo). Por defecto false: un `[\"*\"]` se queda en el catálogo con que se guardó. Tu receptor tiene que ignorar los tipos que no conoce.
+     *
+     * @return self
+     */
+    public function setFollowLatestCatalog($follow_latest_catalog)
+    {
+        if (is_null($follow_latest_catalog)) {
+            throw new \InvalidArgumentException('non-nullable follow_latest_catalog cannot be null');
+        }
+        $this->container['follow_latest_catalog'] = $follow_latest_catalog;
 
         return $this;
     }

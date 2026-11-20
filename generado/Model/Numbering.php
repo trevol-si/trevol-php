@@ -305,7 +305,7 @@ class Numbering implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets prefix
      *
-     * @param string $prefix Prefijo de la resolución POS o de documento soporte que numera (el de `GET /v1/company` → `capabilities.equivalent_documents.pos_numbering` o `capabilities.support_documents.numbering`).
+     * @param string $prefix Prefijo de la numeración (1 a 4 letras o dígitos, sin distinguir mayúsculas). Factura: una con `usable: true` en GET /v1/numbering_ranges (sin él, la predeterminada); POS y DS: GET /v1/company.
      *
      * @return self
      */

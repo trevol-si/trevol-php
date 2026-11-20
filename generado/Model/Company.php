@@ -66,6 +66,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
         'trade_name' => 'string',
         'status' => 'string',
         'environment' => 'string',
+        'simulated' => 'bool',
         'numbering' => '\Trevol\Generado\Model\CompanyNumbering[]',
         'key' => '\Trevol\Generado\Model\CompanyKey',
         'capabilities' => 'array<string,mixed>'
@@ -87,6 +88,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
         'trade_name' => null,
         'status' => null,
         'environment' => null,
+        'simulated' => null,
         'numbering' => null,
         'key' => null,
         'capabilities' => null
@@ -106,6 +108,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
         'trade_name' => true,
         'status' => false,
         'environment' => true,
+        'simulated' => false,
         'numbering' => false,
         'key' => false,
         'capabilities' => false
@@ -205,6 +208,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
         'trade_name' => 'trade_name',
         'status' => 'status',
         'environment' => 'environment',
+        'simulated' => 'simulated',
         'numbering' => 'numbering',
         'key' => 'key',
         'capabilities' => 'capabilities'
@@ -224,6 +228,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
         'trade_name' => 'setTradeName',
         'status' => 'setStatus',
         'environment' => 'setEnvironment',
+        'simulated' => 'setSimulated',
         'numbering' => 'setNumbering',
         'key' => 'setKey',
         'capabilities' => 'setCapabilities'
@@ -243,6 +248,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
         'trade_name' => 'getTradeName',
         'status' => 'getStatus',
         'environment' => 'getEnvironment',
+        'simulated' => 'getSimulated',
         'numbering' => 'getNumbering',
         'key' => 'getKey',
         'capabilities' => 'getCapabilities'
@@ -313,6 +319,7 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('trade_name', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('environment', $data ?? [], null);
+        $this->setIfExists('simulated', $data ?? [], null);
         $this->setIfExists('numbering', $data ?? [], null);
         $this->setIfExists('key', $data ?? [], null);
         $this->setIfExists('capabilities', $data ?? [], null);
@@ -607,6 +614,33 @@ class Company implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['environment'] = $environment;
+
+        return $this;
+    }
+
+    /**
+     * Gets simulated
+     *
+     * @return bool|null
+     */
+    public function getSimulated()
+    {
+        return $this->container['simulated'];
+    }
+
+    /**
+     * Sets simulated
+     *
+     * @param bool|null $simulated Solo en el entorno SIMULADO (la empresa simulada de la cuenta): el objeto se validó, se calculó y se firmó como siempre, pero nunca llegó a la DIAN ni tiene validez. Un objeto real no lleva esta propiedad.
+     *
+     * @return self
+     */
+    public function setSimulated($simulated)
+    {
+        if (is_null($simulated)) {
+            throw new \InvalidArgumentException('non-nullable simulated cannot be null');
+        }
+        $this->container['simulated'] = $simulated;
 
         return $this;
     }

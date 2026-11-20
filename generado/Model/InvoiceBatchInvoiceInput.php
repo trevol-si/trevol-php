@@ -35,7 +35,7 @@ use \Trevol\Generado\ObjectSerializer;
  * InvoiceBatchInvoiceInput Class Doc Comment
  *
  * @category Class
- * @description El cuerpo de &#x60;POST /v1/invoices&#x60; (los campos y las reglas de InvoiceInput) más su &#x60;idempotency_key&#x60;. Sin &#x60;contingency&#x60; (la 03 va sola).
+ * @description El cuerpo de &#x60;POST /v1/invoices&#x60; (los campos y las reglas de InvoiceInput) más su &#x60;idempotency_key&#x60;. Sin &#x60;contingency&#x60; (la 03 va sola). Cada factura puede elegir su numeración con &#x60;numbering&#x60;; si no sirve, esa factura queda &#x60;failed&#x60; sin numerarse.
  * @package  Trevol\Generado
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -77,7 +77,9 @@ class InvoiceBatchInvoiceInput implements ModelInterface, ArrayAccess, \JsonSeri
         'delivery_terms' => '\Trevol\Generado\Model\DeliveryTerms',
         'shipment' => '\Trevol\Generado\Model\Shipment',
         'due_diligence' => 'string',
-        'interoperability' => '\Trevol\Generado\Model\Interoperability'
+        'interoperability' => '\Trevol\Generado\Model\Interoperability',
+        'numbering' => '\Trevol\Generado\Model\Numbering',
+        'pdf_design_id' => 'string'
     ];
 
     /**
@@ -107,7 +109,9 @@ class InvoiceBatchInvoiceInput implements ModelInterface, ArrayAccess, \JsonSeri
         'delivery_terms' => null,
         'shipment' => null,
         'due_diligence' => null,
-        'interoperability' => null
+        'interoperability' => null,
+        'numbering' => null,
+        'pdf_design_id' => null
     ];
 
     /**
@@ -135,7 +139,9 @@ class InvoiceBatchInvoiceInput implements ModelInterface, ArrayAccess, \JsonSeri
         'delivery_terms' => false,
         'shipment' => false,
         'due_diligence' => false,
-        'interoperability' => false
+        'interoperability' => false,
+        'numbering' => false,
+        'pdf_design_id' => true
     ];
 
     /**
@@ -243,7 +249,9 @@ class InvoiceBatchInvoiceInput implements ModelInterface, ArrayAccess, \JsonSeri
         'delivery_terms' => 'delivery_terms',
         'shipment' => 'shipment',
         'due_diligence' => 'due_diligence',
-        'interoperability' => 'interoperability'
+        'interoperability' => 'interoperability',
+        'numbering' => 'numbering',
+        'pdf_design_id' => 'pdf_design_id'
     ];
 
     /**
@@ -271,7 +279,9 @@ class InvoiceBatchInvoiceInput implements ModelInterface, ArrayAccess, \JsonSeri
         'delivery_terms' => 'setDeliveryTerms',
         'shipment' => 'setShipment',
         'due_diligence' => 'setDueDiligence',
-        'interoperability' => 'setInteroperability'
+        'interoperability' => 'setInteroperability',
+        'numbering' => 'setNumbering',
+        'pdf_design_id' => 'setPdfDesignId'
     ];
 
     /**
@@ -299,7 +309,9 @@ class InvoiceBatchInvoiceInput implements ModelInterface, ArrayAccess, \JsonSeri
         'delivery_terms' => 'getDeliveryTerms',
         'shipment' => 'getShipment',
         'due_diligence' => 'getDueDiligence',
-        'interoperability' => 'getInteroperability'
+        'interoperability' => 'getInteroperability',
+        'numbering' => 'getNumbering',
+        'pdf_design_id' => 'getPdfDesignId'
     ];
 
     /**
@@ -379,6 +391,8 @@ class InvoiceBatchInvoiceInput implements ModelInterface, ArrayAccess, \JsonSeri
         $this->setIfExists('shipment', $data ?? [], null);
         $this->setIfExists('due_diligence', $data ?? [], null);
         $this->setIfExists('interoperability', $data ?? [], null);
+        $this->setIfExists('numbering', $data ?? [], null);
+        $this->setIfExists('pdf_design_id', $data ?? [], null);
     }
 
     /**
@@ -972,6 +986,67 @@ class InvoiceBatchInvoiceInput implements ModelInterface, ArrayAccess, \JsonSeri
             throw new \InvalidArgumentException('non-nullable interoperability cannot be null');
         }
         $this->container['interoperability'] = $interoperability;
+
+        return $this;
+    }
+
+    /**
+     * Gets numbering
+     *
+     * @return \Trevol\Generado\Model\Numbering|null
+     */
+    public function getNumbering()
+    {
+        return $this->container['numbering'];
+    }
+
+    /**
+     * Sets numbering
+     *
+     * @param \Trevol\Generado\Model\Numbering|null $numbering numbering
+     *
+     * @return self
+     */
+    public function setNumbering($numbering)
+    {
+        if (is_null($numbering)) {
+            throw new \InvalidArgumentException('non-nullable numbering cannot be null');
+        }
+        $this->container['numbering'] = $numbering;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_design_id
+     *
+     * @return string|null
+     */
+    public function getPdfDesignId()
+    {
+        return $this->container['pdf_design_id'];
+    }
+
+    /**
+     * Sets pdf_design_id
+     *
+     * @param string|null $pdf_design_id pdf_design_id
+     *
+     * @return self
+     */
+    public function setPdfDesignId($pdf_design_id)
+    {
+        if (is_null($pdf_design_id)) {
+            array_push($this->openAPINullablesSetToNull, 'pdf_design_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pdf_design_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pdf_design_id'] = $pdf_design_id;
 
         return $this;
     }

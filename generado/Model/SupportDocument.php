@@ -61,6 +61,7 @@ class SupportDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'string',
         'object' => 'string',
         'environment' => 'string',
+        'simulated' => 'bool',
         'status' => 'string',
         'number' => 'string',
         'prefix' => 'string',
@@ -96,6 +97,7 @@ class SupportDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => null,
         'object' => null,
         'environment' => null,
+        'simulated' => null,
         'status' => null,
         'number' => null,
         'prefix' => null,
@@ -129,6 +131,7 @@ class SupportDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => false,
         'object' => false,
         'environment' => false,
+        'simulated' => false,
         'status' => false,
         'number' => true,
         'prefix' => true,
@@ -242,6 +245,7 @@ class SupportDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'id',
         'object' => 'object',
         'environment' => 'environment',
+        'simulated' => 'simulated',
         'status' => 'status',
         'number' => 'number',
         'prefix' => 'prefix',
@@ -275,6 +279,7 @@ class SupportDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'setId',
         'object' => 'setObject',
         'environment' => 'setEnvironment',
+        'simulated' => 'setSimulated',
         'status' => 'setStatus',
         'number' => 'setNumber',
         'prefix' => 'setPrefix',
@@ -308,6 +313,7 @@ class SupportDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'getId',
         'object' => 'getObject',
         'environment' => 'getEnvironment',
+        'simulated' => 'getSimulated',
         'status' => 'getStatus',
         'number' => 'getNumber',
         'prefix' => 'getPrefix',
@@ -392,6 +398,7 @@ class SupportDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('object', $data ?? [], null);
         $this->setIfExists('environment', $data ?? [], null);
+        $this->setIfExists('simulated', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('number', $data ?? [], null);
         $this->setIfExists('prefix', $data ?? [], null);
@@ -535,6 +542,33 @@ class SupportDocument implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable environment cannot be null');
         }
         $this->container['environment'] = $environment;
+
+        return $this;
+    }
+
+    /**
+     * Gets simulated
+     *
+     * @return bool|null
+     */
+    public function getSimulated()
+    {
+        return $this->container['simulated'];
+    }
+
+    /**
+     * Sets simulated
+     *
+     * @param bool|null $simulated Solo en el entorno SIMULADO (la empresa simulada de la cuenta): el objeto se validó, se calculó y se firmó como siempre, pero nunca llegó a la DIAN ni tiene validez. Un objeto real no lleva esta propiedad.
+     *
+     * @return self
+     */
+    public function setSimulated($simulated)
+    {
+        if (is_null($simulated)) {
+            throw new \InvalidArgumentException('non-nullable simulated cannot be null');
+        }
+        $this->container['simulated'] = $simulated;
 
         return $this;
     }

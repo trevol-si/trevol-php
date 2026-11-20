@@ -151,7 +151,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function createRadianEvent($radian_event_input, $idempotency_key = null, string $contentType = self::contentTypes['createRadianEvent'][0])
     {
@@ -170,7 +170,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function createRadianEventWithHttpInfo($radian_event_input, $idempotency_key = null, string $contentType = self::contentTypes['createRadianEvent'][0])
     {
@@ -237,6 +237,12 @@ class RadianEventsApi
                         $response,
                     );
                 case 503:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 403:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Problem',
                         $request,
@@ -321,6 +327,14 @@ class RadianEventsApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Problem',
@@ -537,7 +551,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadRadianEventXml($id, string $contentType = self::contentTypes['downloadRadianEventXml'][0])
     {
@@ -555,7 +569,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadRadianEventXmlWithHttpInfo($id, string $contentType = self::contentTypes['downloadRadianEventXml'][0])
     {
@@ -588,6 +602,12 @@ class RadianEventsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -625,6 +645,14 @@ class RadianEventsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -830,15 +858,17 @@ class RadianEventsApi
      * @param  string|null $created_to created_to (optional)
      * @param  string|null $event_code event_code (optional)
      * @param  string|null $invoice_cufe invoice_cufe (optional)
+     * @param  string|null $number El número completo exacto del EVENTO, como sale en &#x60;number&#x60; (p. ej. &#x60;AR994000123&#x60;), no el de la factura (esa va con &#x60;invoice_cufe&#x60;). (optional)
+     * @param  string|null $prefix El prefijo exacto del evento, como sale en &#x60;prefix&#x60; (&#x60;AR&#x60;, &#x60;RC&#x60;, &#x60;RB&#x60;, &#x60;AE&#x60; o &#x60;E0xx&#x60;). Para filtrar por tipo es mejor &#x60;event_code&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listRadianEvents'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\RadianEventList|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\RadianEventList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
-    public function listRadianEvents($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, string $contentType = self::contentTypes['listRadianEvents'][0])
+    public function listRadianEvents($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listRadianEvents'][0])
     {
-        list($response) = $this->listRadianEventsWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $event_code, $invoice_cufe, $contentType);
+        list($response) = $this->listRadianEventsWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $event_code, $invoice_cufe, $number, $prefix, $contentType);
         return $response;
     }
 
@@ -855,15 +885,17 @@ class RadianEventsApi
      * @param  string|null $created_to (optional)
      * @param  string|null $event_code (optional)
      * @param  string|null $invoice_cufe (optional)
+     * @param  string|null $number El número completo exacto del EVENTO, como sale en &#x60;number&#x60; (p. ej. &#x60;AR994000123&#x60;), no el de la factura (esa va con &#x60;invoice_cufe&#x60;). (optional)
+     * @param  string|null $prefix El prefijo exacto del evento, como sale en &#x60;prefix&#x60; (&#x60;AR&#x60;, &#x60;RC&#x60;, &#x60;RB&#x60;, &#x60;AE&#x60; o &#x60;E0xx&#x60;). Para filtrar por tipo es mejor &#x60;event_code&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listRadianEvents'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\RadianEventList|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\RadianEventList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listRadianEventsWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, string $contentType = self::contentTypes['listRadianEvents'][0])
+    public function listRadianEventsWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listRadianEvents'][0])
     {
-        $request = $this->listRadianEventsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $event_code, $invoice_cufe, $contentType);
+        $request = $this->listRadianEventsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $event_code, $invoice_cufe, $number, $prefix, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -892,6 +924,12 @@ class RadianEventsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\RadianEventList',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -933,6 +971,14 @@ class RadianEventsApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 default:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -961,14 +1007,16 @@ class RadianEventsApi
      * @param  string|null $created_to (optional)
      * @param  string|null $event_code (optional)
      * @param  string|null $invoice_cufe (optional)
+     * @param  string|null $number El número completo exacto del EVENTO, como sale en &#x60;number&#x60; (p. ej. &#x60;AR994000123&#x60;), no el de la factura (esa va con &#x60;invoice_cufe&#x60;). (optional)
+     * @param  string|null $prefix El prefijo exacto del evento, como sale en &#x60;prefix&#x60; (&#x60;AR&#x60;, &#x60;RC&#x60;, &#x60;RB&#x60;, &#x60;AE&#x60; o &#x60;E0xx&#x60;). Para filtrar por tipo es mejor &#x60;event_code&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listRadianEvents'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listRadianEventsAsync($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, string $contentType = self::contentTypes['listRadianEvents'][0])
+    public function listRadianEventsAsync($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listRadianEvents'][0])
     {
-        return $this->listRadianEventsAsyncWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $event_code, $invoice_cufe, $contentType)
+        return $this->listRadianEventsAsyncWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $event_code, $invoice_cufe, $number, $prefix, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -989,15 +1037,17 @@ class RadianEventsApi
      * @param  string|null $created_to (optional)
      * @param  string|null $event_code (optional)
      * @param  string|null $invoice_cufe (optional)
+     * @param  string|null $number El número completo exacto del EVENTO, como sale en &#x60;number&#x60; (p. ej. &#x60;AR994000123&#x60;), no el de la factura (esa va con &#x60;invoice_cufe&#x60;). (optional)
+     * @param  string|null $prefix El prefijo exacto del evento, como sale en &#x60;prefix&#x60; (&#x60;AR&#x60;, &#x60;RC&#x60;, &#x60;RB&#x60;, &#x60;AE&#x60; o &#x60;E0xx&#x60;). Para filtrar por tipo es mejor &#x60;event_code&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listRadianEvents'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listRadianEventsAsyncWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, string $contentType = self::contentTypes['listRadianEvents'][0])
+    public function listRadianEventsAsyncWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listRadianEvents'][0])
     {
         $returnType = '\Trevol\Generado\Model\RadianEventList';
-        $request = $this->listRadianEventsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $event_code, $invoice_cufe, $contentType);
+        $request = $this->listRadianEventsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $event_code, $invoice_cufe, $number, $prefix, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1046,13 +1096,17 @@ class RadianEventsApi
      * @param  string|null $created_to (optional)
      * @param  string|null $event_code (optional)
      * @param  string|null $invoice_cufe (optional)
+     * @param  string|null $number El número completo exacto del EVENTO, como sale en &#x60;number&#x60; (p. ej. &#x60;AR994000123&#x60;), no el de la factura (esa va con &#x60;invoice_cufe&#x60;). (optional)
+     * @param  string|null $prefix El prefijo exacto del evento, como sale en &#x60;prefix&#x60; (&#x60;AR&#x60;, &#x60;RC&#x60;, &#x60;RB&#x60;, &#x60;AE&#x60; o &#x60;E0xx&#x60;). Para filtrar por tipo es mejor &#x60;event_code&#x60;. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listRadianEvents'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listRadianEventsRequest($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, string $contentType = self::contentTypes['listRadianEvents'][0])
+    public function listRadianEventsRequest($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $event_code = null, $invoice_cufe = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listRadianEvents'][0])
     {
+
+
 
 
 
@@ -1142,6 +1196,24 @@ class RadianEventsApi
             true, // explode
             false // required
         ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $number,
+            'number', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $prefix,
+            'prefix', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
 
 
 
@@ -1217,7 +1289,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function retrieveRadianEvent($id, string $contentType = self::contentTypes['retrieveRadianEvent'][0])
     {
@@ -1235,7 +1307,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function retrieveRadianEventWithHttpInfo($id, string $contentType = self::contentTypes['retrieveRadianEvent'][0])
     {
@@ -1268,6 +1340,12 @@ class RadianEventsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\RadianEvent',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1305,6 +1383,14 @@ class RadianEventsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\RadianEvent',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1507,7 +1593,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\TacitAcceptance|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\TacitAcceptance|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function retrieveTacitAcceptanceByCufe($cufe, string $contentType = self::contentTypes['retrieveTacitAcceptanceByCufe'][0])
     {
@@ -1525,7 +1611,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\TacitAcceptance|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\TacitAcceptance|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function retrieveTacitAcceptanceByCufeWithHttpInfo($cufe, string $contentType = self::contentTypes['retrieveTacitAcceptanceByCufe'][0])
     {
@@ -1558,6 +1644,12 @@ class RadianEventsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\TacitAcceptance',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1595,6 +1687,14 @@ class RadianEventsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\TacitAcceptance',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1798,7 +1898,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function sendRadianEvent($id, string $contentType = self::contentTypes['sendRadianEvent'][0])
     {
@@ -1816,7 +1916,7 @@ class RadianEventsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\RadianEvent|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function sendRadianEventWithHttpInfo($id, string $contentType = self::contentTypes['sendRadianEvent'][0])
     {
@@ -1859,6 +1959,12 @@ class RadianEventsApi
                         $response,
                     );
                 case 409:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 403:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Problem',
                         $request,
@@ -1911,6 +2017,14 @@ class RadianEventsApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Problem',

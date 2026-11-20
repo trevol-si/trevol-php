@@ -70,7 +70,8 @@ class NoteInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'rounding' => 'mixed',
         'concept' => 'string',
         'description' => 'string',
-        'invoice' => '\Trevol\Generado\Model\InvoiceReference'
+        'invoice' => '\Trevol\Generado\Model\InvoiceReference',
+        'pdf_design_id' => 'string'
     ];
 
     /**
@@ -94,7 +95,8 @@ class NoteInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'rounding' => null,
         'concept' => null,
         'description' => null,
-        'invoice' => null
+        'invoice' => null,
+        'pdf_design_id' => null
     ];
 
     /**
@@ -116,7 +118,8 @@ class NoteInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'rounding' => true,
         'concept' => false,
         'description' => false,
-        'invoice' => false
+        'invoice' => false,
+        'pdf_design_id' => true
     ];
 
     /**
@@ -218,7 +221,8 @@ class NoteInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'rounding' => 'rounding',
         'concept' => 'concept',
         'description' => 'description',
-        'invoice' => 'invoice'
+        'invoice' => 'invoice',
+        'pdf_design_id' => 'pdf_design_id'
     ];
 
     /**
@@ -240,7 +244,8 @@ class NoteInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'rounding' => 'setRounding',
         'concept' => 'setConcept',
         'description' => 'setDescription',
-        'invoice' => 'setInvoice'
+        'invoice' => 'setInvoice',
+        'pdf_design_id' => 'setPdfDesignId'
     ];
 
     /**
@@ -262,7 +267,8 @@ class NoteInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'rounding' => 'getRounding',
         'concept' => 'getConcept',
         'description' => 'getDescription',
-        'invoice' => 'getInvoice'
+        'invoice' => 'getInvoice',
+        'pdf_design_id' => 'getPdfDesignId'
     ];
 
     /**
@@ -336,6 +342,7 @@ class NoteInput implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('concept', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('invoice', $data ?? [], null);
+        $this->setIfExists('pdf_design_id', $data ?? [], null);
     }
 
     /**
@@ -767,6 +774,40 @@ class NoteInput implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable invoice cannot be null');
         }
         $this->container['invoice'] = $invoice;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_design_id
+     *
+     * @return string|null
+     */
+    public function getPdfDesignId()
+    {
+        return $this->container['pdf_design_id'];
+    }
+
+    /**
+     * Sets pdf_design_id
+     *
+     * @param string|null $pdf_design_id El diseño del PDF de este documento (`pdd_…` o `classic`); gana al de la numeración y al predeterminado. `null` es lo mismo que no mandarlo. Guía: Diseño del PDF.
+     *
+     * @return self
+     */
+    public function setPdfDesignId($pdf_design_id)
+    {
+        if (is_null($pdf_design_id)) {
+            array_push($this->openAPINullablesSetToNull, 'pdf_design_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pdf_design_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pdf_design_id'] = $pdf_design_id;
 
         return $this;
     }

@@ -81,6 +81,8 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'existing_active' => 'bool',
         'required_permission' => 'string',
         'company' => '\Trevol\Generado\Model\AccountCompany',
+        'findings' => '\Trevol\Generado\Model\ProblemFinding[]',
+        'current_version' => 'int',
         'rows' => 'int',
         'max_rows' => 'int'
     ];
@@ -117,6 +119,8 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'existing_active' => null,
         'required_permission' => null,
         'company' => null,
+        'findings' => null,
+        'current_version' => null,
         'rows' => null,
         'max_rows' => null
     ];
@@ -151,6 +155,8 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'existing_active' => false,
         'required_permission' => false,
         'company' => false,
+        'findings' => false,
+        'current_version' => false,
         'rows' => false,
         'max_rows' => false
     ];
@@ -265,6 +271,8 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'existing_active' => 'existing_active',
         'required_permission' => 'required_permission',
         'company' => 'company',
+        'findings' => 'findings',
+        'current_version' => 'current_version',
         'rows' => 'rows',
         'max_rows' => 'max_rows'
     ];
@@ -299,6 +307,8 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'existing_active' => 'setExistingActive',
         'required_permission' => 'setRequiredPermission',
         'company' => 'setCompany',
+        'findings' => 'setFindings',
+        'current_version' => 'setCurrentVersion',
         'rows' => 'setRows',
         'max_rows' => 'setMaxRows'
     ];
@@ -333,6 +343,8 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         'existing_active' => 'getExistingActive',
         'required_permission' => 'getRequiredPermission',
         'company' => 'getCompany',
+        'findings' => 'getFindings',
+        'current_version' => 'getCurrentVersion',
         'rows' => 'getRows',
         'max_rows' => 'getMaxRows'
     ];
@@ -418,6 +430,8 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('existing_active', $data ?? [], null);
         $this->setIfExists('required_permission', $data ?? [], null);
         $this->setIfExists('company', $data ?? [], null);
+        $this->setIfExists('findings', $data ?? [], null);
+        $this->setIfExists('current_version', $data ?? [], null);
         $this->setIfExists('rows', $data ?? [], null);
         $this->setIfExists('max_rows', $data ?? [], null);
     }
@@ -558,7 +572,7 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets code
      *
-     * @param string|null $code Valores conocidos: `authentication_required`, `automatic_mode_unavailable`, `certificate_problem`, `company_busy`, `company_exists`, `company_limit_reached`, `company_not_enabled`, `confirmation_required`, `dian_rejected`, `dian_unavailable`, `duplicate_customer`, `duplicate_document`, `duplicate_product`, `external_id_in_use`, `file_unavailable`, `idempotency_key_required`, `idempotency_key_reused`, `insufficient_balance`, `internal_error`, `invalid_api_key`, `invalid_json`, `invalid_request`, `invalid_state`, `key_limit_reached`, `method_not_allowed`, `not_found`, `numbering_request_in_progress`, `numbering_unavailable`, `paper_numbering_limit_reached`, `permission_denied`, `portal_read_required`, `previous_event_pending`, `range_protected`, `rate_limited`, `report_too_large`, `request_in_progress`, `tacit_acceptance_not_due`, `top_up_above_maximum`, `top_up_below_minimum`, `top_ups_unavailable`, `unsupported_version`, `validation_error`, `webhook_limit_reached`.
+     * @param string|null $code Valores conocidos: `authentication_required`, `automatic_mode_unavailable`, `certificate_problem`, `company_busy`, `company_exists`, `company_limit_reached`, `company_not_enabled`, `confirmation_required`, `dian_rejected`, `dian_unavailable`, `duplicate_customer`, `duplicate_document`, `duplicate_product`, `external_id_in_use`, `file_unavailable`, `idempotency_key_required`, `idempotency_key_reused`, `insufficient_balance`, `internal_error`, `invalid_api_key`, `invalid_json`, `invalid_request`, `invalid_state`, `key_limit_reached`, `logo_invalid`, `method_not_allowed`, `not_found`, `numbering_request_in_progress`, `numbering_unavailable`, `paper_numbering_limit_reached`, `pdf_design_archived`, `pdf_design_in_use`, `pdf_design_invalid`, `pdf_design_limit_reached`, `pdf_design_outdated`, `permission_denied`, `portal_read_required`, `previous_event_pending`, `range_protected`, `rate_limited`, `report_too_large`, `request_in_progress`, `tacit_acceptance_not_due`, `top_up_above_maximum`, `top_up_below_minimum`, `top_ups_unavailable`, `unsupported_version`, `validation_error`, `webhook_limit_reached`.
      *
      * @return self
      */
@@ -774,7 +788,7 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets reason
      *
-     * @param string|null $reason En `company_not_enabled` (`missing_legal_representative`, `missing_pin`, `missing_software`, `payroll_not_enabled`) y en `numbering_unavailable` (`missing_technical_key`, `no_contingency_numbering`, `no_resolution`, `prefix_in_use`, `resolution_exhausted`, `resolution_expired`, `resolution_not_yet_valid`): por qué. En `permission_denied`: `key_owner_without_access` (la persona responsable de la llave ya no tiene acceso a la empresa, no puede gestionar lo que pide la ruta: webhooks, numeración, talonarios o sincronización con la DIAN, o no puede ver el saldo de la cuenta) y `number_paused` (el número de WhatsApp está en pausa hasta que la empresa le asigne una persona responsable). En `automatic_mode_unavailable` (`credentials_missing`, `mandate_required`: falta el mandato para integraciones que se acepta en la app, `disabled`) y en `permission_denied` de una ruta que solo existe en producción (`live_mode_required`). En `permission_denied` de una llave de administración: `environment_mismatch` (`Trevol-Environment` no es el ambiente de la llave), `live_mode_required` (el alta de empresas pide una llave de producción) y `scope_list` (una llave con alcance de lista no da de alta empresas; como esa llave no puede tener `companies:write`, lo que llega en la práctica es el 403 con `required_permission: companies:write`). Valores conocidos: `credentials_missing`, `disabled`, `environment_mismatch`, `key_owner_without_access`, `live_mode_required`, `mandate_required`, `missing_legal_representative`, `missing_pin`, `missing_software`, `missing_technical_key`, `no_contingency_numbering`, `no_resolution`, `number_paused`, `payroll_not_enabled`, `prefix_in_use`, `resolution_exhausted`, `resolution_expired`, `resolution_not_yet_valid`, `scope_list`.
+     * @param string|null $reason En `company_not_enabled` (`missing_legal_representative`, `missing_pin`, `missing_software`, `payroll_not_enabled`), en `numbering_unavailable` (`missing_technical_key`, `no_contingency_numbering`, `no_resolution`, `prefix_in_use`, `resolution_exhausted`, `resolution_expired`, `resolution_not_yet_valid`) y en `invalid_state` al reenviar el correo (`delivery_incomplete`, `delivery_pending`, `email_suppressed`, `no_recipient`, `not_accepted`): por qué. En `permission_denied`: `key_owner_without_access` (la persona responsable de la llave ya no tiene acceso a la empresa, no puede gestionar lo que pide la ruta: webhooks, numeración, talonarios, sincronización con la DIAN o diseños del PDF, o no puede ver el saldo de la cuenta) y `number_paused` (el número de WhatsApp está en pausa hasta que la empresa le asigne una persona responsable). En `automatic_mode_unavailable` (`credentials_missing`, `mandate_required`: falta el mandato para integraciones que se acepta en la app, `disabled`) y en `permission_denied` de una ruta que solo existe en producción (`live_mode_required`). En `permission_denied` de una llave de administración: `environment_mismatch` (`Trevol-Environment` no es el ambiente de la llave), `live_mode_required` (el alta de empresas pide una llave de producción) y `scope_list` (una llave con alcance de lista no da de alta empresas; como esa llave no puede tener `companies:write`, lo que llega en la práctica es el 403 con `required_permission: companies:write`). En `logo_invalid` (`animated`, `empty`, `svg_not_supported`, `too_large`, `too_many_pixels`, `too_small`, `unreadable`, `unsupported_format`) y en `permission_denied` del diseño del PDF (`pdf_design_writes_disabled`: el titular no permitió en la app que la API lo cambie). En `permission_denied` de una llave de la empresa simulada: `simulated_not_supported` (eso no existe en el entorno simulado: el adquiriente en la DIAN, RADIAN, el saldo y las recargas, el XML de un documento de la DIAN, el reenvío del correo, el documento equivalente y la nómina; o el entorno simulado está apagado). Valores conocidos: `animated`, `credentials_missing`, `delivery_incomplete`, `delivery_pending`, `disabled`, `email_suppressed`, `empty`, `environment_mismatch`, `key_owner_without_access`, `live_mode_required`, `mandate_required`, `missing_legal_representative`, `missing_pin`, `missing_software`, `missing_technical_key`, `no_contingency_numbering`, `no_recipient`, `no_resolution`, `not_accepted`, `number_paused`, `payroll_not_enabled`, `pdf_design_writes_disabled`, `prefix_in_use`, `resolution_exhausted`, `resolution_expired`, `resolution_not_yet_valid`, `scope_list`, `simulated_not_supported`, `svg_not_supported`, `too_large`, `too_many_pixels`, `too_small`, `unreadable`, `unsupported_format`.
      *
      * @return self
      */
@@ -950,7 +964,7 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets limit
      *
-     * @param string|null $limit En `rate_limited`: qué límite se pasó. Con una llave de administración: `lecturas` (600 peticiones por minuto de la llave en `/v1/account`), `account_key` (el mismo contador, visto desde una ruta de empresa), `api_keys` (60 llaves de empresa creadas o revocadas por hora) y `account_queries` (60 consultas de documentos o eventos por minuto, sumando las llaves de la cuenta). En `company_limit_reached`: `hour` (20 altas por hora) o `day` (100 por día).
+     * @param string|null $limit En `rate_limited`: qué límite se pasó (`email_resend`: los reenvíos del correo de un documento o de la empresa en el día; `pdf_design`: los cambios de diseño del PDF o del logo seguidos, que no son la ventana de las cabeceras RateLimit). Con una llave de administración: `lecturas` (600 peticiones por minuto de la llave en `/v1/account`), `account_key` (el mismo contador, visto desde una ruta de empresa), `api_keys` (60 llaves de empresa creadas o revocadas por hora) y `account_queries` (60 consultas de documentos o eventos por minuto, sumando las llaves de la cuenta). En `company_limit_reached`: `hour` (20 altas por hora) o `day` (100 por día). `simulated`: un tope del entorno simulado (las peticiones por minuto de tu empresa simulada, sumando sus llaves; las de todas las cuentas en unos segundos o los envíos por hora; o demasiados documentos o webhooks por procesar en tu empresa simulada o en todo el entorno).
      *
      * @return self
      */
@@ -1129,6 +1143,60 @@ class Problem implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable company cannot be null');
         }
         $this->container['company'] = $company;
+
+        return $this;
+    }
+
+    /**
+     * Gets findings
+     *
+     * @return \Trevol\Generado\Model\ProblemFinding[]|null
+     */
+    public function getFindings()
+    {
+        return $this->container['findings'];
+    }
+
+    /**
+     * Sets findings
+     *
+     * @param \Trevol\Generado\Model\ProblemFinding[]|null $findings En `pdf_design_invalid`: qué no cabe y en qué tipos de documento.
+     *
+     * @return self
+     */
+    public function setFindings($findings)
+    {
+        if (is_null($findings)) {
+            throw new \InvalidArgumentException('non-nullable findings cannot be null');
+        }
+        $this->container['findings'] = $findings;
+
+        return $this;
+    }
+
+    /**
+     * Gets current_version
+     *
+     * @return int|null
+     */
+    public function getCurrentVersion()
+    {
+        return $this->container['current_version'];
+    }
+
+    /**
+     * Sets current_version
+     *
+     * @param int|null $current_version En `pdf_design_outdated`: la versión actual del diseño.
+     *
+     * @return self
+     */
+    public function setCurrentVersion($current_version)
+    {
+        if (is_null($current_version)) {
+            throw new \InvalidArgumentException('non-nullable current_version cannot be null');
+        }
+        $this->container['current_version'] = $current_version;
 
         return $this;
     }

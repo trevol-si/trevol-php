@@ -62,7 +62,8 @@ class Delivery implements ModelInterface, ArrayAccess, \JsonSerializable
         'pdf' => 'bool',
         'zip' => 'bool',
         'xml' => 'bool',
-        'email' => '\Trevol\Generado\Model\DeliveryEmail'
+        'email' => '\Trevol\Generado\Model\DeliveryEmail',
+        'email_resends' => '\Trevol\Generado\Model\DeliveryEmailResends'
     ];
 
     /**
@@ -77,7 +78,8 @@ class Delivery implements ModelInterface, ArrayAccess, \JsonSerializable
         'pdf' => null,
         'zip' => null,
         'xml' => null,
-        'email' => null
+        'email' => null,
+        'email_resends' => null
     ];
 
     /**
@@ -90,7 +92,8 @@ class Delivery implements ModelInterface, ArrayAccess, \JsonSerializable
         'pdf' => false,
         'zip' => false,
         'xml' => false,
-        'email' => true
+        'email' => true,
+        'email_resends' => true
     ];
 
     /**
@@ -183,7 +186,8 @@ class Delivery implements ModelInterface, ArrayAccess, \JsonSerializable
         'pdf' => 'pdf',
         'zip' => 'zip',
         'xml' => 'xml',
-        'email' => 'email'
+        'email' => 'email',
+        'email_resends' => 'email_resends'
     ];
 
     /**
@@ -196,7 +200,8 @@ class Delivery implements ModelInterface, ArrayAccess, \JsonSerializable
         'pdf' => 'setPdf',
         'zip' => 'setZip',
         'xml' => 'setXml',
-        'email' => 'setEmail'
+        'email' => 'setEmail',
+        'email_resends' => 'setEmailResends'
     ];
 
     /**
@@ -209,7 +214,8 @@ class Delivery implements ModelInterface, ArrayAccess, \JsonSerializable
         'pdf' => 'getPdf',
         'zip' => 'getZip',
         'xml' => 'getXml',
-        'email' => 'getEmail'
+        'email' => 'getEmail',
+        'email_resends' => 'getEmailResends'
     ];
 
     /**
@@ -274,6 +280,7 @@ class Delivery implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('zip', $data ?? [], null);
         $this->setIfExists('xml', $data ?? [], null);
         $this->setIfExists('email', $data ?? [], null);
+        $this->setIfExists('email_resends', $data ?? [], null);
     }
 
     /**
@@ -463,6 +470,40 @@ class Delivery implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['email'] = $email;
+
+        return $this;
+    }
+
+    /**
+     * Gets email_resends
+     *
+     * @return \Trevol\Generado\Model\DeliveryEmailResends|null
+     */
+    public function getEmailResends()
+    {
+        return $this->container['email_resends'];
+    }
+
+    /**
+     * Sets email_resends
+     *
+     * @param \Trevol\Generado\Model\DeliveryEmailResends|null $email_resends Los reenvíos del correo con `POST …/{id}/email`; null si nunca se reenvió. `status` y `email` siguen hablando del correo original. `last.deliveries` dice cómo le fue a cada destinatario del último reenvío, también si rebotó o se quejó después. Sin `customers:read`, `last.to` y `last.deliveries[].to` salen en null.
+     *
+     * @return self
+     */
+    public function setEmailResends($email_resends)
+    {
+        if (is_null($email_resends)) {
+            array_push($this->openAPINullablesSetToNull, 'email_resends');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('email_resends', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['email_resends'] = $email_resends;
 
         return $this;
     }

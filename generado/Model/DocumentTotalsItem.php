@@ -330,7 +330,7 @@ class DocumentTotalsItem implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets gross
      *
-     * @param string|null $gross gross
+     * @param string|null $gross Cantidad × precio SIN impuestos.
      *
      * @return self
      */

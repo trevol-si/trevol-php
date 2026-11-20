@@ -63,6 +63,7 @@ class Event implements ModelInterface, ArrayAccess, \JsonSerializable
         'type' => 'string',
         'timestamp' => '\DateTime',
         'environment' => 'string',
+        'simulated' => 'bool',
         'api_version' => 'string',
         'data' => 'array<string,mixed>'
     ];
@@ -80,6 +81,7 @@ class Event implements ModelInterface, ArrayAccess, \JsonSerializable
         'type' => null,
         'timestamp' => 'date-time',
         'environment' => null,
+        'simulated' => null,
         'api_version' => null,
         'data' => null
     ];
@@ -95,6 +97,7 @@ class Event implements ModelInterface, ArrayAccess, \JsonSerializable
         'type' => false,
         'timestamp' => false,
         'environment' => false,
+        'simulated' => false,
         'api_version' => false,
         'data' => false
     ];
@@ -190,6 +193,7 @@ class Event implements ModelInterface, ArrayAccess, \JsonSerializable
         'type' => 'type',
         'timestamp' => 'timestamp',
         'environment' => 'environment',
+        'simulated' => 'simulated',
         'api_version' => 'api_version',
         'data' => 'data'
     ];
@@ -205,6 +209,7 @@ class Event implements ModelInterface, ArrayAccess, \JsonSerializable
         'type' => 'setType',
         'timestamp' => 'setTimestamp',
         'environment' => 'setEnvironment',
+        'simulated' => 'setSimulated',
         'api_version' => 'setApiVersion',
         'data' => 'setData'
     ];
@@ -220,6 +225,7 @@ class Event implements ModelInterface, ArrayAccess, \JsonSerializable
         'type' => 'getType',
         'timestamp' => 'getTimestamp',
         'environment' => 'getEnvironment',
+        'simulated' => 'getSimulated',
         'api_version' => 'getApiVersion',
         'data' => 'getData'
     ];
@@ -286,6 +292,7 @@ class Event implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('timestamp', $data ?? [], null);
         $this->setIfExists('environment', $data ?? [], null);
+        $this->setIfExists('simulated', $data ?? [], null);
         $this->setIfExists('api_version', $data ?? [], null);
         $this->setIfExists('data', $data ?? [], null);
     }
@@ -463,6 +470,33 @@ class Event implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable environment cannot be null');
         }
         $this->container['environment'] = $environment;
+
+        return $this;
+    }
+
+    /**
+     * Gets simulated
+     *
+     * @return bool|null
+     */
+    public function getSimulated()
+    {
+        return $this->container['simulated'];
+    }
+
+    /**
+     * Sets simulated
+     *
+     * @param bool|null $simulated Solo en el entorno SIMULADO (la empresa simulada de la cuenta): el objeto se validó, se calculó y se firmó como siempre, pero nunca llegó a la DIAN ni tiene validez. Un objeto real no lleva esta propiedad.
+     *
+     * @return self
+     */
+    public function setSimulated($simulated)
+    {
+        if (is_null($simulated)) {
+            throw new \InvalidArgumentException('non-nullable simulated cannot be null');
+        }
+        $this->container['simulated'] = $simulated;
 
         return $this;
     }

@@ -10,7 +10,7 @@ RADIAN ante la DIAN (Colombia). Documentación: <https://platform.trevol.si/docs
 > the account-level admin key, with `company:` or `withCompany()` for company routes), pinned `Trevol-Version`, Standard
 > Webhooks signature verification, cursor pagination with generators and PDF/XML/ZIP downloads. Docs are in Spanish like the API.
 
-**Versión 0.3.1** — API `2026-11-18`. Licencia MIT.
+**Versión 0.4.0** — API `2026-11-18`. Licencia MIT.
 
 ## Instalación
 

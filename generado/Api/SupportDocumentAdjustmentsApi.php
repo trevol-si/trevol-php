@@ -1489,15 +1489,17 @@ class SupportDocumentAdjustmentsApi
      * @param  string|null $external_id external_id (optional)
      * @param  string|null $created_from created_from (optional)
      * @param  string|null $created_to created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSupportDocumentAdjustments'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \Trevol\Generado\Model\SupportDocumentAdjustmentList|\Trevol\Generado\Model\Problem
      */
-    public function listSupportDocumentAdjustments($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
+    public function listSupportDocumentAdjustments($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
     {
-        list($response) = $this->listSupportDocumentAdjustmentsWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $contentType);
+        list($response) = $this->listSupportDocumentAdjustmentsWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $number, $prefix, $contentType);
         return $response;
     }
 
@@ -1512,15 +1514,17 @@ class SupportDocumentAdjustmentsApi
      * @param  string|null $external_id (optional)
      * @param  string|null $created_from (optional)
      * @param  string|null $created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSupportDocumentAdjustments'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \Trevol\Generado\Model\SupportDocumentAdjustmentList|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listSupportDocumentAdjustmentsWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
+    public function listSupportDocumentAdjustmentsWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
     {
-        $request = $this->listSupportDocumentAdjustmentsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $contentType);
+        $request = $this->listSupportDocumentAdjustmentsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $number, $prefix, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1616,14 +1620,16 @@ class SupportDocumentAdjustmentsApi
      * @param  string|null $external_id (optional)
      * @param  string|null $created_from (optional)
      * @param  string|null $created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSupportDocumentAdjustments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listSupportDocumentAdjustmentsAsync($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
+    public function listSupportDocumentAdjustmentsAsync($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
     {
-        return $this->listSupportDocumentAdjustmentsAsyncWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $contentType)
+        return $this->listSupportDocumentAdjustmentsAsyncWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $number, $prefix, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1642,15 +1648,17 @@ class SupportDocumentAdjustmentsApi
      * @param  string|null $external_id (optional)
      * @param  string|null $created_from (optional)
      * @param  string|null $created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSupportDocumentAdjustments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listSupportDocumentAdjustmentsAsyncWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
+    public function listSupportDocumentAdjustmentsAsyncWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
     {
         $returnType = '\Trevol\Generado\Model\SupportDocumentAdjustmentList';
-        $request = $this->listSupportDocumentAdjustmentsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $contentType);
+        $request = $this->listSupportDocumentAdjustmentsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $number, $prefix, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1697,13 +1705,17 @@ class SupportDocumentAdjustmentsApi
      * @param  string|null $external_id (optional)
      * @param  string|null $created_from (optional)
      * @param  string|null $created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listSupportDocumentAdjustments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listSupportDocumentAdjustmentsRequest($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
+    public function listSupportDocumentAdjustmentsRequest($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listSupportDocumentAdjustments'][0])
     {
+
+
 
 
 
@@ -1768,6 +1780,24 @@ class SupportDocumentAdjustmentsApi
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $created_to,
             'created_to', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $number,
+            'number', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $prefix,
+            'prefix', // param base name
             'string', // openApiType
             'form', // style
             true, // explode

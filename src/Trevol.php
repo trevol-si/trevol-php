@@ -36,6 +36,10 @@ use Trevol\Generado\Api\ProductsApi;
 use Trevol\Generado\Api\RadianStatusApi;
 use Trevol\Generado\Api\ReportRunsApi;
 use Trevol\Generado\Api\ReportsApi;
+use Trevol\Generado\Api\CatalogsApi;
+use Trevol\Generado\Api\CompanySettingsApi;
+use Trevol\Generado\Api\PdfDesignsApi;
+use Trevol\Generado\Api\PdfTemplatesApi;
 use Trevol\Generado\Configuration;
 use Trevol\Generado\Tablas;
 
@@ -98,6 +102,11 @@ final class Trevol
     public readonly RadianStatusApi $radianStatus;
     public readonly ReportRunsApi $reportRuns;
     public readonly ReportsApi $reports;
+    // 0.4.0: las listas de valores y el diseño del PDF (plantillas, diseños, ajustes y logo de la empresa).
+    public readonly CatalogsApi $catalogs;
+    public readonly CompanySettingsApi $companySettings;
+    public readonly PdfDesignsApi $pdfDesigns;
+    public readonly PdfTemplatesApi $pdfTemplates;
 
     /**
      * @param string|null $apiKey `tvl_test_…` o `tvl_live_…` (la llave de una empresa) o `tva_test_…` o `tva_live_…` (la llave de
@@ -254,6 +263,10 @@ final class Trevol
         $this->radianStatus = new RadianStatusApi($cliente, $generada);
         $this->reportRuns = new ReportRunsApi($cliente, $generada);
         $this->reports = new ReportsApi($cliente, $generada);
+        $this->catalogs = new CatalogsApi($cliente, $generada);
+        $this->companySettings = new CompanySettingsApi($cliente, $generada);
+        $this->pdfDesigns = new PdfDesignsApi($cliente, $generada);
+        $this->pdfTemplates = new PdfTemplatesApi($cliente, $generada);
     }
 
     /**

@@ -834,15 +834,17 @@ class DianDocumentsApi
      * @param  string|null $issued_from Desde esta fecha de expedición (incluida). (optional)
      * @param  string|null $issued_to Hasta esta fecha de expedición (incluida). (optional)
      * @param  string|null $direction &#x60;issued&#x60; (lo emitido, por defecto), &#x60;received&#x60; (lo recibido) o &#x60;all&#x60;. El cursor se pide con la misma. (optional, default to 'issued')
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (sin prefijo, solo el consecutivo). En lo recibido es el del proveedor y puede repetirse entre proveedores. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDianDocuments'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \Trevol\Generado\Model\DianDocumentList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
-    public function listDianDocuments($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', string $contentType = self::contentTypes['listDianDocuments'][0])
+    public function listDianDocuments($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', $number = null, $prefix = null, string $contentType = self::contentTypes['listDianDocuments'][0])
     {
-        list($response) = $this->listDianDocumentsWithHttpInfo($limit, $starting_after, $type, $issued_from, $issued_to, $direction, $contentType);
+        list($response) = $this->listDianDocumentsWithHttpInfo($limit, $starting_after, $type, $issued_from, $issued_to, $direction, $number, $prefix, $contentType);
         return $response;
     }
 
@@ -857,15 +859,17 @@ class DianDocumentsApi
      * @param  string|null $issued_from Desde esta fecha de expedición (incluida). (optional)
      * @param  string|null $issued_to Hasta esta fecha de expedición (incluida). (optional)
      * @param  string|null $direction &#x60;issued&#x60; (lo emitido, por defecto), &#x60;received&#x60; (lo recibido) o &#x60;all&#x60;. El cursor se pide con la misma. (optional, default to 'issued')
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (sin prefijo, solo el consecutivo). En lo recibido es el del proveedor y puede repetirse entre proveedores. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDianDocuments'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \Trevol\Generado\Model\DianDocumentList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listDianDocumentsWithHttpInfo($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', string $contentType = self::contentTypes['listDianDocuments'][0])
+    public function listDianDocumentsWithHttpInfo($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', $number = null, $prefix = null, string $contentType = self::contentTypes['listDianDocuments'][0])
     {
-        $request = $this->listDianDocumentsRequest($limit, $starting_after, $type, $issued_from, $issued_to, $direction, $contentType);
+        $request = $this->listDianDocumentsRequest($limit, $starting_after, $type, $issued_from, $issued_to, $direction, $number, $prefix, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -989,14 +993,16 @@ class DianDocumentsApi
      * @param  string|null $issued_from Desde esta fecha de expedición (incluida). (optional)
      * @param  string|null $issued_to Hasta esta fecha de expedición (incluida). (optional)
      * @param  string|null $direction &#x60;issued&#x60; (lo emitido, por defecto), &#x60;received&#x60; (lo recibido) o &#x60;all&#x60;. El cursor se pide con la misma. (optional, default to 'issued')
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (sin prefijo, solo el consecutivo). En lo recibido es el del proveedor y puede repetirse entre proveedores. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDianDocuments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listDianDocumentsAsync($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', string $contentType = self::contentTypes['listDianDocuments'][0])
+    public function listDianDocumentsAsync($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', $number = null, $prefix = null, string $contentType = self::contentTypes['listDianDocuments'][0])
     {
-        return $this->listDianDocumentsAsyncWithHttpInfo($limit, $starting_after, $type, $issued_from, $issued_to, $direction, $contentType)
+        return $this->listDianDocumentsAsyncWithHttpInfo($limit, $starting_after, $type, $issued_from, $issued_to, $direction, $number, $prefix, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1015,15 +1021,17 @@ class DianDocumentsApi
      * @param  string|null $issued_from Desde esta fecha de expedición (incluida). (optional)
      * @param  string|null $issued_to Hasta esta fecha de expedición (incluida). (optional)
      * @param  string|null $direction &#x60;issued&#x60; (lo emitido, por defecto), &#x60;received&#x60; (lo recibido) o &#x60;all&#x60;. El cursor se pide con la misma. (optional, default to 'issued')
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (sin prefijo, solo el consecutivo). En lo recibido es el del proveedor y puede repetirse entre proveedores. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDianDocuments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listDianDocumentsAsyncWithHttpInfo($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', string $contentType = self::contentTypes['listDianDocuments'][0])
+    public function listDianDocumentsAsyncWithHttpInfo($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', $number = null, $prefix = null, string $contentType = self::contentTypes['listDianDocuments'][0])
     {
         $returnType = '\Trevol\Generado\Model\DianDocumentList';
-        $request = $this->listDianDocumentsRequest($limit, $starting_after, $type, $issued_from, $issued_to, $direction, $contentType);
+        $request = $this->listDianDocumentsRequest($limit, $starting_after, $type, $issued_from, $issued_to, $direction, $number, $prefix, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1070,13 +1078,17 @@ class DianDocumentsApi
      * @param  string|null $issued_from Desde esta fecha de expedición (incluida). (optional)
      * @param  string|null $issued_to Hasta esta fecha de expedición (incluida). (optional)
      * @param  string|null $direction &#x60;issued&#x60; (lo emitido, por defecto), &#x60;received&#x60; (lo recibido) o &#x60;all&#x60;. El cursor se pide con la misma. (optional, default to 'issued')
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (sin prefijo, solo el consecutivo). En lo recibido es el del proveedor y puede repetirse entre proveedores. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDianDocuments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listDianDocumentsRequest($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', string $contentType = self::contentTypes['listDianDocuments'][0])
+    public function listDianDocumentsRequest($limit = 20, $starting_after = null, $type = null, $issued_from = null, $issued_to = null, $direction = 'issued', $number = null, $prefix = null, string $contentType = self::contentTypes['listDianDocuments'][0])
     {
+
+
 
 
 
@@ -1141,6 +1153,24 @@ class DianDocumentsApi
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $direction,
             'direction', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $number,
+            'number', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $prefix,
+            'prefix', // param base name
             'string', // openApiType
             'form', // style
             true, // explode

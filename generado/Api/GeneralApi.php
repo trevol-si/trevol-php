@@ -614,7 +614,7 @@ class GeneralApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\Acquirer|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\Acquirer|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function retrieveDianAcquirer($document_type, $document_number, string $contentType = self::contentTypes['retrieveDianAcquirer'][0])
     {
@@ -633,7 +633,7 @@ class GeneralApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\Acquirer|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\Acquirer|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function retrieveDianAcquirerWithHttpInfo($document_type, $document_number, string $contentType = self::contentTypes['retrieveDianAcquirer'][0])
     {
@@ -666,6 +666,12 @@ class GeneralApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Acquirer',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -703,6 +709,14 @@ class GeneralApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Acquirer',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);

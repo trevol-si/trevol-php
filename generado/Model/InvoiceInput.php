@@ -76,7 +76,9 @@ class InvoiceInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment' => '\Trevol\Generado\Model\Shipment',
         'due_diligence' => 'string',
         'interoperability' => '\Trevol\Generado\Model\Interoperability',
-        'contingency' => '\Trevol\Generado\Model\InvoiceContingencyInput'
+        'contingency' => '\Trevol\Generado\Model\InvoiceContingencyInput',
+        'numbering' => '\Trevol\Generado\Model\Numbering',
+        'pdf_design_id' => 'string'
     ];
 
     /**
@@ -106,7 +108,9 @@ class InvoiceInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment' => null,
         'due_diligence' => null,
         'interoperability' => null,
-        'contingency' => null
+        'contingency' => null,
+        'numbering' => null,
+        'pdf_design_id' => null
     ];
 
     /**
@@ -134,7 +138,9 @@ class InvoiceInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment' => false,
         'due_diligence' => false,
         'interoperability' => false,
-        'contingency' => false
+        'contingency' => false,
+        'numbering' => false,
+        'pdf_design_id' => true
     ];
 
     /**
@@ -242,7 +248,9 @@ class InvoiceInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment' => 'shipment',
         'due_diligence' => 'due_diligence',
         'interoperability' => 'interoperability',
-        'contingency' => 'contingency'
+        'contingency' => 'contingency',
+        'numbering' => 'numbering',
+        'pdf_design_id' => 'pdf_design_id'
     ];
 
     /**
@@ -270,7 +278,9 @@ class InvoiceInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment' => 'setShipment',
         'due_diligence' => 'setDueDiligence',
         'interoperability' => 'setInteroperability',
-        'contingency' => 'setContingency'
+        'contingency' => 'setContingency',
+        'numbering' => 'setNumbering',
+        'pdf_design_id' => 'setPdfDesignId'
     ];
 
     /**
@@ -298,7 +308,9 @@ class InvoiceInput implements ModelInterface, ArrayAccess, \JsonSerializable
         'shipment' => 'getShipment',
         'due_diligence' => 'getDueDiligence',
         'interoperability' => 'getInteroperability',
-        'contingency' => 'getContingency'
+        'contingency' => 'getContingency',
+        'numbering' => 'getNumbering',
+        'pdf_design_id' => 'getPdfDesignId'
     ];
 
     /**
@@ -378,6 +390,8 @@ class InvoiceInput implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('due_diligence', $data ?? [], null);
         $this->setIfExists('interoperability', $data ?? [], null);
         $this->setIfExists('contingency', $data ?? [], null);
+        $this->setIfExists('numbering', $data ?? [], null);
+        $this->setIfExists('pdf_design_id', $data ?? [], null);
     }
 
     /**
@@ -968,6 +982,67 @@ class InvoiceInput implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable contingency cannot be null');
         }
         $this->container['contingency'] = $contingency;
+
+        return $this;
+    }
+
+    /**
+     * Gets numbering
+     *
+     * @return \Trevol\Generado\Model\Numbering|null
+     */
+    public function getNumbering()
+    {
+        return $this->container['numbering'];
+    }
+
+    /**
+     * Sets numbering
+     *
+     * @param \Trevol\Generado\Model\Numbering|null $numbering numbering
+     *
+     * @return self
+     */
+    public function setNumbering($numbering)
+    {
+        if (is_null($numbering)) {
+            throw new \InvalidArgumentException('non-nullable numbering cannot be null');
+        }
+        $this->container['numbering'] = $numbering;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_design_id
+     *
+     * @return string|null
+     */
+    public function getPdfDesignId()
+    {
+        return $this->container['pdf_design_id'];
+    }
+
+    /**
+     * Sets pdf_design_id
+     *
+     * @param string|null $pdf_design_id El diseño del PDF de este documento (`pdd_…` o `classic`); gana al de la numeración y al predeterminado. `null` es lo mismo que no mandarlo. Guía: Diseño del PDF.
+     *
+     * @return self
+     */
+    public function setPdfDesignId($pdf_design_id)
+    {
+        if (is_null($pdf_design_id)) {
+            array_push($this->openAPINullablesSetToNull, 'pdf_design_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pdf_design_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pdf_design_id'] = $pdf_design_id;
 
         return $this;
     }

@@ -60,6 +60,7 @@ class AccountCompany implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'id' => 'string',
         'object' => 'string',
+        'simulated' => 'bool',
         'nit' => 'string',
         'check_digit' => 'string',
         'name' => 'string',
@@ -83,6 +84,7 @@ class AccountCompany implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPIFormats = [
         'id' => null,
         'object' => null,
+        'simulated' => null,
         'nit' => null,
         'check_digit' => null,
         'name' => null,
@@ -104,6 +106,7 @@ class AccountCompany implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'id' => false,
         'object' => false,
+        'simulated' => false,
         'nit' => false,
         'check_digit' => true,
         'name' => true,
@@ -205,6 +208,7 @@ class AccountCompany implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'id' => 'id',
         'object' => 'object',
+        'simulated' => 'simulated',
         'nit' => 'nit',
         'check_digit' => 'check_digit',
         'name' => 'name',
@@ -226,6 +230,7 @@ class AccountCompany implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'id' => 'setId',
         'object' => 'setObject',
+        'simulated' => 'setSimulated',
         'nit' => 'setNit',
         'check_digit' => 'setCheckDigit',
         'name' => 'setName',
@@ -247,6 +252,7 @@ class AccountCompany implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'id' => 'getId',
         'object' => 'getObject',
+        'simulated' => 'getSimulated',
         'nit' => 'getNit',
         'check_digit' => 'getCheckDigit',
         'name' => 'getName',
@@ -319,6 +325,7 @@ class AccountCompany implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('object', $data ?? [], null);
+        $this->setIfExists('simulated', $data ?? [], null);
         $this->setIfExists('nit', $data ?? [], null);
         $this->setIfExists('check_digit', $data ?? [], null);
         $this->setIfExists('name', $data ?? [], null);
@@ -424,6 +431,33 @@ class AccountCompany implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable object cannot be null');
         }
         $this->container['object'] = $object;
+
+        return $this;
+    }
+
+    /**
+     * Gets simulated
+     *
+     * @return bool|null
+     */
+    public function getSimulated()
+    {
+        return $this->container['simulated'];
+    }
+
+    /**
+     * Sets simulated
+     *
+     * @param bool|null $simulated Solo en el entorno SIMULADO (la empresa simulada de la cuenta): el objeto se validó, se calculó y se firmó como siempre, pero nunca llegó a la DIAN ni tiene validez. Un objeto real no lleva esta propiedad. En la empresa de `/v1/account/companies`: solo la ve una llave de administración de pruebas (`tva_test_…`); para una de producción no existe.
+     *
+     * @return self
+     */
+    public function setSimulated($simulated)
+    {
+        if (is_null($simulated)) {
+            throw new \InvalidArgumentException('non-nullable simulated cannot be null');
+        }
+        $this->container['simulated'] = $simulated;
 
         return $this;
     }

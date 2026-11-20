@@ -61,6 +61,7 @@ class Preview implements ModelInterface, ArrayAccess, \JsonSerializable
         'object' => 'string',
         'document' => 'string',
         'environment' => 'string',
+        'numbering' => '\Trevol\Generado\Model\PreviewNumbering',
         'totals' => 'array<string,mixed>'
     ];
 
@@ -75,6 +76,7 @@ class Preview implements ModelInterface, ArrayAccess, \JsonSerializable
         'object' => null,
         'document' => null,
         'environment' => null,
+        'numbering' => null,
         'totals' => null
     ];
 
@@ -87,6 +89,7 @@ class Preview implements ModelInterface, ArrayAccess, \JsonSerializable
         'object' => false,
         'document' => false,
         'environment' => true,
+        'numbering' => false,
         'totals' => false
     ];
 
@@ -179,6 +182,7 @@ class Preview implements ModelInterface, ArrayAccess, \JsonSerializable
         'object' => 'object',
         'document' => 'document',
         'environment' => 'environment',
+        'numbering' => 'numbering',
         'totals' => 'totals'
     ];
 
@@ -191,6 +195,7 @@ class Preview implements ModelInterface, ArrayAccess, \JsonSerializable
         'object' => 'setObject',
         'document' => 'setDocument',
         'environment' => 'setEnvironment',
+        'numbering' => 'setNumbering',
         'totals' => 'setTotals'
     ];
 
@@ -203,6 +208,7 @@ class Preview implements ModelInterface, ArrayAccess, \JsonSerializable
         'object' => 'getObject',
         'document' => 'getDocument',
         'environment' => 'getEnvironment',
+        'numbering' => 'getNumbering',
         'totals' => 'getTotals'
     ];
 
@@ -266,6 +272,7 @@ class Preview implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('object', $data ?? [], null);
         $this->setIfExists('document', $data ?? [], null);
         $this->setIfExists('environment', $data ?? [], null);
+        $this->setIfExists('numbering', $data ?? [], null);
         $this->setIfExists('totals', $data ?? [], null);
     }
 
@@ -395,6 +402,33 @@ class Preview implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['environment'] = $environment;
+
+        return $this;
+    }
+
+    /**
+     * Gets numbering
+     *
+     * @return \Trevol\Generado\Model\PreviewNumbering|null
+     */
+    public function getNumbering()
+    {
+        return $this->container['numbering'];
+    }
+
+    /**
+     * Sets numbering
+     *
+     * @param \Trevol\Generado\Model\PreviewNumbering|null $numbering Solo en la factura que pide `numbering`: la numeración que la numeraría (el prefijo normalizado), ya comprobada. No reserva número.
+     *
+     * @return self
+     */
+    public function setNumbering($numbering)
+    {
+        if (is_null($numbering)) {
+            throw new \InvalidArgumentException('non-nullable numbering cannot be null');
+        }
+        $this->container['numbering'] = $numbering;
 
         return $this;
     }

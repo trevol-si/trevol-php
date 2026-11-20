@@ -60,6 +60,7 @@ class InvoiceBatch implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'string',
         'object' => 'string',
         'environment' => 'string',
+        'simulated' => 'bool',
         'status' => 'string',
         'created_at' => '\DateTime',
         'completed_at' => '\DateTime',
@@ -78,6 +79,7 @@ class InvoiceBatch implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => null,
         'object' => null,
         'environment' => null,
+        'simulated' => null,
         'status' => null,
         'created_at' => 'date-time',
         'completed_at' => 'date-time',
@@ -94,6 +96,7 @@ class InvoiceBatch implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => false,
         'object' => false,
         'environment' => false,
+        'simulated' => false,
         'status' => false,
         'created_at' => false,
         'completed_at' => true,
@@ -190,6 +193,7 @@ class InvoiceBatch implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'id',
         'object' => 'object',
         'environment' => 'environment',
+        'simulated' => 'simulated',
         'status' => 'status',
         'created_at' => 'created_at',
         'completed_at' => 'completed_at',
@@ -206,6 +210,7 @@ class InvoiceBatch implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'setId',
         'object' => 'setObject',
         'environment' => 'setEnvironment',
+        'simulated' => 'setSimulated',
         'status' => 'setStatus',
         'created_at' => 'setCreatedAt',
         'completed_at' => 'setCompletedAt',
@@ -222,6 +227,7 @@ class InvoiceBatch implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'getId',
         'object' => 'getObject',
         'environment' => 'getEnvironment',
+        'simulated' => 'getSimulated',
         'status' => 'getStatus',
         'created_at' => 'getCreatedAt',
         'completed_at' => 'getCompletedAt',
@@ -289,6 +295,7 @@ class InvoiceBatch implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('object', $data ?? [], null);
         $this->setIfExists('environment', $data ?? [], null);
+        $this->setIfExists('simulated', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
         $this->setIfExists('completed_at', $data ?? [], null);
@@ -415,6 +422,33 @@ class InvoiceBatch implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable environment cannot be null');
         }
         $this->container['environment'] = $environment;
+
+        return $this;
+    }
+
+    /**
+     * Gets simulated
+     *
+     * @return bool|null
+     */
+    public function getSimulated()
+    {
+        return $this->container['simulated'];
+    }
+
+    /**
+     * Sets simulated
+     *
+     * @param bool|null $simulated Solo en el entorno SIMULADO (la empresa simulada de la cuenta): el objeto se validó, se calculó y se firmó como siempre, pero nunca llegó a la DIAN ni tiene validez. Un objeto real no lleva esta propiedad.
+     *
+     * @return self
+     */
+    public function setSimulated($simulated)
+    {
+        if (is_null($simulated)) {
+            throw new \InvalidArgumentException('non-nullable simulated cannot be null');
+        }
+        $this->container['simulated'] = $simulated;
 
         return $this;
     }
