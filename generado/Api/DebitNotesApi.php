@@ -104,6 +104,9 @@ class DebitNotesApi
         'sendDebitNote' => [
             'application/json',
         ],
+        'sendDebitNoteEmail' => [
+            'application/json',
+        ],
     ];
 
     /**
@@ -2103,15 +2106,17 @@ class DebitNotesApi
      * @param  string|null $external_id external_id (optional)
      * @param  string|null $created_from created_from (optional)
      * @param  string|null $created_to created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDebitNotes'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \Trevol\Generado\Model\DebitNoteList|\Trevol\Generado\Model\Problem
      */
-    public function listDebitNotes($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listDebitNotes'][0])
+    public function listDebitNotes($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listDebitNotes'][0])
     {
-        list($response) = $this->listDebitNotesWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $contentType);
+        list($response) = $this->listDebitNotesWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $number, $prefix, $contentType);
         return $response;
     }
 
@@ -2126,15 +2131,17 @@ class DebitNotesApi
      * @param  string|null $external_id (optional)
      * @param  string|null $created_from (optional)
      * @param  string|null $created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDebitNotes'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \Trevol\Generado\Model\DebitNoteList|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listDebitNotesWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listDebitNotes'][0])
+    public function listDebitNotesWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listDebitNotes'][0])
     {
-        $request = $this->listDebitNotesRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $contentType);
+        $request = $this->listDebitNotesRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $number, $prefix, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2230,14 +2237,16 @@ class DebitNotesApi
      * @param  string|null $external_id (optional)
      * @param  string|null $created_from (optional)
      * @param  string|null $created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDebitNotes'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listDebitNotesAsync($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listDebitNotes'][0])
+    public function listDebitNotesAsync($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listDebitNotes'][0])
     {
-        return $this->listDebitNotesAsyncWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $contentType)
+        return $this->listDebitNotesAsyncWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $number, $prefix, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2256,15 +2265,17 @@ class DebitNotesApi
      * @param  string|null $external_id (optional)
      * @param  string|null $created_from (optional)
      * @param  string|null $created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDebitNotes'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listDebitNotesAsyncWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listDebitNotes'][0])
+    public function listDebitNotesAsyncWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listDebitNotes'][0])
     {
         $returnType = '\Trevol\Generado\Model\DebitNoteList';
-        $request = $this->listDebitNotesRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $contentType);
+        $request = $this->listDebitNotesRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $number, $prefix, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2311,13 +2322,17 @@ class DebitNotesApi
      * @param  string|null $external_id (optional)
      * @param  string|null $created_from (optional)
      * @param  string|null $created_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDebitNotes'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listDebitNotesRequest($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, string $contentType = self::contentTypes['listDebitNotes'][0])
+    public function listDebitNotesRequest($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listDebitNotes'][0])
     {
+
+
 
 
 
@@ -2382,6 +2397,24 @@ class DebitNotesApi
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $created_to,
             'created_to', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $number,
+            'number', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $prefix,
+            'prefix', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
@@ -3300,6 +3333,393 @@ class DebitNotesApi
 
         // for model (json/xml)
         if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires Bearer authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation sendDebitNoteEmail
+     *
+     * Reenviar el correo de una nota débito
+     *
+     * @param  string $id id (required)
+     * @param  string|null $idempotency_key Obligatoria: 1 a 255 caracteres ASCII visibles, única por pedido (7 días). (optional)
+     * @param  \Trevol\Generado\Model\EmailResendRequest|null $email_resend_request email_resend_request (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDebitNoteEmail'] to see the possible values for this operation
+     *
+     * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \Trevol\Generado\Model\EmailResend|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     */
+    public function sendDebitNoteEmail($id, $idempotency_key = null, $email_resend_request = null, string $contentType = self::contentTypes['sendDebitNoteEmail'][0])
+    {
+        list($response) = $this->sendDebitNoteEmailWithHttpInfo($id, $idempotency_key, $email_resend_request, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation sendDebitNoteEmailWithHttpInfo
+     *
+     * Reenviar el correo de una nota débito
+     *
+     * @param  string $id (required)
+     * @param  string|null $idempotency_key Obligatoria: 1 a 255 caracteres ASCII visibles, única por pedido (7 días). (optional)
+     * @param  \Trevol\Generado\Model\EmailResendRequest|null $email_resend_request (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDebitNoteEmail'] to see the possible values for this operation
+     *
+     * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \Trevol\Generado\Model\EmailResend|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function sendDebitNoteEmailWithHttpInfo($id, $idempotency_key = null, $email_resend_request = null, string $contentType = self::contentTypes['sendDebitNoteEmail'][0])
+    {
+        $request = $this->sendDebitNoteEmailRequest($id, $idempotency_key, $email_resend_request, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\EmailResend',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 409:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 503:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                default:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Trevol\Generado\Model\EmailResend',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\EmailResend',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                default:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation sendDebitNoteEmailAsync
+     *
+     * Reenviar el correo de una nota débito
+     *
+     * @param  string $id (required)
+     * @param  string|null $idempotency_key Obligatoria: 1 a 255 caracteres ASCII visibles, única por pedido (7 días). (optional)
+     * @param  \Trevol\Generado\Model\EmailResendRequest|null $email_resend_request (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDebitNoteEmail'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function sendDebitNoteEmailAsync($id, $idempotency_key = null, $email_resend_request = null, string $contentType = self::contentTypes['sendDebitNoteEmail'][0])
+    {
+        return $this->sendDebitNoteEmailAsyncWithHttpInfo($id, $idempotency_key, $email_resend_request, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation sendDebitNoteEmailAsyncWithHttpInfo
+     *
+     * Reenviar el correo de una nota débito
+     *
+     * @param  string $id (required)
+     * @param  string|null $idempotency_key Obligatoria: 1 a 255 caracteres ASCII visibles, única por pedido (7 días). (optional)
+     * @param  \Trevol\Generado\Model\EmailResendRequest|null $email_resend_request (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDebitNoteEmail'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function sendDebitNoteEmailAsyncWithHttpInfo($id, $idempotency_key = null, $email_resend_request = null, string $contentType = self::contentTypes['sendDebitNoteEmail'][0])
+    {
+        $returnType = '\Trevol\Generado\Model\EmailResend';
+        $request = $this->sendDebitNoteEmailRequest($id, $idempotency_key, $email_resend_request, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'sendDebitNoteEmail'
+     *
+     * @param  string $id (required)
+     * @param  string|null $idempotency_key Obligatoria: 1 a 255 caracteres ASCII visibles, única por pedido (7 días). (optional)
+     * @param  \Trevol\Generado\Model\EmailResendRequest|null $email_resend_request (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['sendDebitNoteEmail'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function sendDebitNoteEmailRequest($id, $idempotency_key = null, $email_resend_request = null, string $contentType = self::contentTypes['sendDebitNoteEmail'][0])
+    {
+
+        // verify the required parameter 'id' is set
+        if ($id === null || (is_array($id) && count($id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $id when calling sendDebitNoteEmail'
+            );
+        }
+
+
+
+
+        $resourcePath = '/debit_notes/{id}/email';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($idempotency_key !== null) {
+            $headerParams['Idempotency-Key'] = ObjectSerializer::toHeaderValue($idempotency_key);
+        }
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace(
+                '{id}',
+                ObjectSerializer::toPathValue($id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', 'application/problem+json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($email_resend_request)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($email_resend_request), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $email_resend_request;
+            }
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {

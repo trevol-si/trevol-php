@@ -60,6 +60,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'string',
         'object' => 'string',
         'environment' => 'string',
+        'simulated' => 'bool',
         'status' => 'string',
         'number' => 'string',
         'prefix' => 'string',
@@ -86,7 +87,9 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'dian' => '\Trevol\Generado\Model\DianResult',
         'delivery' => '\Trevol\Generado\Model\Delivery',
         'created_at' => '\DateTime',
-        'updated_at' => '\DateTime'
+        'updated_at' => '\DateTime',
+        'pdf_design_id' => 'string',
+        'pdf_design' => '\Trevol\Generado\Model\PdfDesignApplied'
     ];
 
     /**
@@ -100,6 +103,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => null,
         'object' => null,
         'environment' => null,
+        'simulated' => null,
         'status' => null,
         'number' => null,
         'prefix' => null,
@@ -126,7 +130,9 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'dian' => null,
         'delivery' => null,
         'created_at' => 'date-time',
-        'updated_at' => 'date-time'
+        'updated_at' => 'date-time',
+        'pdf_design_id' => null,
+        'pdf_design' => null
     ];
 
     /**
@@ -138,6 +144,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => false,
         'object' => false,
         'environment' => false,
+        'simulated' => false,
         'status' => false,
         'number' => true,
         'prefix' => true,
@@ -164,7 +171,9 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'dian' => false,
         'delivery' => false,
         'created_at' => false,
-        'updated_at' => true
+        'updated_at' => true,
+        'pdf_design_id' => true,
+        'pdf_design' => true
     ];
 
     /**
@@ -256,6 +265,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'id',
         'object' => 'object',
         'environment' => 'environment',
+        'simulated' => 'simulated',
         'status' => 'status',
         'number' => 'number',
         'prefix' => 'prefix',
@@ -282,7 +292,9 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'dian' => 'dian',
         'delivery' => 'delivery',
         'created_at' => 'created_at',
-        'updated_at' => 'updated_at'
+        'updated_at' => 'updated_at',
+        'pdf_design_id' => 'pdf_design_id',
+        'pdf_design' => 'pdf_design'
     ];
 
     /**
@@ -294,6 +306,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'setId',
         'object' => 'setObject',
         'environment' => 'setEnvironment',
+        'simulated' => 'setSimulated',
         'status' => 'setStatus',
         'number' => 'setNumber',
         'prefix' => 'setPrefix',
@@ -320,7 +333,9 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'dian' => 'setDian',
         'delivery' => 'setDelivery',
         'created_at' => 'setCreatedAt',
-        'updated_at' => 'setUpdatedAt'
+        'updated_at' => 'setUpdatedAt',
+        'pdf_design_id' => 'setPdfDesignId',
+        'pdf_design' => 'setPdfDesign'
     ];
 
     /**
@@ -332,6 +347,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'id' => 'getId',
         'object' => 'getObject',
         'environment' => 'getEnvironment',
+        'simulated' => 'getSimulated',
         'status' => 'getStatus',
         'number' => 'getNumber',
         'prefix' => 'getPrefix',
@@ -358,7 +374,9 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         'dian' => 'getDian',
         'delivery' => 'getDelivery',
         'created_at' => 'getCreatedAt',
-        'updated_at' => 'getUpdatedAt'
+        'updated_at' => 'getUpdatedAt',
+        'pdf_design_id' => 'getPdfDesignId',
+        'pdf_design' => 'getPdfDesign'
     ];
 
     /**
@@ -421,6 +439,7 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('object', $data ?? [], null);
         $this->setIfExists('environment', $data ?? [], null);
+        $this->setIfExists('simulated', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
         $this->setIfExists('number', $data ?? [], null);
         $this->setIfExists('prefix', $data ?? [], null);
@@ -448,6 +467,8 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('delivery', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
         $this->setIfExists('updated_at', $data ?? [], null);
+        $this->setIfExists('pdf_design_id', $data ?? [], null);
+        $this->setIfExists('pdf_design', $data ?? [], null);
     }
 
     /**
@@ -569,6 +590,33 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable environment cannot be null');
         }
         $this->container['environment'] = $environment;
+
+        return $this;
+    }
+
+    /**
+     * Gets simulated
+     *
+     * @return bool|null
+     */
+    public function getSimulated()
+    {
+        return $this->container['simulated'];
+    }
+
+    /**
+     * Sets simulated
+     *
+     * @param bool|null $simulated Solo en el entorno SIMULADO (la empresa simulada de la cuenta): el objeto se validó, se calculó y se firmó como siempre, pero nunca llegó a la DIAN ni tiene validez. Un objeto real no lleva esta propiedad.
+     *
+     * @return self
+     */
+    public function setSimulated($simulated)
+    {
+        if (is_null($simulated)) {
+            throw new \InvalidArgumentException('non-nullable simulated cannot be null');
+        }
+        $this->container['simulated'] = $simulated;
 
         return $this;
     }
@@ -1368,6 +1416,74 @@ class Document implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $this->container['updated_at'] = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_design_id
+     *
+     * @return string|null
+     */
+    public function getPdfDesignId()
+    {
+        return $this->container['pdf_design_id'];
+    }
+
+    /**
+     * Sets pdf_design_id
+     *
+     * @param string|null $pdf_design_id El que pidió el documento, o null.
+     *
+     * @return self
+     */
+    public function setPdfDesignId($pdf_design_id)
+    {
+        if (is_null($pdf_design_id)) {
+            array_push($this->openAPINullablesSetToNull, 'pdf_design_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pdf_design_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pdf_design_id'] = $pdf_design_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_design
+     *
+     * @return \Trevol\Generado\Model\PdfDesignApplied|null
+     */
+    public function getPdfDesign()
+    {
+        return $this->container['pdf_design'];
+    }
+
+    /**
+     * Sets pdf_design
+     *
+     * @param \Trevol\Generado\Model\PdfDesignApplied|null $pdf_design El diseño fijado al emitir; null mientras está pendiente.
+     *
+     * @return self
+     */
+    public function setPdfDesign($pdf_design)
+    {
+        if (is_null($pdf_design)) {
+            array_push($this->openAPINullablesSetToNull, 'pdf_design');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pdf_design', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pdf_design'] = $pdf_design;
 
         return $this;
     }

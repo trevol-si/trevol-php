@@ -75,7 +75,8 @@ class EquivalentDocumentInput implements ModelInterface, ArrayAccess, \JsonSeria
         'prefix' => 'string',
         'origin_note' => '\Trevol\Generado\Model\OriginNote',
         'contingency' => '\Trevol\Generado\Model\Contingency',
-        'numbering' => '\Trevol\Generado\Model\Numbering'
+        'numbering' => '\Trevol\Generado\Model\Numbering',
+        'pdf_design_id' => 'string'
     ];
 
     /**
@@ -104,7 +105,8 @@ class EquivalentDocumentInput implements ModelInterface, ArrayAccess, \JsonSeria
         'prefix' => null,
         'origin_note' => null,
         'contingency' => null,
-        'numbering' => null
+        'numbering' => null,
+        'pdf_design_id' => null
     ];
 
     /**
@@ -131,7 +133,8 @@ class EquivalentDocumentInput implements ModelInterface, ArrayAccess, \JsonSeria
         'prefix' => false,
         'origin_note' => false,
         'contingency' => false,
-        'numbering' => false
+        'numbering' => false,
+        'pdf_design_id' => true
     ];
 
     /**
@@ -238,7 +241,8 @@ class EquivalentDocumentInput implements ModelInterface, ArrayAccess, \JsonSeria
         'prefix' => 'prefix',
         'origin_note' => 'origin_note',
         'contingency' => 'contingency',
-        'numbering' => 'numbering'
+        'numbering' => 'numbering',
+        'pdf_design_id' => 'pdf_design_id'
     ];
 
     /**
@@ -265,7 +269,8 @@ class EquivalentDocumentInput implements ModelInterface, ArrayAccess, \JsonSeria
         'prefix' => 'setPrefix',
         'origin_note' => 'setOriginNote',
         'contingency' => 'setContingency',
-        'numbering' => 'setNumbering'
+        'numbering' => 'setNumbering',
+        'pdf_design_id' => 'setPdfDesignId'
     ];
 
     /**
@@ -292,7 +297,8 @@ class EquivalentDocumentInput implements ModelInterface, ArrayAccess, \JsonSeria
         'prefix' => 'getPrefix',
         'origin_note' => 'getOriginNote',
         'contingency' => 'getContingency',
-        'numbering' => 'getNumbering'
+        'numbering' => 'getNumbering',
+        'pdf_design_id' => 'getPdfDesignId'
     ];
 
     /**
@@ -371,6 +377,7 @@ class EquivalentDocumentInput implements ModelInterface, ArrayAccess, \JsonSeria
         $this->setIfExists('origin_note', $data ?? [], null);
         $this->setIfExists('contingency', $data ?? [], null);
         $this->setIfExists('numbering', $data ?? [], null);
+        $this->setIfExists('pdf_design_id', $data ?? [], null);
     }
 
     /**
@@ -934,6 +941,40 @@ class EquivalentDocumentInput implements ModelInterface, ArrayAccess, \JsonSeria
             throw new \InvalidArgumentException('non-nullable numbering cannot be null');
         }
         $this->container['numbering'] = $numbering;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_design_id
+     *
+     * @return string|null
+     */
+    public function getPdfDesignId()
+    {
+        return $this->container['pdf_design_id'];
+    }
+
+    /**
+     * Sets pdf_design_id
+     *
+     * @param string|null $pdf_design_id El diseño del PDF de este documento (`pdd_…` o `classic`); gana al de la numeración y al predeterminado. `null` es lo mismo que no mandarlo. Guía: Diseño del PDF.
+     *
+     * @return self
+     */
+    public function setPdfDesignId($pdf_design_id)
+    {
+        if (is_null($pdf_design_id)) {
+            array_push($this->openAPINullablesSetToNull, 'pdf_design_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pdf_design_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pdf_design_id'] = $pdf_design_id;
 
         return $this;
     }

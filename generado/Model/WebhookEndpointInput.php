@@ -59,7 +59,8 @@ class WebhookEndpointInput implements ModelInterface, ArrayAccess, \JsonSerializ
     protected static $openAPITypes = [
         'url' => 'string',
         'description' => 'string',
-        'events' => 'string[]'
+        'events' => 'string[]',
+        'follow_latest_catalog' => 'bool'
     ];
 
     /**
@@ -72,7 +73,8 @@ class WebhookEndpointInput implements ModelInterface, ArrayAccess, \JsonSerializ
     protected static $openAPIFormats = [
         'url' => 'uri',
         'description' => null,
-        'events' => null
+        'events' => null,
+        'follow_latest_catalog' => null
     ];
 
     /**
@@ -83,7 +85,8 @@ class WebhookEndpointInput implements ModelInterface, ArrayAccess, \JsonSerializ
     protected static array $openAPINullables = [
         'url' => false,
         'description' => true,
-        'events' => false
+        'events' => false,
+        'follow_latest_catalog' => false
     ];
 
     /**
@@ -174,7 +177,8 @@ class WebhookEndpointInput implements ModelInterface, ArrayAccess, \JsonSerializ
     protected static $attributeMap = [
         'url' => 'url',
         'description' => 'description',
-        'events' => 'events'
+        'events' => 'events',
+        'follow_latest_catalog' => 'follow_latest_catalog'
     ];
 
     /**
@@ -185,7 +189,8 @@ class WebhookEndpointInput implements ModelInterface, ArrayAccess, \JsonSerializ
     protected static $setters = [
         'url' => 'setUrl',
         'description' => 'setDescription',
-        'events' => 'setEvents'
+        'events' => 'setEvents',
+        'follow_latest_catalog' => 'setFollowLatestCatalog'
     ];
 
     /**
@@ -196,7 +201,8 @@ class WebhookEndpointInput implements ModelInterface, ArrayAccess, \JsonSerializ
     protected static $getters = [
         'url' => 'getUrl',
         'description' => 'getDescription',
-        'events' => 'getEvents'
+        'events' => 'getEvents',
+        'follow_latest_catalog' => 'getFollowLatestCatalog'
     ];
 
     /**
@@ -410,6 +416,7 @@ class WebhookEndpointInput implements ModelInterface, ArrayAccess, \JsonSerializ
         $this->setIfExists('url', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('events', $data ?? [], null);
+        $this->setIfExists('follow_latest_catalog', $data ?? [], null);
     }
 
     /**
@@ -553,6 +560,33 @@ class WebhookEndpointInput implements ModelInterface, ArrayAccess, \JsonSerializ
             );
         }
         $this->container['events'] = $events;
+
+        return $this;
+    }
+
+    /**
+     * Gets follow_latest_catalog
+     *
+     * @return bool|null
+     */
+    public function getFollowLatestCatalog()
+    {
+        return $this->container['follow_latest_catalog'];
+    }
+
+    /**
+     * Sets follow_latest_catalog
+     *
+     * @param bool|null $follow_latest_catalog Solo con `events: [\"*\"]` (si no, 422 en `/follow_latest_catalog`): el endpoint sigue el catálogo más nuevo. Cambiar a una lista explícita lo apaga.
+     *
+     * @return self
+     */
+    public function setFollowLatestCatalog($follow_latest_catalog)
+    {
+        if (is_null($follow_latest_catalog)) {
+            throw new \InvalidArgumentException('non-nullable follow_latest_catalog cannot be null');
+        }
+        $this->container['follow_latest_catalog'] = $follow_latest_catalog;
 
         return $this;
     }

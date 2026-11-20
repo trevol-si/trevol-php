@@ -39,9 +39,9 @@ final class ErroresTest extends TestCase
         return $salida;
     }
 
-    public function testCubreLos43Code(): void
+    public function testCubreLos49Code(): void
     {
-        $this->assertCount(43, self::codes());
+        $this->assertCount(49, self::codes()); // 43 + los 6 del diseño del PDF (0.4.0)
     }
 
     #[DataProvider('codes')]

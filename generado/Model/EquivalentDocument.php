@@ -89,7 +89,9 @@ class EquivalentDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'pos' => '\Trevol\Generado\Model\Pos',
         'extension' => '\Trevol\Generado\Model\Extension',
         'origin_note' => '\Trevol\Generado\Model\OriginNote',
-        'contingency' => '\Trevol\Generado\Model\EquivalentDocumentContingency'
+        'contingency' => '\Trevol\Generado\Model\EquivalentDocumentContingency',
+        'pdf_design_id' => 'string',
+        'pdf_design' => '\Trevol\Generado\Model\PdfDesignApplied'
     ];
 
     /**
@@ -131,7 +133,9 @@ class EquivalentDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'pos' => null,
         'extension' => null,
         'origin_note' => null,
-        'contingency' => null
+        'contingency' => null,
+        'pdf_design_id' => null,
+        'pdf_design' => null
     ];
 
     /**
@@ -171,7 +175,9 @@ class EquivalentDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'pos' => false,
         'extension' => false,
         'origin_note' => false,
-        'contingency' => true
+        'contingency' => true,
+        'pdf_design_id' => true,
+        'pdf_design' => true
     ];
 
     /**
@@ -291,7 +297,9 @@ class EquivalentDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'pos' => 'pos',
         'extension' => 'extension',
         'origin_note' => 'origin_note',
-        'contingency' => 'contingency'
+        'contingency' => 'contingency',
+        'pdf_design_id' => 'pdf_design_id',
+        'pdf_design' => 'pdf_design'
     ];
 
     /**
@@ -331,7 +339,9 @@ class EquivalentDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'pos' => 'setPos',
         'extension' => 'setExtension',
         'origin_note' => 'setOriginNote',
-        'contingency' => 'setContingency'
+        'contingency' => 'setContingency',
+        'pdf_design_id' => 'setPdfDesignId',
+        'pdf_design' => 'setPdfDesign'
     ];
 
     /**
@@ -371,7 +381,9 @@ class EquivalentDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'pos' => 'getPos',
         'extension' => 'getExtension',
         'origin_note' => 'getOriginNote',
-        'contingency' => 'getContingency'
+        'contingency' => 'getContingency',
+        'pdf_design_id' => 'getPdfDesignId',
+        'pdf_design' => 'getPdfDesign'
     ];
 
     /**
@@ -463,6 +475,8 @@ class EquivalentDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         $this->setIfExists('extension', $data ?? [], null);
         $this->setIfExists('origin_note', $data ?? [], null);
         $this->setIfExists('contingency', $data ?? [], null);
+        $this->setIfExists('pdf_design_id', $data ?? [], null);
+        $this->setIfExists('pdf_design', $data ?? [], null);
     }
 
     /**
@@ -1437,6 +1451,74 @@ class EquivalentDocument implements ModelInterface, ArrayAccess, \JsonSerializab
             }
         }
         $this->container['contingency'] = $contingency;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_design_id
+     *
+     * @return string|null
+     */
+    public function getPdfDesignId()
+    {
+        return $this->container['pdf_design_id'];
+    }
+
+    /**
+     * Sets pdf_design_id
+     *
+     * @param string|null $pdf_design_id El que pidió el documento, o null.
+     *
+     * @return self
+     */
+    public function setPdfDesignId($pdf_design_id)
+    {
+        if (is_null($pdf_design_id)) {
+            array_push($this->openAPINullablesSetToNull, 'pdf_design_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pdf_design_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pdf_design_id'] = $pdf_design_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_design
+     *
+     * @return \Trevol\Generado\Model\PdfDesignApplied|null
+     */
+    public function getPdfDesign()
+    {
+        return $this->container['pdf_design'];
+    }
+
+    /**
+     * Sets pdf_design
+     *
+     * @param \Trevol\Generado\Model\PdfDesignApplied|null $pdf_design El diseño fijado al emitir; null mientras está pendiente.
+     *
+     * @return self
+     */
+    public function setPdfDesign($pdf_design)
+    {
+        if (is_null($pdf_design)) {
+            array_push($this->openAPINullablesSetToNull, 'pdf_design');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pdf_design', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pdf_design'] = $pdf_design;
 
         return $this;
     }

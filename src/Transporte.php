@@ -144,6 +144,7 @@ final class Transporte
             'pdf' => 'application/pdf, ' . self::PROBLEMA,
             'xml' => 'application/xml, ' . self::PROBLEMA,
             'zip' => 'application/zip, ' . self::PROBLEMA,
+            'png' => 'image/png, ' . self::PROBLEMA, // el logo de la empresa (0.4.0)
             'csv' => 'text/csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, ' . self::PROBLEMA, // los reportes: CSV o Excel
             default => 'application/json, ' . self::PROBLEMA,
         };

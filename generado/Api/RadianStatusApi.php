@@ -135,7 +135,7 @@ class RadianStatusApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\RadianStatus|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\RadianStatus|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function getRadianStatus($cufe, string $contentType = self::contentTypes['getRadianStatus'][0])
     {
@@ -153,7 +153,7 @@ class RadianStatusApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\RadianStatus|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\RadianStatus|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function getRadianStatusWithHttpInfo($cufe, string $contentType = self::contentTypes['getRadianStatus'][0])
     {
@@ -208,6 +208,12 @@ class RadianStatusApi
                         $response,
                     );
                 case 503:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 403:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Problem',
                         $request,
@@ -276,6 +282,14 @@ class RadianStatusApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Problem',

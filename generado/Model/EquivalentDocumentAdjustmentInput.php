@@ -70,7 +70,8 @@ class EquivalentDocumentAdjustmentInput implements ModelInterface, ArrayAccess, 
         'note_type' => 'string',
         'concept' => 'string',
         'description' => 'string',
-        'equivalent_document' => '\Trevol\Generado\Model\EquivalentDocumentReference'
+        'equivalent_document' => '\Trevol\Generado\Model\EquivalentDocumentReference',
+        'pdf_design_id' => 'string'
     ];
 
     /**
@@ -94,7 +95,8 @@ class EquivalentDocumentAdjustmentInput implements ModelInterface, ArrayAccess, 
         'note_type' => null,
         'concept' => null,
         'description' => null,
-        'equivalent_document' => null
+        'equivalent_document' => null,
+        'pdf_design_id' => null
     ];
 
     /**
@@ -116,7 +118,8 @@ class EquivalentDocumentAdjustmentInput implements ModelInterface, ArrayAccess, 
         'note_type' => false,
         'concept' => false,
         'description' => false,
-        'equivalent_document' => false
+        'equivalent_document' => false,
+        'pdf_design_id' => true
     ];
 
     /**
@@ -218,7 +221,8 @@ class EquivalentDocumentAdjustmentInput implements ModelInterface, ArrayAccess, 
         'note_type' => 'note_type',
         'concept' => 'concept',
         'description' => 'description',
-        'equivalent_document' => 'equivalent_document'
+        'equivalent_document' => 'equivalent_document',
+        'pdf_design_id' => 'pdf_design_id'
     ];
 
     /**
@@ -240,7 +244,8 @@ class EquivalentDocumentAdjustmentInput implements ModelInterface, ArrayAccess, 
         'note_type' => 'setNoteType',
         'concept' => 'setConcept',
         'description' => 'setDescription',
-        'equivalent_document' => 'setEquivalentDocument'
+        'equivalent_document' => 'setEquivalentDocument',
+        'pdf_design_id' => 'setPdfDesignId'
     ];
 
     /**
@@ -262,7 +267,8 @@ class EquivalentDocumentAdjustmentInput implements ModelInterface, ArrayAccess, 
         'note_type' => 'getNoteType',
         'concept' => 'getConcept',
         'description' => 'getDescription',
-        'equivalent_document' => 'getEquivalentDocument'
+        'equivalent_document' => 'getEquivalentDocument',
+        'pdf_design_id' => 'getPdfDesignId'
     ];
 
     /**
@@ -351,6 +357,7 @@ class EquivalentDocumentAdjustmentInput implements ModelInterface, ArrayAccess, 
         $this->setIfExists('concept', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('equivalent_document', $data ?? [], null);
+        $this->setIfExists('pdf_design_id', $data ?? [], null);
     }
 
     /**
@@ -807,6 +814,40 @@ class EquivalentDocumentAdjustmentInput implements ModelInterface, ArrayAccess, 
             throw new \InvalidArgumentException('non-nullable equivalent_document cannot be null');
         }
         $this->container['equivalent_document'] = $equivalent_document;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_design_id
+     *
+     * @return string|null
+     */
+    public function getPdfDesignId()
+    {
+        return $this->container['pdf_design_id'];
+    }
+
+    /**
+     * Sets pdf_design_id
+     *
+     * @param string|null $pdf_design_id El diseño del PDF de este documento (`pdd_…` o `classic`); gana al de la numeración y al predeterminado. `null` es lo mismo que no mandarlo. Guía: Diseño del PDF.
+     *
+     * @return self
+     */
+    public function setPdfDesignId($pdf_design_id)
+    {
+        if (is_null($pdf_design_id)) {
+            array_push($this->openAPINullablesSetToNull, 'pdf_design_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pdf_design_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pdf_design_id'] = $pdf_design_id;
 
         return $this;
     }

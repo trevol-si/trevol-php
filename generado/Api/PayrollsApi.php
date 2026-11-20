@@ -161,7 +161,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function correctPayroll($id, $payroll_input, $idempotency_key = null, string $contentType = self::contentTypes['correctPayroll'][0])
     {
@@ -181,7 +181,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function correctPayrollWithHttpInfo($id, $payroll_input, $idempotency_key = null, string $contentType = self::contentTypes['correctPayroll'][0])
     {
@@ -224,6 +224,12 @@ class PayrollsApi
                         $response,
                     );
                 case 409:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 403:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Problem',
                         $request,
@@ -276,6 +282,14 @@ class PayrollsApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Problem',
@@ -511,7 +525,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function createPayroll($payroll_input, $idempotency_key = null, string $contentType = self::contentTypes['createPayroll'][0])
     {
@@ -530,7 +544,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function createPayrollWithHttpInfo($payroll_input, $idempotency_key = null, string $contentType = self::contentTypes['createPayroll'][0])
     {
@@ -597,6 +611,12 @@ class PayrollsApi
                         $response,
                     );
                 case 503:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 403:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Problem',
                         $request,
@@ -681,6 +701,14 @@ class PayrollsApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 503:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Problem',
@@ -897,7 +925,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadPayrollDianResponse($id, string $contentType = self::contentTypes['downloadPayrollDianResponse'][0])
     {
@@ -915,7 +943,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadPayrollDianResponseWithHttpInfo($id, string $contentType = self::contentTypes['downloadPayrollDianResponse'][0])
     {
@@ -948,6 +976,12 @@ class PayrollsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -985,6 +1019,14 @@ class PayrollsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1187,7 +1229,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadPayrollXml($id, string $contentType = self::contentTypes['downloadPayrollXml'][0])
     {
@@ -1205,7 +1247,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadPayrollXmlWithHttpInfo($id, string $contentType = self::contentTypes['downloadPayrollXml'][0])
     {
@@ -1238,6 +1280,12 @@ class PayrollsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1275,6 +1323,14 @@ class PayrollsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1477,7 +1533,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \SplFileObject|\Trevol\Generado\Model\Problem
+     * @return \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function downloadPayrollZip($id, string $contentType = self::contentTypes['downloadPayrollZip'][0])
     {
@@ -1495,7 +1551,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SplFileObject|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function downloadPayrollZipWithHttpInfo($id, string $contentType = self::contentTypes['downloadPayrollZip'][0])
     {
@@ -1528,6 +1584,12 @@ class PayrollsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\SplFileObject',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1565,6 +1627,14 @@ class PayrollsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\SplFileObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1771,15 +1841,17 @@ class PayrollsApi
      * @param  string|null $employee_code employee_code (optional)
      * @param  string|null $period_end_from period_end_from (optional)
      * @param  string|null $period_end_to period_end_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listPayrolls'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\PayrollList|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\PayrollList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
-    public function listPayrolls($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, string $contentType = self::contentTypes['listPayrolls'][0])
+    public function listPayrolls($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listPayrolls'][0])
     {
-        list($response) = $this->listPayrollsWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $employee_code, $period_end_from, $period_end_to, $contentType);
+        list($response) = $this->listPayrollsWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $employee_code, $period_end_from, $period_end_to, $number, $prefix, $contentType);
         return $response;
     }
 
@@ -1797,15 +1869,17 @@ class PayrollsApi
      * @param  string|null $employee_code (optional)
      * @param  string|null $period_end_from (optional)
      * @param  string|null $period_end_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listPayrolls'] to see the possible values for this operation
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\PayrollList|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\PayrollList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listPayrollsWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, string $contentType = self::contentTypes['listPayrolls'][0])
+    public function listPayrollsWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listPayrolls'][0])
     {
-        $request = $this->listPayrollsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $employee_code, $period_end_from, $period_end_to, $contentType);
+        $request = $this->listPayrollsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $employee_code, $period_end_from, $period_end_to, $number, $prefix, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1834,6 +1908,12 @@ class PayrollsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\PayrollList',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -1875,6 +1955,14 @@ class PayrollsApi
                     );
                     $e->setResponseObject($data);
                     throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
                 default:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
@@ -1904,14 +1992,16 @@ class PayrollsApi
      * @param  string|null $employee_code (optional)
      * @param  string|null $period_end_from (optional)
      * @param  string|null $period_end_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listPayrolls'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listPayrollsAsync($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, string $contentType = self::contentTypes['listPayrolls'][0])
+    public function listPayrollsAsync($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listPayrolls'][0])
     {
-        return $this->listPayrollsAsyncWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $employee_code, $period_end_from, $period_end_to, $contentType)
+        return $this->listPayrollsAsyncWithHttpInfo($limit, $starting_after, $status, $external_id, $created_from, $created_to, $employee_code, $period_end_from, $period_end_to, $number, $prefix, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1933,15 +2023,17 @@ class PayrollsApi
      * @param  string|null $employee_code (optional)
      * @param  string|null $period_end_from (optional)
      * @param  string|null $period_end_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listPayrolls'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listPayrollsAsyncWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, string $contentType = self::contentTypes['listPayrolls'][0])
+    public function listPayrollsAsyncWithHttpInfo($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listPayrolls'][0])
     {
         $returnType = '\Trevol\Generado\Model\PayrollList';
-        $request = $this->listPayrollsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $employee_code, $period_end_from, $period_end_to, $contentType);
+        $request = $this->listPayrollsRequest($limit, $starting_after, $status, $external_id, $created_from, $created_to, $employee_code, $period_end_from, $period_end_to, $number, $prefix, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1991,13 +2083,17 @@ class PayrollsApi
      * @param  string|null $employee_code (optional)
      * @param  string|null $period_end_from (optional)
      * @param  string|null $period_end_to (optional)
+     * @param  string|null $number El número completo exacto, como sale en &#x60;number&#x60; (p. ej. &#x60;SETP990000123&#x60;; sin prefijo, solo el consecutivo), sin ceros a la izquierda, espacios ni guiones. Puede traer más de un documento. (optional)
+     * @param  string|null $prefix El prefijo exacto, como sale en &#x60;prefix&#x60;. Solo, lista una numeración; con &#x60;number&#x60;, quita la ambigüedad. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listPayrolls'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listPayrollsRequest($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, string $contentType = self::contentTypes['listPayrolls'][0])
+    public function listPayrollsRequest($limit = null, $starting_after = null, $status = null, $external_id = null, $created_from = null, $created_to = null, $employee_code = null, $period_end_from = null, $period_end_to = null, $number = null, $prefix = null, string $contentType = self::contentTypes['listPayrolls'][0])
     {
+
+
 
 
 
@@ -2097,6 +2193,24 @@ class PayrollsApi
             true, // explode
             false // required
         ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $number,
+            'number', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $prefix,
+            'prefix', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
 
 
 
@@ -2172,7 +2286,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\Preview|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\Preview|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function previewPayroll($payroll_input, string $contentType = self::contentTypes['previewPayroll'][0])
     {
@@ -2190,7 +2304,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\Preview|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\Preview|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function previewPayrollWithHttpInfo($payroll_input, string $contentType = self::contentTypes['previewPayroll'][0])
     {
@@ -2223,6 +2337,12 @@ class PayrollsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Preview',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -2260,6 +2380,14 @@ class PayrollsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Preview',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2465,7 +2593,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function retrievePayroll($id, string $contentType = self::contentTypes['retrievePayroll'][0])
     {
@@ -2483,7 +2611,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function retrievePayrollWithHttpInfo($id, string $contentType = self::contentTypes['retrievePayroll'][0])
     {
@@ -2516,6 +2644,12 @@ class PayrollsApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Payroll',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -2553,6 +2687,14 @@ class PayrollsApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Payroll',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2755,7 +2897,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function sendPayroll($id, string $contentType = self::contentTypes['sendPayroll'][0])
     {
@@ -2773,7 +2915,7 @@ class PayrollsApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Payroll|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function sendPayrollWithHttpInfo($id, string $contentType = self::contentTypes['sendPayroll'][0])
     {
@@ -2816,6 +2958,12 @@ class PayrollsApi
                         $response,
                     );
                 case 409:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
+                        $request,
+                        $response,
+                    );
+                case 403:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Problem',
                         $request,
@@ -2868,6 +3016,14 @@ class PayrollsApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Problem',

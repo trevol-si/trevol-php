@@ -60,6 +60,7 @@ class WebhookEndpointUpdate implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => 'string',
         'description' => 'string',
         'events' => 'string[]',
+        'follow_latest_catalog' => 'bool',
         'status' => 'string'
     ];
 
@@ -74,6 +75,7 @@ class WebhookEndpointUpdate implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => 'uri',
         'description' => null,
         'events' => null,
+        'follow_latest_catalog' => null,
         'status' => null
     ];
 
@@ -86,6 +88,7 @@ class WebhookEndpointUpdate implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => false,
         'description' => true,
         'events' => false,
+        'follow_latest_catalog' => false,
         'status' => false
     ];
 
@@ -178,6 +181,7 @@ class WebhookEndpointUpdate implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => 'url',
         'description' => 'description',
         'events' => 'events',
+        'follow_latest_catalog' => 'follow_latest_catalog',
         'status' => 'status'
     ];
 
@@ -190,6 +194,7 @@ class WebhookEndpointUpdate implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => 'setUrl',
         'description' => 'setDescription',
         'events' => 'setEvents',
+        'follow_latest_catalog' => 'setFollowLatestCatalog',
         'status' => 'setStatus'
     ];
 
@@ -202,6 +207,7 @@ class WebhookEndpointUpdate implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => 'getUrl',
         'description' => 'getDescription',
         'events' => 'getEvents',
+        'follow_latest_catalog' => 'getFollowLatestCatalog',
         'status' => 'getStatus'
     ];
 
@@ -431,6 +437,7 @@ class WebhookEndpointUpdate implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('url', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
         $this->setIfExists('events', $data ?? [], null);
+        $this->setIfExists('follow_latest_catalog', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
     }
 
@@ -578,6 +585,33 @@ class WebhookEndpointUpdate implements ModelInterface, ArrayAccess, \JsonSeriali
             );
         }
         $this->container['events'] = $events;
+
+        return $this;
+    }
+
+    /**
+     * Gets follow_latest_catalog
+     *
+     * @return bool|null
+     */
+    public function getFollowLatestCatalog()
+    {
+        return $this->container['follow_latest_catalog'];
+    }
+
+    /**
+     * Sets follow_latest_catalog
+     *
+     * @param bool|null $follow_latest_catalog Solo con `events: [\"*\"]` (si no, 422 en `/follow_latest_catalog`): el endpoint sigue el catálogo más nuevo. Cambiar a una lista explícita lo apaga.
+     *
+     * @return self
+     */
+    public function setFollowLatestCatalog($follow_latest_catalog)
+    {
+        if (is_null($follow_latest_catalog)) {
+            throw new \InvalidArgumentException('non-nullable follow_latest_catalog cannot be null');
+        }
+        $this->container['follow_latest_catalog'] = $follow_latest_catalog;
 
         return $this;
     }
