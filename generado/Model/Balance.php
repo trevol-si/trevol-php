@@ -35,7 +35,7 @@ use \Trevol\Generado\ObjectSerializer;
  * Balance Class Doc Comment
  *
  * @category Class
- * @description El saldo prepago de Trevol. Es de la **cuenta**, no de la empresa: todas las empresas de la cuenta lo comparten (&#x60;shared: true&#x60;) y cualquier llave de cualquiera de ellas, de lectura o de escritura, &#x60;test&#x60; o &#x60;live&#x60;, ve el mismo. Solo lo que se emite en producción (llaves &#x60;live&#x60;) lo consume; la habilitación (&#x60;test&#x60;) no cobra. &#x60;available&#x60; es lo que se puede gastar (en pesos); &#x60;held&#x60;, lo apartado por documentos que la DIAN todavía valida y por operaciones de la API en curso; &#x60;overdraft&#x60;, cuánto puede bajar &#x60;available&#x60; de cero al apartar un documento; &#x60;low_threshold&#x60;, el umbral del aviso de saldo bajo (el 20 % de la última recarga; &#x60;null&#x60; sin recargas). &#x60;level&#x60;: &#x60;empty&#x60; con &#x60;available&#x60; ≤ 0, &#x60;low&#x60; por debajo de &#x60;low_threshold&#x60;, si no &#x60;ok&#x60;. Con &#x60;available&#x60; por debajo del precio de un documento, emitir en producción responde 402 &#x60;insufficient_balance&#x60;. El evento &#x60;balance.low&#x60; avisa por webhook. &#x60;operation_prices&#x60;: el precio en pesos de cada operación que Trevol hace por la empresa en el portal de la DIAN y que se cobra del saldo (&#x60;dian_sync&#x60;: &#x60;POST /v1/dian_syncs&#x60;; &#x60;numbering_refresh&#x60;: &#x60;POST /v1/numbering_ranges/refresh&#x60;; &#x60;numbering_association&#x60;: &#x60;POST /v1/numbering_ranges/{id}/associate&#x60;; &#x60;numbering_request&#x60;: &#x60;POST /v1/numbering_requests&#x60;, una vez por solicitud). 0 es gratis. Solo en producción: se aparta al crearla, se cobra si termina bien y se devuelve si falla; sin saldo, 402 &#x60;insufficient_balance&#x60; y no se crea nada.
+ * @description El saldo prepago de Trevol. Es de la **cuenta**, no de la empresa: todas las empresas de la cuenta lo comparten (&#x60;shared: true&#x60;) y cualquier llave de cualquiera de ellas, de lectura o de escritura, &#x60;test&#x60; o &#x60;live&#x60;, ve el mismo. Solo lo que se emite en producción (llaves &#x60;live&#x60;) lo consume; la habilitación (&#x60;test&#x60;) no cobra. &#x60;available&#x60; es lo que se puede gastar (en pesos); &#x60;held&#x60;, lo apartado por documentos que la DIAN todavía valida y por operaciones de la API en curso; &#x60;overdraft&#x60;, cuánto puede bajar &#x60;available&#x60; de cero al apartar un documento; &#x60;low_threshold&#x60;, el umbral del aviso de saldo bajo (el 20 % de la última recarga; &#x60;null&#x60; sin recargas). &#x60;level&#x60;: &#x60;empty&#x60; con &#x60;available&#x60; ≤ 0, &#x60;low&#x60; por debajo de &#x60;low_threshold&#x60;, si no &#x60;ok&#x60;. Con &#x60;available&#x60; por debajo del precio de un documento, emitir en producción responde 402 &#x60;insufficient_balance&#x60;. El evento &#x60;balance.low&#x60; avisa por webhook. &#x60;operation_prices&#x60;: el precio en pesos de cada operación que Trevol hace por la empresa en el portal de la DIAN y que se cobra del saldo (&#x60;dian_sync&#x60;: &#x60;POST /v1/dian_syncs&#x60;; &#x60;numbering_refresh&#x60;: &#x60;POST /v1/numbering_ranges/refresh&#x60;; &#x60;numbering_association&#x60;: &#x60;POST /v1/numbering_ranges/{id}/associate&#x60;; &#x60;numbering_request&#x60;: &#x60;POST /v1/numbering_requests&#x60;, una vez por solicitud). 0 es gratis. Solo en producción: se aparta al crearla, se cobra si termina bien y se devuelve si falla; sin saldo, 402 &#x60;insufficient_balance&#x60; y no se crea nada. Si la persona responsable de la llave no puede ver el saldo de la cuenta (en una cuenta compartida, un Facturador: en la app solo ve si alcanza), 403 &#x60;permission_denied&#x60; con &#x60;reason: key_owner_without_access&#x60;, y el 402 llega sin &#x60;balance_cop&#x60;.
  * @package  Trevol\Generado
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -67,6 +67,7 @@ class Balance implements ModelInterface, ArrayAccess, \JsonSerializable
         'level' => 'string',
         'updated_at' => '\DateTime',
         'shared' => 'bool',
+        'key_owner' => '\Trevol\Generado\Model\BalanceKeyOwner',
         'operation_prices' => '\Trevol\Generado\Model\BalanceOperationPrices'
     ];
 
@@ -87,6 +88,7 @@ class Balance implements ModelInterface, ArrayAccess, \JsonSerializable
         'level' => null,
         'updated_at' => 'date-time',
         'shared' => null,
+        'key_owner' => null,
         'operation_prices' => null
     ];
 
@@ -105,6 +107,7 @@ class Balance implements ModelInterface, ArrayAccess, \JsonSerializable
         'level' => false,
         'updated_at' => true,
         'shared' => false,
+        'key_owner' => true,
         'operation_prices' => false
     ];
 
@@ -203,6 +206,7 @@ class Balance implements ModelInterface, ArrayAccess, \JsonSerializable
         'level' => 'level',
         'updated_at' => 'updated_at',
         'shared' => 'shared',
+        'key_owner' => 'key_owner',
         'operation_prices' => 'operation_prices'
     ];
 
@@ -221,6 +225,7 @@ class Balance implements ModelInterface, ArrayAccess, \JsonSerializable
         'level' => 'setLevel',
         'updated_at' => 'setUpdatedAt',
         'shared' => 'setShared',
+        'key_owner' => 'setKeyOwner',
         'operation_prices' => 'setOperationPrices'
     ];
 
@@ -239,6 +244,7 @@ class Balance implements ModelInterface, ArrayAccess, \JsonSerializable
         'level' => 'getLevel',
         'updated_at' => 'getUpdatedAt',
         'shared' => 'getShared',
+        'key_owner' => 'getKeyOwner',
         'operation_prices' => 'getOperationPrices'
     ];
 
@@ -308,6 +314,7 @@ class Balance implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('level', $data ?? [], null);
         $this->setIfExists('updated_at', $data ?? [], null);
         $this->setIfExists('shared', $data ?? [], null);
+        $this->setIfExists('key_owner', $data ?? [], null);
         $this->setIfExists('operation_prices', $data ?? [], null);
     }
 
@@ -606,6 +613,40 @@ class Balance implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable shared cannot be null');
         }
         $this->container['shared'] = $shared;
+
+        return $this;
+    }
+
+    /**
+     * Gets key_owner
+     *
+     * @return \Trevol\Generado\Model\BalanceKeyOwner|null
+     */
+    public function getKeyOwner()
+    {
+        return $this->container['key_owner'];
+    }
+
+    /**
+     * Sets key_owner
+     *
+     * @param \Trevol\Generado\Model\BalanceKeyOwner|null $key_owner Cuando la llave paga primero con el saldo propio de su persona responsable (lo activa esa persona en la app): el nivel de ese saldo propio, sin montos (quien tiene la llave no ve cuánto tiene esa persona). null si la llave paga con el saldo de la cuenta. Los demás campos siguen siendo los de la cuenta.
+     *
+     * @return self
+     */
+    public function setKeyOwner($key_owner)
+    {
+        if (is_null($key_owner)) {
+            array_push($this->openAPINullablesSetToNull, 'key_owner');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('key_owner', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['key_owner'] = $key_owner;
 
         return $this;
     }
