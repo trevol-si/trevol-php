@@ -142,7 +142,7 @@ class BalanceApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\TopUp|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\TopUp|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function createBalanceTopUp($top_up_input, $idempotency_key = null, string $contentType = self::contentTypes['createBalanceTopUp'][0])
     {
@@ -161,7 +161,7 @@ class BalanceApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\TopUp|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\TopUp|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function createBalanceTopUpWithHttpInfo($top_up_input, $idempotency_key = null, string $contentType = self::contentTypes['createBalanceTopUp'][0])
     {
@@ -194,6 +194,12 @@ class BalanceApi
                 case 201:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\TopUp',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -249,6 +255,14 @@ class BalanceApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\TopUp',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -488,7 +502,7 @@ class BalanceApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\BalanceTransactionList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\BalanceTransactionList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function listBalanceTransactions($limit = 25, $starting_after = null, $type = 'all', string $contentType = self::contentTypes['listBalanceTransactions'][0])
     {
@@ -508,7 +522,7 @@ class BalanceApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\BalanceTransactionList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\BalanceTransactionList|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function listBalanceTransactionsWithHttpInfo($limit = 25, $starting_after = null, $type = 'all', string $contentType = self::contentTypes['listBalanceTransactions'][0])
     {
@@ -541,6 +555,12 @@ class BalanceApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\BalanceTransactionList',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -584,6 +604,14 @@ class BalanceApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\BalanceTransactionList',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -814,7 +842,7 @@ class BalanceApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Trevol\Generado\Model\Balance|\Trevol\Generado\Model\Problem
+     * @return \Trevol\Generado\Model\Balance|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem
      */
     public function retrieveBalance(string $contentType = self::contentTypes['retrieveBalance'][0])
     {
@@ -831,7 +859,7 @@ class BalanceApi
      *
      * @throws \Trevol\Generado\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Trevol\Generado\Model\Balance|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Trevol\Generado\Model\Balance|\Trevol\Generado\Model\Problem|\Trevol\Generado\Model\Problem, HTTP status code, HTTP response headers (array of strings)
      */
     public function retrieveBalanceWithHttpInfo(string $contentType = self::contentTypes['retrieveBalance'][0])
     {
@@ -864,6 +892,12 @@ class BalanceApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\Trevol\Generado\Model\Balance',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Trevol\Generado\Model\Problem',
                         $request,
                         $response,
                     );
@@ -901,6 +935,14 @@ class BalanceApi
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Trevol\Generado\Model\Balance',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Trevol\Generado\Model\Problem',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
