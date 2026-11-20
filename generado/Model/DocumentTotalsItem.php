@@ -61,9 +61,7 @@ class DocumentTotalsItem implements ModelInterface, ArrayAccess, \JsonSerializab
         'discount' => 'string',
         'line_extension' => 'string',
         'charge' => 'string',
-        'commercial_value' => 'string',
-        'net_unit_price' => 'string',
-        'total' => 'string'
+        'commercial_value' => 'string'
     ];
 
     /**
@@ -78,9 +76,7 @@ class DocumentTotalsItem implements ModelInterface, ArrayAccess, \JsonSerializab
         'discount' => null,
         'line_extension' => null,
         'charge' => null,
-        'commercial_value' => null,
-        'net_unit_price' => null,
-        'total' => null
+        'commercial_value' => null
     ];
 
     /**
@@ -93,9 +89,7 @@ class DocumentTotalsItem implements ModelInterface, ArrayAccess, \JsonSerializab
         'discount' => false,
         'line_extension' => false,
         'charge' => false,
-        'commercial_value' => false,
-        'net_unit_price' => false,
-        'total' => false
+        'commercial_value' => false
     ];
 
     /**
@@ -188,9 +182,7 @@ class DocumentTotalsItem implements ModelInterface, ArrayAccess, \JsonSerializab
         'discount' => 'discount',
         'line_extension' => 'line_extension',
         'charge' => 'charge',
-        'commercial_value' => 'commercial_value',
-        'net_unit_price' => 'net_unit_price',
-        'total' => 'total'
+        'commercial_value' => 'commercial_value'
     ];
 
     /**
@@ -203,9 +195,7 @@ class DocumentTotalsItem implements ModelInterface, ArrayAccess, \JsonSerializab
         'discount' => 'setDiscount',
         'line_extension' => 'setLineExtension',
         'charge' => 'setCharge',
-        'commercial_value' => 'setCommercialValue',
-        'net_unit_price' => 'setNetUnitPrice',
-        'total' => 'setTotal'
+        'commercial_value' => 'setCommercialValue'
     ];
 
     /**
@@ -218,9 +208,7 @@ class DocumentTotalsItem implements ModelInterface, ArrayAccess, \JsonSerializab
         'discount' => 'getDiscount',
         'line_extension' => 'getLineExtension',
         'charge' => 'getCharge',
-        'commercial_value' => 'getCommercialValue',
-        'net_unit_price' => 'getNetUnitPrice',
-        'total' => 'getTotal'
+        'commercial_value' => 'getCommercialValue'
     ];
 
     /**
@@ -285,8 +273,6 @@ class DocumentTotalsItem implements ModelInterface, ArrayAccess, \JsonSerializab
         $this->setIfExists('line_extension', $data ?? [], null);
         $this->setIfExists('charge', $data ?? [], null);
         $this->setIfExists('commercial_value', $data ?? [], null);
-        $this->setIfExists('net_unit_price', $data ?? [], null);
-        $this->setIfExists('total', $data ?? [], null);
     }
 
     /**
@@ -462,60 +448,6 @@ class DocumentTotalsItem implements ModelInterface, ArrayAccess, \JsonSerializab
             throw new \InvalidArgumentException('non-nullable commercial_value cannot be null');
         }
         $this->container['commercial_value'] = $commercial_value;
-
-        return $this;
-    }
-
-    /**
-     * Gets net_unit_price
-     *
-     * @return string|null
-     */
-    public function getNetUnitPrice()
-    {
-        return $this->container['net_unit_price'];
-    }
-
-    /**
-     * Sets net_unit_price
-     *
-     * @param string|null $net_unit_price Solo en las líneas con unit_price_includes_tax: el precio unitario sin impuestos que Trevol derivó (hasta 6 decimales), en la moneda de totals.
-     *
-     * @return self
-     */
-    public function setNetUnitPrice($net_unit_price)
-    {
-        if (is_null($net_unit_price)) {
-            throw new \InvalidArgumentException('non-nullable net_unit_price cannot be null');
-        }
-        $this->container['net_unit_price'] = $net_unit_price;
-
-        return $this;
-    }
-
-    /**
-     * Gets total
-     *
-     * @return string|null
-     */
-    public function getTotal()
-    {
-        return $this->container['total'];
-    }
-
-    /**
-     * Sets total
-     *
-     * @param string|null $total Solo en las líneas con unit_price_includes_tax: line_extension más los impuestos de la línea, en la moneda de totals.
-     *
-     * @return self
-     */
-    public function setTotal($total)
-    {
-        if (is_null($total)) {
-            throw new \InvalidArgumentException('non-nullable total cannot be null');
-        }
-        $this->container['total'] = $total;
 
         return $this;
     }

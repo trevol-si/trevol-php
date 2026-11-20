@@ -62,7 +62,6 @@ class SupportItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'unit' => 'string',
         'quantity' => 'string',
         'unit_price' => 'string',
-        'unit_price_includes_tax' => 'bool',
         'taxes' => '\Trevol\Generado\Model\SupportItemTax[]',
         'discounts' => '\Trevol\Generado\Model\ItemAllowance[]',
         'charges' => '\Trevol\Generado\Model\SupportItemCharge[]',
@@ -84,7 +83,6 @@ class SupportItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'unit' => null,
         'quantity' => null,
         'unit_price' => null,
-        'unit_price_includes_tax' => null,
         'taxes' => null,
         'discounts' => null,
         'charges' => null,
@@ -104,7 +102,6 @@ class SupportItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'unit' => false,
         'quantity' => false,
         'unit_price' => false,
-        'unit_price_includes_tax' => false,
         'taxes' => false,
         'discounts' => false,
         'charges' => false,
@@ -204,7 +201,6 @@ class SupportItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'unit' => 'unit',
         'quantity' => 'quantity',
         'unit_price' => 'unit_price',
-        'unit_price_includes_tax' => 'unit_price_includes_tax',
         'taxes' => 'taxes',
         'discounts' => 'discounts',
         'charges' => 'charges',
@@ -224,7 +220,6 @@ class SupportItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'unit' => 'setUnit',
         'quantity' => 'setQuantity',
         'unit_price' => 'setUnitPrice',
-        'unit_price_includes_tax' => 'setUnitPriceIncludesTax',
         'taxes' => 'setTaxes',
         'discounts' => 'setDiscounts',
         'charges' => 'setCharges',
@@ -244,7 +239,6 @@ class SupportItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'unit' => 'getUnit',
         'quantity' => 'getQuantity',
         'unit_price' => 'getUnitPrice',
-        'unit_price_includes_tax' => 'getUnitPriceIncludesTax',
         'taxes' => 'getTaxes',
         'discounts' => 'getDiscounts',
         'charges' => 'getCharges',
@@ -315,7 +309,6 @@ class SupportItem implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('unit', $data ?? [], null);
         $this->setIfExists('quantity', $data ?? [], null);
         $this->setIfExists('unit_price', $data ?? [], null);
-        $this->setIfExists('unit_price_includes_tax', $data ?? [], null);
         $this->setIfExists('taxes', $data ?? [], null);
         $this->setIfExists('discounts', $data ?? [], null);
         $this->setIfExists('charges', $data ?? [], null);
@@ -496,7 +489,7 @@ class SupportItem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets unit_price
      *
-     * @param string $unit_price Precio unitario SIN impuestos (con unit_price_includes_tax, con ellos).
+     * @param string $unit_price Precio unitario SIN impuestos.
      *
      * @return self
      */
@@ -506,33 +499,6 @@ class SupportItem implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable unit_price cannot be null');
         }
         $this->container['unit_price'] = $unit_price;
-
-        return $this;
-    }
-
-    /**
-     * Gets unit_price_includes_tax
-     *
-     * @return bool|null
-     */
-    public function getUnitPriceIncludesTax()
-    {
-        return $this->container['unit_price_includes_tax'];
-    }
-
-    /**
-     * Sets unit_price_includes_tax
-     *
-     * @param bool|null $unit_price_includes_tax true: unit_price trae los impuestos de la línea; Trevol calcula el precio sin ellos.
-     *
-     * @return self
-     */
-    public function setUnitPriceIncludesTax($unit_price_includes_tax)
-    {
-        if (is_null($unit_price_includes_tax)) {
-            throw new \InvalidArgumentException('non-nullable unit_price_includes_tax cannot be null');
-        }
-        $this->container['unit_price_includes_tax'] = $unit_price_includes_tax;
 
         return $this;
     }
