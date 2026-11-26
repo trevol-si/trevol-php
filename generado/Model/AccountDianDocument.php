@@ -35,7 +35,7 @@ use \Trevol\Generado\ObjectSerializer;
  * AccountDianDocument Class Doc Comment
  *
  * @category Class
- * @description Un documento de una empresa de tu cuenta ante la DIAN, emitido o recibido, tal como lo trajo la sincronización (el mismo &#x60;dian_document&#x60; de &#x60;GET /v1/dian_documents&#x60;, sin &#x60;xml_available&#x60;), con la empresa y, en las facturas, el resumen RADIAN. Lo que llegó al buzón y la sincronización todavía no vio no aparece.
+ * @description Un documento de una empresa de tu cuenta ante la DIAN, emitido o recibido, tal como lo trajo la sincronización (el mismo &#x60;dian_document&#x60; de &#x60;GET /v1/dian_documents&#x60;, sin &#x60;xml_available&#x60; ni el PDF), con la empresa y, en las facturas, el resumen RADIAN. Lo que llegó al buzón y la sincronización todavía no vio no aparece.
  * @package  Trevol\Generado
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

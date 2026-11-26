@@ -310,7 +310,7 @@ class BalanceTransactionOperation implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Sets type
      *
-     * @param string|null $type Valores conocidos: `dian_sync`, `numbering_refresh`, `numbering_association`, `numbering_request`.
+     * @param string|null $type Valores conocidos: `dian_sync`, `numbering_refresh`, `numbering_association`, `numbering_request`, `dian_document_pdf`.
      *
      * @return self
      */
@@ -337,7 +337,7 @@ class BalanceTransactionOperation implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Sets id
      *
-     * @param string|null $id dsync_… (sincronización), nas_… (asociación) o nreq_… (solicitud); null en una lectura de numeraciones.
+     * @param string|null $id dsync_… (sincronización), nas_… (asociación), nreq_… (solicitud) o ddoc_… (el documento del PDF de la DIAN); null en una lectura de numeraciones.
      *
      * @return self
      */

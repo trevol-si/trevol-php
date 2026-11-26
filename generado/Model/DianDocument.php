@@ -35,7 +35,7 @@ use \Trevol\Generado\ObjectSerializer;
  * DianDocument Class Doc Comment
  *
  * @category Class
- * @description Un documento de la empresa ante la DIAN (emitido con Trevol o con otro sistema, o recibido de un proveedor), tal como lo trajo la sincronización o el buzón. Es de solo lectura: no tiene PDF ni acciones aquí; su XML se le pide a la DIAN (&#x60;xml_available&#x60;).
+ * @description Un documento de la empresa ante la DIAN (emitido con Trevol o con otro sistema, o recibido de un proveedor), tal como lo trajo la sincronización o el buzón. Es de solo lectura: su XML se le pide a la DIAN (&#x60;xml_available&#x60;) y también el PDF oficial que genera la DIAN (&#x60;pdf_available&#x60;, &#x60;pdf_status&#x60;).
  * @package  Trevol\Generado
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -75,7 +75,9 @@ class DianDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'direction' => 'string',
         'received_on' => '\DateTime',
         'source' => 'string',
-        'xml_available' => 'bool'
+        'xml_available' => 'bool',
+        'pdf_available' => 'bool',
+        'pdf_status' => 'string'
     ];
 
     /**
@@ -103,7 +105,9 @@ class DianDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'direction' => null,
         'received_on' => 'date',
         'source' => null,
-        'xml_available' => null
+        'xml_available' => null,
+        'pdf_available' => null,
+        'pdf_status' => null
     ];
 
     /**
@@ -129,7 +133,9 @@ class DianDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'direction' => false,
         'received_on' => true,
         'source' => false,
-        'xml_available' => false
+        'xml_available' => false,
+        'pdf_available' => false,
+        'pdf_status' => false
     ];
 
     /**
@@ -235,7 +241,9 @@ class DianDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'direction' => 'direction',
         'received_on' => 'received_on',
         'source' => 'source',
-        'xml_available' => 'xml_available'
+        'xml_available' => 'xml_available',
+        'pdf_available' => 'pdf_available',
+        'pdf_status' => 'pdf_status'
     ];
 
     /**
@@ -261,7 +269,9 @@ class DianDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'direction' => 'setDirection',
         'received_on' => 'setReceivedOn',
         'source' => 'setSource',
-        'xml_available' => 'setXmlAvailable'
+        'xml_available' => 'setXmlAvailable',
+        'pdf_available' => 'setPdfAvailable',
+        'pdf_status' => 'setPdfStatus'
     ];
 
     /**
@@ -287,7 +297,9 @@ class DianDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         'direction' => 'getDirection',
         'received_on' => 'getReceivedOn',
         'source' => 'getSource',
-        'xml_available' => 'getXmlAvailable'
+        'xml_available' => 'getXmlAvailable',
+        'pdf_available' => 'getPdfAvailable',
+        'pdf_status' => 'getPdfStatus'
     ];
 
     /**
@@ -365,6 +377,8 @@ class DianDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('received_on', $data ?? [], null);
         $this->setIfExists('source', $data ?? [], null);
         $this->setIfExists('xml_available', $data ?? [], null);
+        $this->setIfExists('pdf_available', $data ?? [], null);
+        $this->setIfExists('pdf_status', $data ?? [], null);
     }
 
     /**
@@ -954,6 +968,60 @@ class DianDocument implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable xml_available cannot be null');
         }
         $this->container['xml_available'] = $xml_available;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_available
+     *
+     * @return bool|null
+     */
+    public function getPdfAvailable()
+    {
+        return $this->container['pdf_available'];
+    }
+
+    /**
+     * Sets pdf_available
+     *
+     * @param bool|null $pdf_available Si se le puede pedir a la DIAN el PDF oficial del documento con POST /v1/dian_documents/{id}/pdf: solo en producción, con CUFE y verificado por la DIAN. En lo emitido, además, si la llave tiene el permiso customers:read.
+     *
+     * @return self
+     */
+    public function setPdfAvailable($pdf_available)
+    {
+        if (is_null($pdf_available)) {
+            throw new \InvalidArgumentException('non-nullable pdf_available cannot be null');
+        }
+        $this->container['pdf_available'] = $pdf_available;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_status
+     *
+     * @return string|null
+     */
+    public function getPdfStatus()
+    {
+        return $this->container['pdf_status'];
+    }
+
+    /**
+     * Sets pdf_status
+     *
+     * @param string|null $pdf_status Cómo va el PDF de la DIAN: `not_requested` (nunca se pidió, o el que se pidió venció a los 90 días), `pending` (Trevol lo está pidiendo a la DIAN), `ready` (se baja con GET /v1/dian_documents/{id}/pdf) o `failed` (la DIAN no lo entregó; no se cobró: se puede pedir otra vez).
+     *
+     * @return self
+     */
+    public function setPdfStatus($pdf_status)
+    {
+        if (is_null($pdf_status)) {
+            throw new \InvalidArgumentException('non-nullable pdf_status cannot be null');
+        }
+        $this->container['pdf_status'] = $pdf_status;
 
         return $this;
     }

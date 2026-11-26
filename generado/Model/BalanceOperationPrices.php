@@ -35,7 +35,7 @@ use \Trevol\Generado\ObjectSerializer;
  * BalanceOperationPrices Class Doc Comment
  *
  * @category Class
- * @description El precio en pesos de cada operación que Trevol hace por la empresa en el portal de la DIAN y que se cobra del saldo (0 es gratis). Solo en producción.
+ * @description El precio en pesos de cada operación de la API que Trevol hace por la empresa ante la DIAN y que se cobra del saldo (0 es gratis). Solo en producción.
  * @package  Trevol\Generado
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -61,7 +61,8 @@ class BalanceOperationPrices implements ModelInterface, ArrayAccess, \JsonSerial
         'dian_sync' => 'int',
         'numbering_refresh' => 'int',
         'numbering_association' => 'int',
-        'numbering_request' => 'int'
+        'numbering_request' => 'int',
+        'dian_document_pdf' => 'int'
     ];
 
     /**
@@ -75,7 +76,8 @@ class BalanceOperationPrices implements ModelInterface, ArrayAccess, \JsonSerial
         'dian_sync' => null,
         'numbering_refresh' => null,
         'numbering_association' => null,
-        'numbering_request' => null
+        'numbering_request' => null,
+        'dian_document_pdf' => null
     ];
 
     /**
@@ -87,7 +89,8 @@ class BalanceOperationPrices implements ModelInterface, ArrayAccess, \JsonSerial
         'dian_sync' => false,
         'numbering_refresh' => false,
         'numbering_association' => false,
-        'numbering_request' => false
+        'numbering_request' => false,
+        'dian_document_pdf' => false
     ];
 
     /**
@@ -179,7 +182,8 @@ class BalanceOperationPrices implements ModelInterface, ArrayAccess, \JsonSerial
         'dian_sync' => 'dian_sync',
         'numbering_refresh' => 'numbering_refresh',
         'numbering_association' => 'numbering_association',
-        'numbering_request' => 'numbering_request'
+        'numbering_request' => 'numbering_request',
+        'dian_document_pdf' => 'dian_document_pdf'
     ];
 
     /**
@@ -191,7 +195,8 @@ class BalanceOperationPrices implements ModelInterface, ArrayAccess, \JsonSerial
         'dian_sync' => 'setDianSync',
         'numbering_refresh' => 'setNumberingRefresh',
         'numbering_association' => 'setNumberingAssociation',
-        'numbering_request' => 'setNumberingRequest'
+        'numbering_request' => 'setNumberingRequest',
+        'dian_document_pdf' => 'setDianDocumentPdf'
     ];
 
     /**
@@ -203,7 +208,8 @@ class BalanceOperationPrices implements ModelInterface, ArrayAccess, \JsonSerial
         'dian_sync' => 'getDianSync',
         'numbering_refresh' => 'getNumberingRefresh',
         'numbering_association' => 'getNumberingAssociation',
-        'numbering_request' => 'getNumberingRequest'
+        'numbering_request' => 'getNumberingRequest',
+        'dian_document_pdf' => 'getDianDocumentPdf'
     ];
 
     /**
@@ -267,6 +273,7 @@ class BalanceOperationPrices implements ModelInterface, ArrayAccess, \JsonSerial
         $this->setIfExists('numbering_refresh', $data ?? [], null);
         $this->setIfExists('numbering_association', $data ?? [], null);
         $this->setIfExists('numbering_request', $data ?? [], null);
+        $this->setIfExists('dian_document_pdf', $data ?? [], null);
     }
 
     /**
@@ -415,6 +422,33 @@ class BalanceOperationPrices implements ModelInterface, ArrayAccess, \JsonSerial
             throw new \InvalidArgumentException('non-nullable numbering_request cannot be null');
         }
         $this->container['numbering_request'] = $numbering_request;
+
+        return $this;
+    }
+
+    /**
+     * Gets dian_document_pdf
+     *
+     * @return int|null
+     */
+    public function getDianDocumentPdf()
+    {
+        return $this->container['dian_document_pdf'];
+    }
+
+    /**
+     * Sets dian_document_pdf
+     *
+     * @param int|null $dian_document_pdf dian_document_pdf
+     *
+     * @return self
+     */
+    public function setDianDocumentPdf($dian_document_pdf)
+    {
+        if (is_null($dian_document_pdf)) {
+            throw new \InvalidArgumentException('non-nullable dian_document_pdf cannot be null');
+        }
+        $this->container['dian_document_pdf'] = $dian_document_pdf;
 
         return $this;
     }

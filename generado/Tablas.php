@@ -8,7 +8,7 @@ namespace Trevol\Generado;
 
 final class Tablas
 {
-    public const VERSION = '0.5.0';
+    public const VERSION = '0.6.0';
     public const API_VERSION = '2026-11-18';
 
     /** seguro: GET, preview, PATCH y todo POST/PUT con Idempotency-Key que no devuelva un secreto una sola vez. solo_429: el resto. llave: api_o_administracion (tvl_, o tva_ con Trevol-Company y Trevol-Environment), administracion (solo tva_) o ninguna. */
@@ -461,6 +461,16 @@ final class Tablas
             'idempotente' => false,
             'reintento' => 'seguro',
             'binario' => 'zip',
+            'llave' => 'api_o_administracion',
+        ],
+        [
+            'operationId' => 'downloadDianDocumentPdf',
+            'metodo' => 'GET',
+            'ruta' => '/dian_documents/{id}/pdf',
+            'recurso' => 'DianDocuments',
+            'idempotente' => false,
+            'reintento' => 'seguro',
+            'binario' => 'pdf',
             'llave' => 'api_o_administracion',
         ],
         [
@@ -1188,6 +1198,16 @@ final class Tablas
             'metodo' => 'POST',
             'ruta' => '/numbering_ranges/refresh',
             'recurso' => 'NumberingRanges',
+            'idempotente' => false,
+            'reintento' => 'solo_429',
+            'binario' => null,
+            'llave' => 'api_o_administracion',
+        ],
+        [
+            'operationId' => 'requestDianDocumentPdf',
+            'metodo' => 'POST',
+            'ruta' => '/dian_documents/{id}/pdf',
+            'recurso' => 'DianDocuments',
             'idempotente' => false,
             'reintento' => 'solo_429',
             'binario' => null,

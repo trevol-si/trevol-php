@@ -59,7 +59,7 @@ final class FragmentosTest extends TestCase
     public function testLaEstructura(): void
     {
         $ops = array_keys(self::operaciones());
-        $this->assertCount(178, $ops); // 0.4.0: + 19
+        $this->assertCount(180, $ops); // 0.4.0: + 19; 0.6.0: + 2 (el PDF de la DIAN)
         $archivos = array_map(static fn ($f) => basename($f, '.php'), glob(self::PROGRAMAS . '/*.php'));
         sort($archivos);
         $this->assertSame($ops, $archivos);

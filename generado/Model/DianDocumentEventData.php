@@ -74,7 +74,8 @@ class DianDocumentEventData implements ModelInterface, ArrayAccess, \JsonSeriali
         'tax_total' => 'float',
         'counterpart' => '\Trevol\Generado\Model\EventDianCounterpart',
         'source' => 'string',
-        'xml_available' => 'bool'
+        'xml_available' => 'bool',
+        'pdf_available' => 'bool'
     ];
 
     /**
@@ -101,7 +102,8 @@ class DianDocumentEventData implements ModelInterface, ArrayAccess, \JsonSeriali
         'tax_total' => null,
         'counterpart' => null,
         'source' => null,
-        'xml_available' => null
+        'xml_available' => null,
+        'pdf_available' => null
     ];
 
     /**
@@ -126,7 +128,8 @@ class DianDocumentEventData implements ModelInterface, ArrayAccess, \JsonSeriali
         'tax_total' => true,
         'counterpart' => false,
         'source' => false,
-        'xml_available' => false
+        'xml_available' => false,
+        'pdf_available' => false
     ];
 
     /**
@@ -231,7 +234,8 @@ class DianDocumentEventData implements ModelInterface, ArrayAccess, \JsonSeriali
         'tax_total' => 'tax_total',
         'counterpart' => 'counterpart',
         'source' => 'source',
-        'xml_available' => 'xml_available'
+        'xml_available' => 'xml_available',
+        'pdf_available' => 'pdf_available'
     ];
 
     /**
@@ -256,7 +260,8 @@ class DianDocumentEventData implements ModelInterface, ArrayAccess, \JsonSeriali
         'tax_total' => 'setTaxTotal',
         'counterpart' => 'setCounterpart',
         'source' => 'setSource',
-        'xml_available' => 'setXmlAvailable'
+        'xml_available' => 'setXmlAvailable',
+        'pdf_available' => 'setPdfAvailable'
     ];
 
     /**
@@ -281,7 +286,8 @@ class DianDocumentEventData implements ModelInterface, ArrayAccess, \JsonSeriali
         'tax_total' => 'getTaxTotal',
         'counterpart' => 'getCounterpart',
         'source' => 'getSource',
-        'xml_available' => 'getXmlAvailable'
+        'xml_available' => 'getXmlAvailable',
+        'pdf_available' => 'getPdfAvailable'
     ];
 
     /**
@@ -358,6 +364,7 @@ class DianDocumentEventData implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('counterpart', $data ?? [], null);
         $this->setIfExists('source', $data ?? [], null);
         $this->setIfExists('xml_available', $data ?? [], null);
+        $this->setIfExists('pdf_available', $data ?? [], null);
     }
 
     /**
@@ -920,6 +927,33 @@ class DianDocumentEventData implements ModelInterface, ArrayAccess, \JsonSeriali
             throw new \InvalidArgumentException('non-nullable xml_available cannot be null');
         }
         $this->container['xml_available'] = $xml_available;
+
+        return $this;
+    }
+
+    /**
+     * Gets pdf_available
+     *
+     * @return bool|null
+     */
+    public function getPdfAvailable()
+    {
+        return $this->container['pdf_available'];
+    }
+
+    /**
+     * Sets pdf_available
+     *
+     * @param bool|null $pdf_available Si se le puede pedir el PDF oficial de la DIAN con POST /v1/dian_documents/{id}/pdf (además, solo en producción).
+     *
+     * @return self
+     */
+    public function setPdfAvailable($pdf_available)
+    {
+        if (is_null($pdf_available)) {
+            throw new \InvalidArgumentException('non-nullable pdf_available cannot be null');
+        }
+        $this->container['pdf_available'] = $pdf_available;
 
         return $this;
     }
